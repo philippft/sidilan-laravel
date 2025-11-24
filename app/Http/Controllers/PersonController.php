@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Education;
 use App\Models\Person;
+use App\Models\Position;
+use App\Models\PositionType;
 use Illuminate\Http\Request;
 
 class PersonController extends Controller
@@ -12,7 +15,11 @@ class PersonController extends Controller
      */
     public function index()
     {
-        //
+        $educations = Education::all();
+        $positions = Position::all();
+        $positionTypes = PositionType::all();
+
+    return view('admin.tambah-data', compact('educations', 'positions', 'positionTypes'));
     }
 
     /**

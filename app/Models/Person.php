@@ -6,9 +6,16 @@ use Illuminate\Database\Eloquent\Model;
 
 class Person extends Model
 {
+    protected $table = 'persons';
     //
     protected $fillable = [
-        'username'
+    'full_name',
+    'nip',
+    'gender',
+    'is_active',
+    'education_id',
+    'position_id',
+    'position_type_id'
     ];
 
     public function education()

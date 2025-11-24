@@ -6,9 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Education extends Model
 {
+    protected $table = 'educations';
     //
     public function person()
     {
-        return $this->hasMany(Person::class)->orderBy('option_text', 'asc');
+        return $this->hasMany(Person::class);
     }
 }
