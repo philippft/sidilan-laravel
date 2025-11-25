@@ -15,7 +15,8 @@ class Person extends Model
     'is_active',
     'education_id',
     'position_id',
-    'position_type_id'
+    'position_type_id',
+    'image'
     ];
 
     public function education()

@@ -87,6 +87,7 @@ class DatabaseSeeder extends Seeder
                 'position_type_id' => 1, // PLP
                 'gender' => 'laki-laki',
                 'is_active' => true,
+                'image' => '',
             ],
             [
                 'full_name' => 'Siti Aminah',
@@ -96,6 +97,7 @@ class DatabaseSeeder extends Seeder
                 'position_type_id' => 2, // Tendik
                 'gender' => 'perempuan',
                 'is_active' => true,
+                'image' => ''
             ],
             [
                 'full_name' => 'Budi Santoso',
@@ -105,6 +107,7 @@ class DatabaseSeeder extends Seeder
                 'position_type_id' => 1, // PLP
                 'gender' => 'laki-laki',
                 'is_active' => true,
+                'image' => ''
             ],
             [
                 'full_name' => 'Maya Sari',
@@ -114,6 +117,7 @@ class DatabaseSeeder extends Seeder
                 'position_type_id' => 1, // PLP
                 'gender' => 'perempuan',
                 'is_active' => true,
+                'image' => ''
             ],
             [
                 'full_name' => 'Rudi Hermawan',
@@ -123,6 +127,7 @@ class DatabaseSeeder extends Seeder
                 'position_type_id' => 2, // Tendik
                 'gender' => 'laki-laki',
                 'is_active' => true,
+                'image' => ''
             ],
             [
                 'full_name' => 'Dewi Kartika',
@@ -132,6 +137,7 @@ class DatabaseSeeder extends Seeder
                 'position_type_id' => 2, // Tendik
                 'gender' => 'perempuan',
                 'is_active' => true,
+                'image' => ''
             ],
             [
                 'full_name' => 'Joko Prasetyo',
@@ -141,6 +147,7 @@ class DatabaseSeeder extends Seeder
                 'position_type_id' => 1, // PLP
                 'gender' => 'laki-laki',
                 'is_active' => true,
+                'image' => ''
             ],
             [
                 'full_name' => 'Linda Wati',
@@ -150,6 +157,7 @@ class DatabaseSeeder extends Seeder
                 'position_type_id' => 1, // PLP
                 'gender' => 'perempuan',
                 'is_active' => true,
+                'image' => ''
             ],
         ];
 

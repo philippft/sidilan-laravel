@@ -8,7 +8,7 @@
 <body>
     <h1>Tambah Data Person</h1>
 
-    <form action="{{ url('/admin/tambah-data') }}" method="post">
+    <form action="{{ url('/admin/tambah-data') }}" method="post" enctype="multipart/form-data">
         @csrf
 
         {{-- Full Name --}}
@@ -56,12 +56,20 @@
             @endforeach
         </select><br><br>
 
-        {{-- Is Active
+        {{-- Simpan Foto --}}
+        <div class="form-group my-2">
+            <label for="image">Foto</label><br>
+            <input type="file" name="image" id="image" class="form-controller @error('photo')
+            is-invalid
+            @enderror">
+        </div>
+
+        {{-- Is Active --}}
         <label>
             <input type="checkbox" name="is_active" checked>
-            Aktif?
+            Aktif?, KALAU AKTIF DI CENTANG AJA
         </label>
-        <br><br> --}}
+        <br><br>
 
         <button type="submit">Simpan Data</button>
     </form>

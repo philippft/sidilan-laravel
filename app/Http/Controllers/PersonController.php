@@ -6,6 +6,7 @@ use App\Models\Education;
 use App\Models\Person;
 use App\Models\Position;
 use App\Models\PositionType;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 
 class PersonController extends Controller
@@ -35,26 +36,29 @@ class PersonController extends Controller
      */
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            "full_name" => "required|string|max:255",
-            "nip" => "required|string|unique:people,nip",
-            "gender" => "required|in:laki-laki,perempuan",
-            "education_id" => "required|exists:educations,id",
-            "position_id" => "required|exists:positions,id",
-            "position_type_id" => "required|exists:position_types,id",
-            "is_active" => "boolean"
-        ]);
+        // $validated = $request->validate([
+        //     "full_name" => "required|string|max:255",
+        //     "nip" => "required|string|unique:people,nip",
+        //     "gender" => "required|in:laki-laki,perempuan",
+        //     "education_id" => "required|exists:educations,id",
+        //     "position_id" => "required|exists:positions,id",
+        //     "position_type_id" => "required|exists:position_types,id",
+        //     "image" => "required|image|mimes:jpes,png,jpg|max:2048",
+        //     "is_active" => "boolean"
+        // ]);
 
+        $file = $request->file('image');
+        $fileName = microtime() . '.' . $file->getClientOriginalExtension();
+        // dd($fileName);
 
-        $person = Person::create([
-            "full_name" => $validated["full_name"],
-            "nip" => $validated["nip"],
-            "gender" => $validated["gender"],
-            "education_id" => $validated["education_id"],
-            "position_id" => $validated["position_id"],
-            "position_type_id" => $validated["position_type_id"],
-            "is_active"  => 1,
-        ]);
+        Storage::disk('public')->putFileAs('person_images', $file, $fileName);
+
+        $newRequest = $request->all();
+        $newRequest['image'] = $fileName;
+
+        // dd($newRequest);
+
+        $person = Person::create($newRequest);
 
         return redirect()->back()->with("message", "{$person->full_name} berhasil ditambahkan");
     }
