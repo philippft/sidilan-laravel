@@ -9,9 +9,58 @@
 <body>
     <h1>Ini dashboard!</h1>
     <p>Ini bakal tampilin data dari tendik atau laboran</p>
+    <form action="{{ route('admin.logout') }}" method="POST">
+    @csrf
+    <button type="submit" style="background: none; border: none; color: blue; cursor: pointer; text-decoration: underline;">
+        Logout
+    </button>
+    </form>
     <a href="{{ route('admin.tambah') }}">
         <button>Kalau Mau Tambah Data</button>
     </a>
 
+    <!-- Table untuk menampilkan data persons -->
+    <table>
+        <thead>
+            <tr>
+                <th>No</th>
+                <th>Nama Lengkap</th>
+                <th>NIP</th>
+                <th>Jenis Kelamin</th>
+                <th>Pendidikan</th>
+                <th>Posisi</th>
+                <th>Status</th>
+                <th>Aksi</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach($persons as $person)
+            <tr>
+                <td>{{ $loop->iteration }}</td>
+                <td>{{ $person->full_name }}</td>
+                <td>{{ $person->nip }}</td>
+                <td>{{ $person->gender }}</td>
+                <td>{{ $person->education->name ?? '-' }}</td>
+                <td>{{ $person->position->name ?? '-' }}</td>
+                <td>{{ $person->is_active ? 'Aktif' : 'Tidak Aktif' }}</td>
+                <td>
+                    {{-- <a href="{{ route('admin.edit', $person->id) }}">Edit</a> --}}
+                    {{-- <form action="{{ route('admin.delete', $person->id) }}" method="POST" style="display: inline;"> --}}
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit">Hapus</button>
+                    </form>
+                </td>
+            </tr>
+            @endforeach
+        </tbody>
+    </table>
+
+    <!-- Jika data kosong -->
+    @if($persons->count() == 0)
+    <p style="text-align: center; margin-top: 20px; color: #666;">
+        Belum ada data tendik atau laboran.
+    </p>
+    @endif
 </body>
 </html>

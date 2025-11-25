@@ -8,7 +8,7 @@
 <body>
     <h1>Tambah Data Person</h1>
 
-    <form action="{{ url('/admin/tambah-data') }}" method="POST">
+    <form action="{{ url('/admin/tambah-data') }}" method="post">
         @csrf
 
         {{-- Full Name --}}
@@ -56,12 +56,12 @@
             @endforeach
         </select><br><br>
 
-        {{-- Is Active --}}
+        {{-- Is Active
         <label>
             <input type="checkbox" name="is_active" checked>
             Aktif?
         </label>
-        <br><br>
+        <br><br> --}}
 
         <button type="submit">Simpan Data</button>
     </form>

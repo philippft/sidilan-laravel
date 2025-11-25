@@ -14,7 +14,15 @@ Route::get('/admin/login', function() {
     return view('admin.login');
 });
 Route::post('/admin/login', [AuthController::class, 'authenticate'])->name('login.post');
+Route::post('/admin/logout', [AuthController::class, 'logout'])->name('admin.logout');
 
-Route::get('/admin/dashboard', [AdminDashboardController::class , 'index'])->name('admin.dashboard');
-Route::get('/admin/tambah-data', [PersonController::class, 'index'])->name('admin.tambah');
+Route::middleware('is-admin')->group(function () {
+    Route::get('/admin/dashboard', [AdminDashboardController::class , 'index'])->name('admin.dashboard');
+    
+    Route::controller(PersonController::class)->group(function () {
+        Route::get('/admin/tambah-data', 'index')->name('admin.tambah');
+        Route::post('/admin/tambah-data', 'store')->name('admin.tambah.post');
+    });
+});
 
+    
