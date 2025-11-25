@@ -8,5 +8,8 @@
 </head>
 <body>
     <h1>Ini Landing Page!</h1>
+    <button>
+        <a href="{{ url('dashboard') }}">Lihat Data Tendik Dan Laboran FIMPA UNUD</a>
+    </button>
 </body>
 </html>

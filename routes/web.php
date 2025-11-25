@@ -3,6 +3,8 @@
 use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PersonController;
+use App\Http\Controllers\UserDashboard;
+use App\Http\Controllers\UserDashboardController;
 use App\Models\Person;
 use Illuminate\Support\Facades\Route;
 
@@ -10,7 +12,9 @@ Route::get('/', function () {
     return view('hello');
 });
 
-Route::get('/admin/login', function() {
+Route::get('/dashboard', [UserDashboardController::class, 'index'])->name('user.dashboard');
+
+Route::get('/admin/login', function() { 
     return view('admin.login');
 });
 Route::post('/admin/login', [AuthController::class, 'authenticate'])->name('login.post');
