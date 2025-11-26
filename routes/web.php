@@ -26,6 +26,9 @@ Route::middleware('is-admin')->group(function () {
     Route::controller(PersonController::class)->group(function () {
         Route::get('/admin/tambah-data', 'index')->name('admin.tambah');
         Route::post('/admin/tambah-data', 'store')->name('admin.tambah.post');
+        Route::get('/admin/edit-data/{id}', 'edit')->name('admin.edit');
+        Route::put('/admin/edit-data/{id}', 'update')->name('admin.edit.post');
+        Route::delete('/admin/dashboard', 'destroy')->name('admin.delete');
     });
 });
 

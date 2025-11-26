@@ -45,6 +45,9 @@
                 <td>{{ $person->is_active ? 'Aktif' : 'Tidak Aktif' }}</td>
                 <td>
                     {{-- <a href="{{ route('admin.edit', $person->id) }}">Edit</a> --}}
+                    <button>
+                        <a href="{{ route('admin.edit', $person->id) }}" method="put" )>Edit</a>
+                    </button>
                     {{-- <form action="{{ route('admin.delete', $person->id) }}" method="POST" style="display: inline;"> --}}
                         @csrf
                         @method('DELETE')
