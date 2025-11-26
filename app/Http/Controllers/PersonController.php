@@ -36,31 +36,31 @@ class PersonController extends Controller
      */
     public function store(Request $request)
     {
-        $validated = $request->validate([
+        $request->validate([
             "full_name" => "required|string|max:255",
             "nip" => "required|string|unique:people,nip",
             "gender" => "required|in:laki-laki,perempuan",
             "education_id" => "required|exists:educations,id",
             "position_id" => "required|exists:positions,id",
             "position_type_id" => "required|exists:position_types,id",
-            "image" => "required|image|mimes:jpes,png,jpg|max:2048",
-            "is_active" => "boolean"
-        ]);
-
-        $file = $request->file('image');
-        $fileName = microtime() . '.' . $file->getClientOriginalExtension();
-        // dd($fileName);
-
-        Storage::disk('public')->putFileAs('person_images', $file, $fileName);
+            "image" => "nullable|image|mimes:jpeg,png,jpg|max:2048"
+        ]);  
 
         $newRequest = $request->all();
-        $newRequest['image'] = $fileName;
+        $newRequest['image'] = "";
 
-        // dd($newRequest);
+        if($request->file('image')){
+            $file = $request->file('image');
+            $fileName = microtime() . '.' . $file->getClientOriginalExtension();
 
+            Storage::disk('public')->putFileAs('person_images', $file, $fileName);
+            $newRequest['image'] = $fileName;
+        }
+
+        $newRequest['is_active'] = $request->has('is_active') ? 1 : 0;
         $person = Person::create($newRequest);
 
-        return redirect()->back()->with("message", "{$person->full_name} berhasil ditambahkan");
+        return redirect()->route('admin.dashboard')->with("message", "{$person->full_name} berhasil ditambahkan");
     }
 
     /**
@@ -79,7 +79,7 @@ class PersonController extends Controller
         $educations = Education::all();
         $positions = Position::all();
         $positionTypes = PositionType::all();
-        $person = Person::find($id);
+        $person = Person::findOrFail($id);
 
         return view('admin.edit-data', compact('educations', 'positions', 'positionTypes', 'person'));
     }
@@ -89,17 +89,16 @@ class PersonController extends Controller
      */
     public function update(Request $request, String $id)
     {
-        $person = Person::findOrFail($id);
+    $person = Person::findOrFail($id);
     
     $validated = $request->validate([
         "full_name" => "required|string|max:255",
-        "nip" => "required|string|unique:people,nip," . $person->id, // exclude current record
+        "nip" => "required|string|unique:people,nip," . $person->id, 
         "gender" => "required|in:laki-laki,perempuan",
         "education_id" => "required|exists:educations,id",
         "position_id" => "required|exists:positions,id", 
         "position_type_id" => "required|exists:position_types,id",
-        "image" => "nullable|image|mimes:jpeg,png,jpg|max:2048", // perbaiki mimes
-        "is_active" => "boolean"
+        "image" => "nullable|image|mimes:jpeg,png,jpg|max:2048", 
     ]);
 
     $updateData = $validated;
@@ -119,7 +118,6 @@ class PersonController extends Controller
     }
 
     $updateData['is_active'] = $request->has('is_active') ? 1 : 0;
-
     $person->update($updateData);
 
     return redirect()->route('admin.dashboard')->with("message", "{$person->full_name} berhasil diedit");
@@ -129,8 +127,16 @@ class PersonController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Person $person)
+    public function destroy(String $id)
     {
-        dd('Ini Delete Data');
+        $person = Person::findOrFail($id);
+
+        if($person->image){
+            Storage::disk('public')->delete('person_images/' . $person->image);
+        }
+
+        $person->delete();
+
+        return redirect()->back()->with("message", "{$person->full_name} berhasil di hapus");
     }
 }

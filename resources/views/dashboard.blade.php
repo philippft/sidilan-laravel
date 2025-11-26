@@ -24,6 +24,7 @@
         <thead>
             <tr>
                 <th>No</th>
+                <th>Foto</th>
                 <th>Nama Lengkap</th>
                 <th>NIP</th>
                 <th>Jenis Kelamin</th>
@@ -37,6 +38,16 @@
             @foreach($persons as $person)
             <tr>
                 <td>{{ $loop->iteration }}</td>
+                <td>
+                    @if($person->image)
+                        <img src="{{ asset('storage/person_images/' . $person->image) }}" 
+                             alt="{{ $person->full_name }}" 
+                             width="50" height="50"
+                             style="border-radius: 50%; object-fit: cover;">
+                    @else
+                        <div>[No Image]</div>
+                    @endif
+                </td>
                 <td>{{ $person->full_name }}</td>
                 <td>{{ $person->nip }}</td>
                 <td>{{ $person->gender }}</td>

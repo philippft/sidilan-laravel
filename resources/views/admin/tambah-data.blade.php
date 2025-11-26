@@ -10,14 +10,29 @@
 
     <form action="{{ url('/admin/tambah-data') }}" method="post" enctype="multipart/form-data">
         @csrf
+        {{-- aku mau menerima message dari validation maupun message kalau datanya berhasil di tambahkan --}}
+
+            <!-- message berhasil -->
+        @if(session('message'))
+            <div class="alert alert-success">
+                {{ session('message') }}
+            </div>
+        @endif
+
+        <!-- erorr message -->
+        @if(session('error'))
+            <div class="alert alert-error">
+                {{ session('error') }}
+            </div>
+        @endif
 
         {{-- Full Name --}}
         <label for="full_name">Nama Lengkap</label><br>
-        <input type="text" name="full_name" placeholder="Nama Lengkap..." required><br><br>
+        <input type="text" name="full_name" value="{{ old('full_name') }}" placeholder="Nama Lengkap..." required><br><br>
 
         {{-- NIP --}}
         <label for="nip">NIP</label><br>
-        <input type="text" name="nip" placeholder="Masukan NIP..." required><br><br>
+        <input type="text" name="nip" value="{{ old('nip') }}" placeholder="Masukan NIP..." required><br><br>
 
         {{-- Gender --}}
         <label for="gender">Jenis Kelamin</label><br>
@@ -66,7 +81,7 @@
 
         {{-- Is Active --}}
         <label>
-            <input type="checkbox" name="is_active" checked>
+            <input type="checkbox" name="is_active" value="1" checked>
             Aktif?, KALAU AKTIF DI CENTANG AJA
         </label>
         <br><br>

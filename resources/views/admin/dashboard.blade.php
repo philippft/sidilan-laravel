@@ -10,10 +10,10 @@
     <h1>Ini dashboard!</h1>
     <p>Ini bakal tampilin data dari tendik atau laboran</p>
     <form action="{{ route('admin.logout') }}" method="POST">
-    @csrf
-    <button type="submit" style="background: none; border: none; color: blue; cursor: pointer; text-decoration: underline;">
-        Logout
-    </button>
+        @csrf
+        <button type="submit" style="background: none; border: none; color: blue; cursor: pointer; text-decoration: underline;">
+            Logout
+        </button>
     </form>
     <a href="{{ route('admin.tambah') }}">
         <button>Kalau Mau Tambah Data</button>
@@ -24,6 +24,7 @@
         <thead>
             <tr>
                 <th>No</th>
+                <th>Gambar</th>
                 <th>Nama Lengkap</th>
                 <th>NIP</th>
                 <th>Jenis Kelamin</th>
@@ -37,6 +38,16 @@
             @foreach($persons as $person)
             <tr>
                 <td>{{ $loop->iteration }}</td>
+                <td>
+                    @if($person->image)
+                        <img src="{{ asset('storage/person_images/' . $person->image) }}" 
+                             alt="{{ $person->full_name }}" 
+                             width="50" height="50"
+                             style="border-radius: 50%; object-fit: cover;">
+                    @else
+                        <div>[No Image]</div>
+                    @endif
+                </td>
                 <td>{{ $person->full_name }}</td>
                 <td>{{ $person->nip }}</td>
                 <td>{{ $person->gender }}</td>
@@ -44,14 +55,21 @@
                 <td>{{ $person->position->name ?? '-' }}</td>
                 <td>{{ $person->is_active ? 'Aktif' : 'Tidak Aktif' }}</td>
                 <td>
-                    {{-- <a href="{{ route('admin.edit', $person->id) }}">Edit</a> --}}
-                    <button>
-                        <a href="{{ route('admin.edit', $person->id) }}" method="put" )>Edit</a>
-                    </button>
-                    {{-- <form action="{{ route('admin.delete', $person->id) }}" method="POST" style="display: inline;"> --}}
+                    <!-- EDIT - Pakai LINK (GET) -->
+                    <a href="{{ route('admin.edit', $person->id) }}">
+                        <button type="button">
+                            Edit
+                        </button>
+                    </a>
+
+                    <!-- DELETE - Pakai FORM (DELETE) -->
+                    <form action="{{ route('admin.delete', $person->id) }}" method="POST" style="display: inline;">
                         @csrf
                         @method('DELETE')
-                        <button type="submit">Hapus</button>
+                        <button type="submit" 
+                                onclick="return confirm('Yakin ingin menghapus {{ $person->full_name }}?')">
+                            Hapus
+                        </button>
                     </form>
                 </td>
             </tr>
