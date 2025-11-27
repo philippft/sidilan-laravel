@@ -5,19 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Dashboard Page</title>
+    @vite('resources/css/app.css')
 </head>
 <body>
-    <h1>Ini dashboard!</h1>
-    <p>Ini bakal tampilin data dari tendik atau laboran</p>
-    <form action="{{ route('admin.logout') }}" method="POST">
-        @csrf
-        <button type="submit" style="background: none; border: none; color: blue; cursor: pointer; text-decoration: underline;">
-            Logout
-        </button>
-    </form>
-    <a href="{{ route('admin.tambah') }}">
-        <button>Kalau Mau Tambah Data</button>
-    </a>
+    <x-sidebar></x-sidebar>
 
     <!-- Table untuk menampilkan data persons -->
     <table>

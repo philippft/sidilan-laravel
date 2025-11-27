@@ -42,7 +42,7 @@
                     <input type="checkbox" name="remember" id="remember" class="w-4 h-4 borde-black">
                     <h3 class="font-medium text-xs md:text-md font-poppins">Remember Me</h3>
                 </div>
-                <x-button type="submit" class="h-16 md:h-[72px] font-poppins font-extrabold text-xl md:text-2xl rounded-xl text-white bg-dongker-sidilan">LOGIN</x-button>
+                <x-button type="submit" class="w-full h-16 md:h-[72px] font-poppins font-extrabold text-xl md:text-2xl rounded-xl text-white bg-dongker-sidilan">LOGIN</x-button>
             </form>
 
             <!-- Footer -->

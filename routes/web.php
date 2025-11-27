@@ -32,4 +32,8 @@ Route::middleware('is-admin')->group(function () {
     });
 });
 
+Route::get('/test', function () {
+    return view('test-page');
+});
+
     
