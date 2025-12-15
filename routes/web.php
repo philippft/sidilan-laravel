@@ -13,6 +13,8 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', [UserDashboardController::class, 'index'])->name('user.dashboard');
+Route::get('/tenaga-pendidik', [UserDashboardController::class, 'index'])->name('user.tenaga-pendidik');
+Route::get('/plp-teknisi', [UserDashboardController::class, 'index'])->name('user.plp-teknisi');
 
 Route::get('/admin/login', function() { 
     return view('admin.login');
@@ -32,8 +34,8 @@ Route::middleware('is-admin')->group(function () {
     });
 });
 
-Route::get('/test', function () {
-    return view('test-page');
-});
+// Route::get('/dashboard', function () {
+//     return view('dashboard');
+// });
 
     
