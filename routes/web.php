@@ -9,7 +9,7 @@ use App\Models\Person;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('sidebar');
+    return view('admin.dashboard-admin');
 });
 
 Route::get('/dashboard', [UserDashboardController::class, 'index'])->name('user.dashboard');
