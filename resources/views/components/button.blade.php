@@ -1,3 +1,3 @@
-<button type="{{ $type ?? 'button' }}" {{ $attributes->merge(['class' => 'font-poppins']) }}>
+<button type="{{ $type ?? 'button' }}" {{ $attributes->merge(['class' => '']) }}>
    {{ $slot }}
 </button>
