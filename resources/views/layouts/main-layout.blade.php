@@ -10,27 +10,27 @@
 </head>
 
 <body class="font-poppins">
-   <div class="bg-dongker-sidilan flex justify-between items-center py-6 px-9 text-white">
-      <div class="flex gap-3 items-center">
-         <img src="{{ asset('assets/logo-fmipa.png') }}" alt="Logo FMIPA" class="size-21">
+   <div class="w-full bg-dongker-sidilan md:flex justify-between items-center py-6 px-9 text-white">
+      <div class="flex md:gap-3 gap-2 mb-2 md:mb-0 items-center">
+         <img src="{{ asset('assets/logo-fmipa.png') }}" alt="Logo FMIPA" class="size-11 md:size-18 lg:size-21">
          <div class="font-bold">
-            <h1 class="text-4xl mb-1">SIDILAN</h1>
-            <p class="text-sm">Sistem Data Tendik dan Laboran</p>
+            <h1 class="lg:text-4xl md:text-2xl md:mb-1 text-base">SIDILAN</h1>
+            <p class="lg:text-sm md:text-xs text-[10px] font-light md:font-bold">Sistem Data Tendik dan Laboran</p>
          </div>
       </div>
-      <div class="flex gap-6">
-         <x-nav-link href="{{ route('user.dashboard') }}" :active="request()->routeIs('user.dashboard')">
+      <div class="flex lg:gap-6 md:gap-3 gap-2">
+         <x-nav-link class="grow md:grow-0" href="{{ route('user.dashboard') }}" :active="request()->routeIs('user.dashboard')">
             Beranda
          </x-nav-link>
-         <x-nav-link href="{{ route('user.tenaga-pendidik') }}" :active="request()->routeIs('user.tenaga-pendidik*')">
+         <x-nav-link class="grow md:grow-0" href="{{ route('user.tenaga-pendidik') }}" :active="request()->routeIs('user.tenaga-pendidik*')">
             Tenaga Pendidik
          </x-nav-link>
-         <x-nav-link href="{{ route('user.plp-teknisi') }}" :active="request()->routeIs('user.plp-teknisi*')">
+         <x-nav-link class="grow md:grow-0" href="{{ route('user.plp-teknisi') }}" :active="request()->routeIs('user.plp-teknisi*')">
             PLP dan Teknisi Lab
          </x-nav-link>
       </div>
    </div>
-   <div class="py-5 px-9">
+   <div class="py-5 px-9 w-full">
       @yield('content')
    </div>
 </body>

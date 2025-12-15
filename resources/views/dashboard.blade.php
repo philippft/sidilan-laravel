@@ -16,7 +16,7 @@
 
       <br>
       <!-- Table untuk menampilkan data persons -->
-      <table border="1">
+      {{-- <table border="1">
          <thead>
             <tr>
                <th>No</th>
@@ -33,7 +33,7 @@
          <tbody>
 
          </tbody>
-      </table>
+      </table> --}}
    </div>
 
    <!-- Jika data kosong -->
