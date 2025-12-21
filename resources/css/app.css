@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400..700;1,400..700&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 @import "tailwindcss";
 
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
@@ -5,18 +7,78 @@
 @source '../**/*.blade.php';
 @source '../**/*.js';
 
+@font-face {
+    font-family: "kunstler";
+    src: url("/assets/fonts/Kunstler Script Regular.ttf") format("truetype");
+    font-weight: normal;
+    font-style: normal;
+}
 @theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-        'Segoe UI Symbol', 'Noto Color Emoji';
-    --font-poppins: 'Poppins', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-        'Segoe UI Symbol', 'Noto Color Emoji';
-    --color-abu-sidilan: #7A7A73;
-    --color-background-sidilan: #F4F6FF;
-    --color-kuning-sidilan: #F3C623;
-    --color-orange-sidilan: #EB8317;
-    --color-dongker-sidilan: #10375C;
-    --color-danger: #EB5757;
-    --color-success: #27AE60;
-    --color-warning: #F5BB3E;
+    --font-sans: "Instrument Sans", ui-sans-serif, system-ui, sans-serif,
+        "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
+        "Noto Color Emoji";
+    --font-poppins: "Poppins", ui-sans-serif, system-ui, sans-serif,
+        "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
+        "Noto Color Emoji";
+    --font-kunstler: "kunstler", cursive;
+    --color-abu-sidilan: #7a7a73;
+    --color-background-sidilan: #f4f6ff;
+    --color-kuning-sidilan: #f3c623;
+    --color-orange-sidilan: #eb8317;
+    --color-dongker-sidilan: #10375c;
+    --color-danger: #eb5757;
+    --color-success: #27ae60;
+    --color-warning: #f5bb3e;
     --color-hover-sidilan: #185187;
+
+    --animate-blur-in: blur-masuk 1.8s ease-out forwards;
+    --animate-blur-bounce: blur-masuk 1s ease-out forwards,
+        bounce 1s infinite 1s;
+}
+
+@keyframes blur-masuk {
+    0% {
+        filter: blur(10px);
+        opacity: 0;
+        transform: scale(1.1); /* Agak di-zoom dikit biar dramatis */
+    }
+    100% {
+        filter: blur(0);
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes slide-out-to-top {
+    to {
+        transform: translateY(-100%);
+        opacity: 0;
+    }
+}
+
+/* Keyframes: Halaman Baru masuk dari Bawah */
+@keyframes slide-in-from-bottom {
+    from {
+        transform: translateY(100%);
+        opacity: 0;
+    }
+}
+
+/* Mengatur Durasi Animasi */
+::view-transition-old(root),
+::view-transition-new(root) {
+    animation-duration: 0.8s; /* Sesuaikan kecepatan */
+    animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1); /* Efek smooth */
+}
+
+/* Menerapkan Animasi */
+::view-transition-old(root) {
+    /* Halaman lama keluar ke atas */
+    animation-name: slide-out-to-top;
+}
+
+::view-transition-new(root) {
+    /* Halaman baru masuk dari bawah */
+    animation-name: slide-in-from-bottom;
+    mix-blend-mode: normal; /* Mencegah warna aneh saat transisi */
 }
