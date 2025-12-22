@@ -10,6 +10,6 @@ class AdminDashboardController extends Controller
     public function index () {
         $persons = Person::all();
 
-        return view('admin.dashboard', compact('persons'));
+        return view('admin.dashboard-admin', compact('persons'));
     }
 }
