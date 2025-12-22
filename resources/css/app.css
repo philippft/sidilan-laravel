@@ -7,12 +7,6 @@
 @source '../**/*.blade.php';
 @source '../**/*.js';
 
-@font-face {
-    font-family: "kunstler";
-    src: url("/assets/fonts/Kunstler Script Regular.ttf") format("truetype");
-    font-weight: normal;
-    font-style: normal;
-}
 @theme {
     --font-sans: "Instrument Sans", ui-sans-serif, system-ui, sans-serif,
         "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
@@ -20,7 +14,6 @@
     --font-poppins: "Poppins", ui-sans-serif, system-ui, sans-serif,
         "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
         "Noto Color Emoji";
-    --font-kunstler: "kunstler", cursive;
     --color-abu-sidilan: #7a7a73;
     --color-background-sidilan: #f4f6ff;
     --color-kuning-sidilan: #f3c623;
