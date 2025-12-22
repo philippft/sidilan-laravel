@@ -7,7 +7,7 @@
    <meta http-equiv="X-UA-Compatible" content="ie=edge">
    <meta name="view-transition" content="same-origin" />
    <title>SIDILAN | @yield('title')</title>
-   @vite('resources/css/app.css')
+   @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
 <body class="font-poppins">
@@ -43,6 +43,10 @@
    <div class="py-5 px-9 w-full">
       @yield('content')
    </div>
+
+
+
+   @yield('script')
 </body>
 
 </html>
