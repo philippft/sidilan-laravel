@@ -75,3 +75,7 @@
     animation-name: slide-in-from-bottom;
     mix-blend-mode: normal; /* Mencegah warna aneh saat transisi */
 }
+
+[x-cloak] {
+    display: none !important;
+}
