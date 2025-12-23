@@ -69,7 +69,7 @@
             </div>
 
             <!-- Tulisan Manajemen Data -->
-            <div class="h-[72px] px-5 gap-2 text-right flex items-center justify-left hover:bg-hover-sidilan">
+            <div class="h-[72px] px-5 gap-2 text-left flex items-center justify-left hover:bg-hover-sidilan">
                <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M18.6668 20L13.3335 25.3333L18.6668 30.6667" stroke="#FDFDFD" stroke-width="2.66667" />
                   <path
