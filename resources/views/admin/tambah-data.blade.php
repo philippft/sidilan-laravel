@@ -107,12 +107,7 @@
                     <img src="" alt="">
                     <img src="" alt="Preview Foto" class="bg-warning w-52 h-52 rounded-xl object-cover mx-auto mb-4" id="preview-image">
 
-                     <!-- @if ($person->image)
-                        <img src="{{ asset('storage/person_images/' . $person->image) }}" alt="{{ $person->full_name }}"
-                           width="50" height="50" style="border-radius: 50%; object-fit: cover;">
-                     @else
-                        <div>[No Image]</div>
-                     @endif -->
+
                 </div>
                 <!-- input file -->
                 <x-input-file/>
