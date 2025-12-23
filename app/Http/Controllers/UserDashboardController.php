@@ -5,11 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Person;
-use Faker\Extension\PersonExtension;
 
 class UserDashboardController extends Controller
 {
-        public function index (Request $request) {
+    public function index () {
             $persons = Person::all();
             //jenis kelamin
             $genderStats = Person::select('gender', DB::raw('count(*) as total'))
@@ -45,9 +44,8 @@ class UserDashboardController extends Controller
     }
 
     public function tenagaPendidik(Request $request) {
-            // ini router untuk menampilkan semua ada
-            // if IsRoute(user.dashboard)
-            $perPage = request('per_page', 10);
+
+        $perPage = request('per_page', 10);
 
             $tenagaPendidik = Person::with(['position'])
                 ->where('position_type_id', 2)
@@ -61,15 +59,18 @@ class UserDashboardController extends Controller
                 ->paginate($perPage)
                 ->withQueryString();
 
-            //nanti bakal ada detali info
-            //is IsRoute(user.tenaga-pendidik.detalied-info)
-            //ini bakal ngambil detail info berdasarkan id yang dipilih ($request->id())
+        return view('tenaga-pendidik', compact('tenagaPendidik')); 
 
-            return view('tenaga-pendidik', compact('tenagaPendidik'));
-        }
+    }
 
-        public function PlpTeknisiLab(Request $request) {
-            //ini mirip kayak yang di atas
-            dd($request);
-        }
+    public function tenagaPendidikDetail(String $id) {
+        $detailPerson = Person::with(['position', 'education'])->findOrFail($id);
+        
+        return view('tenaga-pendidik-detailed', compact('detailPerson'));
+    }
+
+    public function plpTeknisiLab(Request $request) {
+        //ini mirip kayak yang di atas
+        return view('tenagapendidik-detailed-info');
+    }
 }
