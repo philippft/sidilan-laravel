@@ -29,7 +29,7 @@
                         d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                   </svg>
                </div>
-               <x-text-field type="text" name="username" id="username" label='Username' placeholder="Username"
+               <x-textField type="text" name="username" id="username" label='Username' placeholder="Username"
                   class="border-abu-sidilan h-10 md:h-14 pl-10 rounded-md md:rounded-xl" />
             </div>
             <div class="relative">
@@ -39,7 +39,7 @@
                         d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                   </svg>
                </div>
-               <x-text-field type="password" name="password" id="password" label="Password" placeholder="Password"
+               <x-textField type="password" name="password" id="password" label="Password" placeholder="Password"
                   class="border-abu-sidilan h-10 md:h-14 pl-10 rounded-md md:rounded-xl" />
             </div>
             <div class="flex items-center gap-2 my-4">
