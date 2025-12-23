@@ -13,7 +13,7 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', [UserDashboardController::class, 'index'])->name('user.dashboard');
-Route::get('/tenaga-pendidik', [UserDashboardController::class, 'index'])->name('user.tenaga-pendidik');
+Route::get('/tenaga-pendidik', [UserDashboardController::class, 'tenagaPendidik'])->name('user.tenaga-pendidik');
 Route::get('/plp-teknisi', [UserDashboardController::class, 'index'])->name('user.plp-teknisi');
 
 Route::get('/admin/login', function() { 

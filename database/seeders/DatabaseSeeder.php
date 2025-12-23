@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
+use Faker\Factory as Faker;
+
 
 class DatabaseSeeder extends Seeder
 {
@@ -19,6 +21,7 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         // User::factory(10)->create();
+        $faker = Faker::create('id_ID');
 
         Admin::factory()->create([
             'username' => 'admin1',
@@ -79,87 +82,30 @@ class DatabaseSeeder extends Seeder
         }
 
         $people = [
-            [
-                'full_name' => 'Ahmad Rizki',
-                'nip' => '198012345678901',
-                'education_id' => 6, // S1
-                'position_id' => 1, // Dosen
-                'position_type_id' => 1, // PLP
-                'gender' => 'laki-laki',
+            ['full_name' => 'Ahmad Rizki', 'nip' => '198012345678901', 'education_id' => 6, 'position_id' => 1, 'position_type_id' => 1, 'gender' => 'laki-laki', 'is_active' => true, 'image' => ''],
+            ['full_name' => 'Siti Aminah', 'nip' => '198112345678902', 'education_id' => 7, 'position_id' => 2, 'position_type_id' => 2, 'gender' => 'perempuan', 'is_active' => true, 'image' => ''],
+            ['full_name' => 'Budi Santoso', 'nip' => '198212345678903', 'education_id' => 5, 'position_id' => 3, 'position_type_id' => 1, 'gender' => 'laki-laki', 'is_active' => true, 'image' => ''],
+            ['full_name' => 'Maya Sari', 'nip' => '198312345678904', 'education_id' => 8, 'position_id' => 1, 'position_type_id' => 1, 'gender' => 'perempuan', 'is_active' => true, 'image' => ''],
+            ['full_name' => 'Rudi Hermawan', 'nip' => '198412345678905', 'education_id' => 4, 'position_id' => 4, 'position_type_id' => 2, 'gender' => 'laki-laki', 'is_active' => true, 'image' => ''],
+            ['full_name' => 'Dewi Kartika', 'nip' => '198512345678906', 'education_id' => 6, 'position_id' => 5, 'position_type_id' => 2, 'gender' => 'perempuan', 'is_active' => true, 'image' => ''],
+            ['full_name' => 'Joko Prasetyo', 'nip' => '198612345678907', 'education_id' => 7, 'position_id' => 6, 'position_type_id' => 1, 'gender' => 'laki-laki', 'is_active' => true, 'image' => ''],
+            ['full_name' => 'Linda Wati', 'nip' => '198712345678908', 'education_id' => 6, 'position_id' => 7, 'position_type_id' => 1, 'gender' => 'perempuan', 'is_active' => true, 'image' => ''],
+        ];
+
+        for ($i = 0; $i < 20; $i++) {
+            $gender = $faker->randomElement(['laki-laki', 'perempuan']);
+            $people[] = [
+                'full_name' => $faker->name($gender == 'laki-laki' ? 'male' : 'female'),
+                'nip' => $faker->unique()->numerify('199###########'), 
+                'education_id' => $faker->numberBetween(1, 8),
+                'position_id' => $faker->randomElement([2, 4, 5]), 
+                'position_type_id' => 2,
+                'gender' => $gender,
                 'is_active' => true,
                 'image' => '',
-            ],
-            [
-                'full_name' => 'Siti Aminah',
-                'nip' => '198112345678902',
-                'education_id' => 7, // S2
-                'position_id' => 2, // Laboran
-                'position_type_id' => 2, // Tendik
-                'gender' => 'perempuan',
-                'is_active' => true,
-                'image' => ''
-            ],
-            [
-                'full_name' => 'Budi Santoso',
-                'nip' => '198212345678903',
-                'education_id' => 5, // D4
-                'position_id' => 3, // Teknisi
-                'position_type_id' => 1, // PLP
-                'gender' => 'laki-laki',
-                'is_active' => true,
-                'image' => ''
-            ],
-            [
-                'full_name' => 'Maya Sari',
-                'nip' => '198312345678904',
-                'education_id' => 8, // S3
-                'position_id' => 1, // Dosen
-                'position_type_id' => 1, // PLP
-                'gender' => 'perempuan',
-                'is_active' => true,
-                'image' => ''
-            ],
-            [
-                'full_name' => 'Rudi Hermawan',
-                'nip' => '198412345678905',
-                'education_id' => 4, // D3
-                'position_id' => 4, // Administrasi
-                'position_type_id' => 2, // Tendik
-                'gender' => 'laki-laki',
-                'is_active' => true,
-                'image' => ''
-            ],
-            [
-                'full_name' => 'Dewi Kartika',
-                'nip' => '198512345678906',
-                'education_id' => 6, // S1
-                'position_id' => 5, // Staff TU
-                'position_type_id' => 2, // Tendik
-                'gender' => 'perempuan',
-                'is_active' => true,
-                'image' => ''
-            ],
-            [
-                'full_name' => 'Joko Prasetyo',
-                'nip' => '198612345678907',
-                'education_id' => 7, // S2
-                'position_id' => 6, // Kepala Laboratorium
-                'position_type_id' => 1, // PLP
-                'gender' => 'laki-laki',
-                'is_active' => true,
-                'image' => ''
-            ],
-            [
-                'full_name' => 'Linda Wati',
-                'nip' => '198712345678908',
-                'education_id' => 6, // S1
-                'position_id' => 7, // Koordinator Praktikum
-                'position_type_id' => 1, // PLP
-                'gender' => 'perempuan',
-                'is_active' => true,
-                'image' => ''
-            ],
-        ];
+            ];
+        }
+
 
         foreach ($people as $person) {
             DB::table('people')->insert([
@@ -168,5 +114,7 @@ class DatabaseSeeder extends Seeder
                 'updated_at' => now()
             ]);
         }
+
+        }
     }
-}
+
