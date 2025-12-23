@@ -9,7 +9,7 @@ use Faker\Extension\PersonExtension;
 
 class UserDashboardController extends Controller
 {
-        public function index () {
+        public function index (Request $request) {
         $persons = Person::all();
         //jenis kelamin
         $genderStats = Person::select('gender', DB::raw('count(*) as total'))
@@ -34,6 +34,23 @@ class UserDashboardController extends Controller
         //total
         $totalPersons = Person::count();
 
+        if (request()->routeIs('user.tenaga-pendidik')) {
+            $perPage = request('per_page', 10);
+
+            $tenagaPendidik = Person::with(['position'])
+                ->where('position_type_id', 2)
+                ->where('is_active', 1)
+                ->when($request->search, function ($q) use ($request) {
+                    $q->where('full_name', 'like', '%' . $request->search . '%')
+                    ->orWhereHas('position', function ($q2) use ($request) {
+                        $q2->where('name', 'like', '%' . $request->search . '%');
+                    });
+                })
+                ->paginate($perPage)
+                ->withQueryString();
+
+            return view('tenaga-pendidik', compact('tenagaPendidik'));
+        }
 
         return view('dashboard', compact(
             'persons', 
