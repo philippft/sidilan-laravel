@@ -26,16 +26,16 @@
             
             <!-- Full Name -->
             <div class="mb-2">
-                <x-text-field label="Nama Lengkap" type="text" name="full_name" id="full_name" placeholder="Masukkan Nama Lengkap..." class="border-abu-sidilan h-10 md:h-14 mt-2 rounded-md md:rounded-xl">
+                <x-textField label="Nama Lengkap" type="text" name="full_name" id="full_name" placeholder="Masukkan Nama Lengkap..." class="border-abu-sidilan h-10 md:h-14 mt-2 rounded-md md:rounded-xl">
                     <!-- <label for="full_name" class="text-xl font-medium">Nama Lengkap</label> -->
-                </x-text-field>
+                </x-textield>
             </div>
             
             <!-- NIP -->
             <div class="mb-2">
-                <x-text-field label="NIP" type="text" name="nip" id="nip" placeholder="Masukkan NIP..." class="border-abu-sidilan h-10 md:h-14 mt-2 rounded-md md:rounded-xl">
+                <x-textField label="NIP" type="text" name="nip" id="nip" placeholder="Masukkan NIP..." class="border-abu-sidilan h-10 md:h-14 mt-2 rounded-md md:rounded-xl">
                     <!-- <label for="nip" class="text-xl font-medium">NIP</label> -->
-                </x-text-field>
+                </x-textField>
             </div>
 
             <!-- Pendidikan -->

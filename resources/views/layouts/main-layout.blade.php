@@ -40,7 +40,7 @@
          </x-nav-link>
       </div>
    </div>
-   <div class="py-5 px-9 w-full">
+   <div class="py-5 px-9 w-full h-screen bg-background-sidilan">
       @yield('content')
    </div>
 
