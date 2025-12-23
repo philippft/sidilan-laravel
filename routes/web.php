@@ -8,9 +8,9 @@ use App\Http\Controllers\UserDashboardController;
 use App\Models\Person;
 use Illuminate\Support\Facades\Route;
 
-// Route::get('/', function () {
-//     return view('tendik');
-// });
+Route::get('/', function () {
+    return view('landing-page');
+});
 
 Route::get('/dashboard', [UserDashboardController::class, 'index'])->name('user.dashboard');
 Route::get('/tenaga-pendidik', [UserDashboardController::class, 'index'])->name('user.tenaga-pendidik');
