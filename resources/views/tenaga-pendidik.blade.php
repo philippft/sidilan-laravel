@@ -2,6 +2,8 @@
 @section('title', 'Dashboard')
 
 @section('content')
+
+{{-- @dd($tenagaPendidik) --}}
 <div class="flex justify-between mb-6">
     <div>
         <h1 class="text-2xl font-bold">Data Tenaga Pendidik</h1>

@@ -10,31 +10,43 @@ use Faker\Extension\PersonExtension;
 class UserDashboardController extends Controller
 {
         public function index (Request $request) {
-        $persons = Person::all();
-        //jenis kelamin
-        $genderStats = Person::select('gender', DB::raw('count(*) as total'))
-        ->groupBy('gender')
-        ->get();
-        // plp dan tendik
-        $positionTypeStats = DB::table('position_types')
-        ->leftJoin('people', 'position_types.id', '=', 'people.position_type_id')
-        ->select('position_types.name as nama_jenis_posisi', DB::raw('COUNT(people.id) as total_jenis_posisi'))
-        ->groupBy('position_types.id', 'position_types.name')
-        ->get();
-        // status (aktif atau tidak aktif)
-        $statusStats = Person::select('is_active', DB::raw('count(*) as total'))
-        ->groupBy('is_active')
-        ->get();
-        //edukasi
-        $educationStats = DB::table('educations')
-        ->leftJoin('people', 'educations.id', '=', 'people.education_id')
-        ->select('educations.name as jenjang_pendidikan', DB::raw('COUNT(people.id) as total_pegawai'))
-        ->groupBy('educations.id', 'educations.name')
-        ->get();
-        //total
-        $totalPersons = Person::count();
+            $persons = Person::all();
+            //jenis kelamin
+            $genderStats = Person::select('gender', DB::raw('count(*) as total'))
+            ->groupBy('gender')
+            ->get();
+            // plp dan tendik
+            $positionTypeStats = DB::table('position_types')
+            ->leftJoin('people', 'position_types.id', '=', 'people.position_type_id')
+            ->select('position_types.name as nama_jenis_posisi', DB::raw('COUNT(people.id) as total_jenis_posisi'))
+            ->groupBy('position_types.id', 'position_types.name')
+            ->get();
+            // status (aktif atau tidak aktif)
+            $statusStats = Person::select('is_active', DB::raw('count(*) as total'))
+            ->groupBy('is_active')
+            ->get();
+            //edukasi
+            $educationStats = DB::table('educations')
+            ->leftJoin('people', 'educations.id', '=', 'people.education_id')
+            ->select('educations.name as jenjang_pendidikan', DB::raw('COUNT(people.id) as total_pegawai'))
+            ->groupBy('educations.id', 'educations.name')
+            ->get();
+            //total
+            $totalPersons = Person::count();
 
-        if (request()->routeIs('user.tenaga-pendidik')) {
+        return view('dashboard', compact(
+            'persons', 
+            'genderStats', 
+            'positionTypeStats', 
+            'statusStats', 
+            'educationStats', 
+            'totalPersons'
+        ));
+    }
+
+    public function tenagaPendidik(Request $request) {
+            // ini router untuk menampilkan semua ada
+            // if IsRoute(user.dashboard)
             $perPage = request('per_page', 10);
 
             $tenagaPendidik = Person::with(['position'])
@@ -49,16 +61,15 @@ class UserDashboardController extends Controller
                 ->paginate($perPage)
                 ->withQueryString();
 
+            //nanti bakal ada detali info
+            //is IsRoute(user.tenaga-pendidik.detalied-info)
+            //ini bakal ngambil detail info berdasarkan id yang dipilih ($request->id())
+
             return view('tenaga-pendidik', compact('tenagaPendidik'));
         }
 
-        return view('dashboard', compact(
-            'persons', 
-            'genderStats', 
-            'positionTypeStats', 
-            'statusStats', 
-            'educationStats', 
-            'totalPersons'
-        ));
-    }
+        public function PlpTeknisiLab(Request $request) {
+            //ini mirip kayak yang di atas
+            dd($request);
+        }
 }
