@@ -12,4 +12,10 @@ class AdminDashboardController extends Controller
 
         return view('admin.dashboard-admin', compact('persons'));
     }
+    
+    public function managementData () {
+        $persons = Person::all();
+
+        return view('admin.management-data', compact('persons'));
+    }
 }

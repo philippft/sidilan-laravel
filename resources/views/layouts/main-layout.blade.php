@@ -5,8 +5,9 @@
    <meta charset="UTF-8">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+   <meta name="view-transition" content="same-origin" />
    <title>SIDILAN | @yield('title')</title>
-   @vite('resources/css/app.css')
+   @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
 <body class="font-poppins">
@@ -39,9 +40,13 @@
          </x-nav-link>
       </div>
    </div>
-   <div class="py-5 px-9 w-full">
+   <div class="py-5 px-9 w-full h-screen bg-background-sidilan">
       @yield('content')
    </div>
+
+
+
+   @yield('script')
 </body>
 
 </html>

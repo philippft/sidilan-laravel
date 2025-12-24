@@ -2,40 +2,279 @@
 @section('title', 'Dashboard')
 
 @section('content')
-   <div>
 
-      
+   {{-- @dd($statusStats) --}}
+   <div x-data="{ state: 'none' }" class="lg:flex w-full lg:gap-5 h-full">
+      <div
+         class="flex overflow-x-auto lg:overflow-visible lg:grid lg:grid-cols-2 lg:grid-rows-2 lg:gap-9 gap-4 lg:w-[40%] lg:p-0 p-4 snap-x">
+         <button @@click="state = 'jumlah'" class="cursor-pointer lg:shrink shrink-0 lg:w-auto w-64">
+            <x-card-box class="w-full transition-all duration-300 hover:-translate-y-2 hover:shadow-xl">
+               <div class="w-fit text-center mx-auto">
+                  <h1 class="font-bold text-xl mb-2">JUMLAH</h1>
+                  <canvas id="chart-jumlah" class="w-full"></canvas>
+               </div>
+            </x-card-box>
+         </button>
+         <button @@click="state = 'pendidikan'" class="cursor-pointer lg:shrink shrink-0 lg:w-auto w-64">
+            <x-card-box class="w-full transition-all duration-300 hover:-translate-y-2 hover:shadow-xl">
+               <div class="w-fit text-center mx-auto">
+                  <h1 class="font-bold text-xl mb-2">PENDIDIKAN</h1>
+                  <canvas id="chart-pendidikan" class="w-full"></canvas>
+               </div>
+            </x-card-box>
+         </button>
+         <button @@click="state = 'gender'" class="cursor-pointer lg:shrink shrink-0 lg:w-auto w-64">
+            <x-card-box class="w-full transition-all duration-300 hover:-translate-y-2 hover:shadow-xl">
+               <div class="w-fit text-center mx-auto">
+                  <h1 class="font-bold text-xl mb-2">JENIS KELAMIN</h1>
+                  <canvas id="chart-gender" class="w-full"></canvas>
+               </div>
+            </x-card-box>
+         </button>
+         <button @@click="state = 'status'" class="cursor-pointer lg:shrink shrink-0 lg:w-auto w-64">
+            <x-card-box class="w-full transition-all duration-300 hover:-translate-y-2 hover:shadow-xl">
+               <div class="w-fit text-center mx-auto">
+                  <h1 class="font-bold text-xl mb-2">STATUS</h1>
+                  <canvas id="chart-status" class="w-full"></canvas>
+               </div>
+            </x-card-box>
+         </button>
+      </div>
 
-      <form method="GET" action="">
-         <input type="text" name="search" placeholder="Cari nama atau NIP..."">
-         <button type="submit">Cari</button>
-         {{-- @if (request('search')) --}}
-         <a href="">Clear</a>
-         {{-- @endif --}}
-      </form>
+      <x-card-box x-cloak x-show="state == 'none'" class="w-[60%]">
+         <div class="w-full h-full items-center flex justify-center">
+            <div class="text-center">
+               <h1 class="font-bold">Tidak Ada Data</h1>
+               <p class="">Silahkan pilih filtrasi berdasarkan grafik disamping!</p>
+            </div>
+         </div>
+      </x-card-box>
 
-      <br>
-      <!-- Table untuk menampilkan data persons -->
-      {{-- <table border="1">
-         <thead>
-            <tr>
-               <th>No</th>
-               <th>Foto</th>
-               <th>Nama Lengkap</th>
-               <th>NIP</th>
-               <th>Jenis Kelamin</th>
-               <th>Pendidikan</th>
-               <th>Posisi</th>
-               <th>Jenis Pegawai</th>
-               <th>Status</th>
-            </tr>
-         </thead>
-         <tbody>
+      <div x-cloak x-show="state != 'none'" class="animate-blur-in w-[60%]">
+         <x-card-box class="mb-9">
+            <canvas></canvas>
+         </x-card-box>
+      </div>
 
-         </tbody>
-      </table> --}}
+
+
+
    </div>
 
    <!-- Jika data kosong -->
-   {{-- <p>Belum ada data tendik atau laboran.</p> --}}
+@endsection
+
+@section('script')
+   <script type="module">
+      const totalJmlh = {{ $totalPersons }}
+
+      const initChartJumlah = () => {
+         const data = @json($positionTypeStats);
+         const labels = data.map(item => item.nama_jenis_posisi)
+         const value = data.map(item => item.total_jenis_posisi)
+         const ctx = document.getElementById('chart-jumlah');
+         if (!ctx) return;
+         const centerTextPlugin = {
+            id: 'centerText',
+            beforeDraw: function(chart) {
+               var width = chart.width,
+                  height = chart.height,
+                  ctx = chart.ctx;
+
+               ctx.restore();
+
+               var fontSize = (height / 114).toFixed(2);
+               ctx.font = "bold " + fontSize + "em sans-serif";
+               ctx.textBaseline = "middle";
+               ctx.textAlign = "center";
+               ctx.fillStyle = "#333";
+               var total = totalJmlh;
+               var meta = chart.getDatasetMeta(0);
+               var x = meta.data[0].x;
+               var y = meta.data[0].y;
+
+               ctx.fillText(total, x, y);
+               ctx.save();
+            }
+         };
+
+         new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+               labels: labels,
+               datasets: [{
+                  label: 'Jumlah',
+                  data: value,
+                  backgroundColor: [
+                     '#F3C623',
+                     '#EB8317'
+                  ],
+                  borderWidth: 0,
+                  hoverOffset: 4
+               }]
+            },
+            options: {
+               responsive: true,
+               cutout: '70%',
+               plugins: {
+                  legend: {
+                     position: 'bottom',
+                     labels: {
+                        usePointStyle: true,
+                        padding: 20
+                     }
+                  },
+                  title: {
+                     display: false,
+                  },
+                  tooltip: {
+                     enabled: true
+                  }
+               }
+            },
+            plugins: [centerTextPlugin]
+         })
+      }
+
+      const initChartPendidikan = () => {
+         const data = @json($educationStats);
+         const labels = data.map(item => item.jenjang_pendidikan)
+         const value = data.map(item => item.total_pegawai)
+         const ctx = document.getElementById('chart-pendidikan');
+         if (!ctx) return;
+
+         new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+               labels: labels,
+               datasets: [{
+                  data: value,
+                  backgroundColor: [
+                     '#2ECC71',
+                     '#E67E22',
+                     '#3498DB',
+                     '#E74C3C',
+                     '#F1C40F',
+                     '#6610f2',
+                     '#d63384',
+                     '#8D99AE',
+                  ],
+                  borderWidth: 0,
+                  hoverOffset: 4
+               }]
+            },
+            options: {
+               responsive: true,
+               cutout: '70%',
+               plugins: {
+                  legend: {
+                     position: 'bottom',
+                     labels: {
+                        usePointStyle: true,
+                        padding: 10
+                     }
+                  },
+                  title: {
+                     display: false,
+                  },
+                  tooltip: {
+                     enabled: true
+                  }
+               }
+            },
+         })
+      }
+
+      const initChartGender = () => {
+         const data = @json($genderStats);
+         const labels = data.map(item => item.gender)
+         const value = data.map(item => item.total)
+         const ctx = document.getElementById('chart-gender');
+         if (!ctx) return;
+
+         new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+               labels: labels,
+               datasets: [{
+                  data: value,
+                  backgroundColor: [
+                     '#8CE4FF',
+                     '#FF5656'
+                  ],
+                  borderWidth: 0,
+                  hoverOffset: 4
+               }]
+            },
+            options: {
+               responsive: true,
+               cutout: '70%',
+               plugins: {
+                  legend: {
+                     position: 'bottom',
+                     labels: {
+                        usePointStyle: true,
+                        padding: 20
+                     }
+                  },
+                  title: {
+                     display: false,
+                  },
+                  tooltip: {
+                     enabled: true
+                  }
+               }
+            },
+         })
+      }
+
+      const initChartStatus = () => {
+         const data = @json($statusStats);
+         const labels = data.map(item => item.is_active == 1 ? 'Aktif' : 'Tidak Aktif');
+         const value = data.map(item => item.total)
+         const bgColors = data.map(item => item.is_active == 1 ? '#0288D1' : '#546E7A');
+         const ctx = document.getElementById('chart-status');
+         if (!ctx) return;
+
+         new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+               labels: labels,
+               datasets: [{
+                  data: value,
+                  backgroundColor: bgColors,
+                  borderWidth: 0,
+                  hoverOffset: 4
+               }]
+            },
+            options: {
+               responsive: true,
+               cutout: '70%',
+               plugins: {
+                  legend: {
+                     position: 'bottom',
+                     labels: {
+                        usePointStyle: true,
+                        padding: 20
+                     }
+                  },
+                  title: {
+                     display: false,
+                  },
+                  tooltip: {
+                     enabled: true
+                  }
+               }
+            },
+         })
+      }
+
+
+      document.addEventListener("DOMContentLoaded", function() {
+         initChartJumlah();
+         initChartPendidikan();
+         initChartGender();
+         initChartStatus();
+      });
+   </script>
 @endsection

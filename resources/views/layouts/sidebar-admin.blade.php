@@ -6,12 +6,11 @@
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <meta http-equiv="X-UA-Compatible" content="ie=edge">
    <title>SIDILAN | @yield('title')</title>
-   @vite('resources/css/app.css')
+   @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
 <body>
-   <div class="flex font-poppins">
-
+   <div class="flex bg-background-sidilan font-poppins">
       <div
          class="w-[300px] h-screen font-poppins bg-dongker-sidilan flex flex-col justify-between py-16 pb-10 sticky top-0">
          <div class="w-full">
@@ -69,7 +68,7 @@
             </div>
 
             <!-- Tulisan Manajemen Data -->
-            <div class="h-[72px] px-5 gap-2 text-right flex items-center justify-left hover:bg-hover-sidilan">
+            <div class="h-[72px] px-5 gap-2 text-left flex items-center justify-left hover:bg-hover-sidilan">
                <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M18.6668 20L13.3335 25.3333L18.6668 30.6667" stroke="#FDFDFD" stroke-width="2.66667" />
                   <path
@@ -109,8 +108,10 @@
          </form>
       </div>
 
-      <div class="w-full mx-8 my-12">
-         @yield('content')
+      <div class="flex-1 flex flex-col min-w-0 h-full">
+         <main class="flex-1 overflow-y-auto px-8 py-12">
+            @yield('content')
+         </main>
       </div>
    </div>
 
