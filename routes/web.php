@@ -37,4 +37,6 @@ Route::middleware('is-admin')->group(function () {
 //     return view('dashboard');
 // });
 
-    
+Route::get('/tamanmain', function () {
+    return view('tamanmain');
+});
