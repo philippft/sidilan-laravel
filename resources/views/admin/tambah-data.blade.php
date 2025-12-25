@@ -3,10 +3,10 @@
 <div>
     <h1 class='font-bold text-4xl'>Tambah Data</h1>
 
-    <!-- div parent -->
-    <div class="flex gap-12 mt-4">
-        <!-- div form -->
-        <form action="{{ url('/admin/tambah-data')}}" method="post"  enctype="multipart/form-data" class="w-3/4 h-full">
+    <!-- div form -->
+    <form action="{{ url('/admin/tambah-data')}}" method="post"  enctype="multipart/form-data" >
+        <!-- div parent -->
+        <div class="flex gap-12 mt-4">
             @csrf
 
             <!-- message berhasil -->
@@ -23,122 +23,87 @@
                 </div>
             @endif
 
-            
-            <!-- Full Name -->
-            <div class="mb-2">
-                <x-textField label="Nama Lengkap" type="text" name="full_name" id="full_name" placeholder="Masukkan Nama Lengkap..." class="border-abu-sidilan h-10 md:h-14 mt-2 rounded-md md:rounded-xl">
-                    <!-- <label for="full_name" class="text-xl font-medium">Nama Lengkap</label> -->
-                </x-textield>
-            </div>
-            
-            <!-- NIP -->
-            <div class="mb-2">
-                <x-textField label="NIP" type="text" name="nip" id="nip" placeholder="Masukkan NIP..." class="border-abu-sidilan h-10 md:h-14 mt-2 rounded-md md:rounded-xl">
-                    <!-- <label for="nip" class="text-xl font-medium">NIP</label> -->
-                </x-textField>
-            </div>
+            <!-- field kiri -->
+            <div class="w-3/4 h-full">
 
-            <!-- Pendidikan -->
-            <div class="mb-2">
-                <label for="full_name" class="text-xl font-medium">Pendidikan</label>
-                <select name="position_id" 
-                class="w-full h-[52px] bg-white border border-gray-300 text-gray-700 px-2 mt-2 rounded-lg leading-tight focus:outline-none focus:bg-white focus:ring-2 focus:ring-brand-dark focus:border-transparent cursor-pointer">
-                    <option value="" disabled selected>Pilih Pendidikan</option>
-                    
-                    @foreach($educations as $education)
-                        <option value="{{ $education->id }}">{{ $education->name }}</option>
-                    @endforeach
-                </select>
-            </div>
+                <!-- Full Name -->
+                    <x-textField label="Nama Lengkap" type="text" name="full_name" id="full_name" placeholder="Masukkan Nama Lengkap..." class="border-abu-sidilan focus:ring-2 focus:ring-dongker-sidilan transition-all h-10 md:h-14 mb-4 rounded-md md:rounded-xl">
+                        <!-- <label for="full_name" class="text-xl font-medium">Nama Lengkap</label> -->
+                    </x-textield>
+                
+                <!-- NIP -->
+                    <x-textField label="NIP" type="text" name="nip" id="nip" placeholder="Masukkan NIP..." class="border-abu-sidilan focus:ring-2 focus:ring-dongker-sidilan transition-all h-10 mb-4 md:h-14 rounded-md md:rounded-xl">
+                        <!-- <label for="nip" class="text-xl font-medium">NIP</label> -->
+                    </x-textField>
+    
+                <!-- jenis kelamin -->
+                <x-custom-select id="gender" name="gender" label="Jenis Kelamin" :value="$person->gender ?? ''" :options="['laki-laki' => 'Laki-laki', 'perempuan' => 'Perempuan']" />
 
-            <!-- Jenis Kelamin -->
-            <div class="mb-2">
-                <label for="full_name" class="text-xl font-medium">Jenis Kelamin</label>
-                <select name="gender" 
-                class="w-full h-[52px] bg-white border border-gray-300 text-gray-700 px-2 mt-2 rounded-lg leading-tight focus:outline-none focus:bg-white focus:ring-2 focus:ring-brand-dark focus:border-transparent cursor-pointer">
-                    <option value="" disabled selected>Pilih Jenis Kelamin</option>
+                <!-- pendidikan -->
+                <x-custom-select id="education_id" name="education_id" label="Pendidikan" :value="$person->education_id ?? ''" :options="$educations->pluck('name', 'id')->toArray()" />
 
-                    <option value="laki-laki">Laki-laki</option>
-                    <option value="perempuan">Perempuan</option>
-                </select>
+                <!-- jabatan -->
+                <x-custom-select id="position_id" name="position_id" label="Jabatan" :value="$person->position_id ?? ''" :options="$positions->pluck('name', 'id')->toArray()" />
 
+                <!-- jenis -->
+                <x-custom-select id="position_type_id" name="position_type_id" label="Tipe Jabatan" :value="$person->position_type_id ?? ''"
+                    :options="$positionTypes->pluck('name', 'id')->toArray()" />
+                
             </div>
 
-            <!-- Jabatan -->
-            <div class="mb-2">
-                <label for="full_name" class="text-xl font-medium">Jabatan</label>
-                <select name="position_id" 
-                class="w-full h-[52px] bg-white border border-gray-300 text-gray-700 px-2 mt-2 rounded-lg leading-tight focus:outline-none focus:bg-white focus:ring-2 focus:ring-brand-dark focus:border-transparent cursor-pointer">
-                    <option value="" disabled selected>Pilih Jabatan</option>
+            <!-- field kanan -->
+            <!-- div foto -->
+            <div class="w-1/2 flex flex-col justify-between">
+                <!-- Tambah Foto -->
+                <!-- <div class="items-center justify-center w-full">
+                    foto field -->
+                    <!-- <div class="">
+                        <img :src="imageUrl" alt="Preview Foto" class="bg-warning w-52 h-52 rounded-xl object-cover mx-auto mb-4" id="preview-image">
+                    </div> -->
+                    <!-- input file -->
+                    <!-- <x-input-file id="tambah-foto" 
+                        name="foto" 
+                        type="file" 
+                        accept="image/*"
+                        @change="fileChosen($event)">Pilih File</x-input>
+                </div>  -->
 
-                    @foreach($positions as $position)
-                        <option value="{{ $position->id }}">{{ $position->name }}</option>
-                    @endforeach
+                <x-input-file name="foto" label="Njay"/>
 
-                </select>
-
-            </div>
-
-            <!-- Jenis -->
-            <div class="mb-2">
-                <label for="full_name" class="text-xl font-medium">Jenis</label>
-                <select name="position_type_id" 
-                class="w-full h-[52px] bg-white border border-gray-300 text-gray-700 px-2 mt-2 rounded-lg leading-tight focus:outline-none focus:bg-white focus:ring-2 focus:ring-brand-dark focus:border-transparent cursor-pointer">
-                    <option value="" disabled selected>Pilih Jenis</option>
-
-                    @foreach($positionTypes as $type)
-                        <option value="{{ $type->id }}">{{ $type->name }}</option>
-                    @endforeach
-
-                </select>
-
-            </div>
-            
-        </form>
-        
-
-        <!-- div foto -->
-        <form class="w-1/2 flex flex-col justify-between">
-            <!-- Tambah Foto -->
-            <div class="items-center justify-center w-full">
-                <!-- foto field -->
-                <div class="">
-                    
-                    <img src="" alt="">
-                    <img src="" alt="Preview Foto" class="bg-warning w-52 h-52 rounded-xl object-cover mx-auto mb-4" id="preview-image">
-
-
+    
+                <div class="block">
+                    <x-button class="w-full h-16 bg-success rounded-xl text-white font-bold text-2xl" type="submit">Simpan Data</x-button>
+                    <x-button class="w-full h-16 mt-4 bg-danger rounded-xl text-white font-bold text-2xl">Batal</x-button>
                 </div>
-                <!-- input file -->
-                <x-input-file/>
+            
+    
+                <!-- {{-- Simpan Foto --}}
+                <div class="form-group my-2">
+                    <label for="image">Foto</label><br>
+                    <input type="file" name="image" id="image" class="form-controller @error('photo')
+                    is-invalid
+                    @enderror">
+                </div>
+    
+                {{-- Is Active --}}
+                <label>
+                    <input type="checkbox" name="is_active" value="1" checked>
+                    Aktif?, KALAU AKTIF DI CENTANG AJA
+                </label>
+                <br><br>
+    
+                <button type="submit">Simpan Data</button> -->
+    
             </div>
+            
+            
+        </div>
 
-            <div class="block">
-                <x-button class="w-full h-16 bg-success rounded-xl text-white font-bold text-2xl">Simpan Data</x-button>
-                <x-button class="w-full h-16 mt-4 bg-danger rounded-xl text-white font-bold text-2xl">Batal</x-button>
-            </div>
+            
         
 
-            <!-- {{-- Simpan Foto --}}
-            <div class="form-group my-2">
-                <label for="image">Foto</label><br>
-                <input type="file" name="image" id="image" class="form-controller @error('photo')
-                is-invalid
-                @enderror">
-            </div>
 
-            {{-- Is Active --}}
-            <label>
-                <input type="checkbox" name="is_active" value="1" checked>
-                Aktif?, KALAU AKTIF DI CENTANG AJA
-            </label>
-            <br><br>
-
-            <button type="submit">Simpan Data</button> -->
-
-        </form>
-
-    </div>
+        </div>
 
     <!-- <form action="{{ url('/admin/tambah-data') }}" method="post" enctype="multipart/form-data">
         @csrf
@@ -189,7 +154,6 @@
                 <option value="{{ $type->id }}">{{ $type->name }}</option>
             @endforeach
         </select><br><br> -->
-
-        
+    </form>    
 </div>
 @endsection
