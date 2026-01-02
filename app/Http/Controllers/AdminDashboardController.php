@@ -42,4 +42,10 @@ class AdminDashboardController extends Controller
                 'totalPersons',
         ));
     }
+    
+    public function managementData () {
+        $persons = Person::all();
+
+        return view('admin.management-data', compact('persons'));
+    }
 }

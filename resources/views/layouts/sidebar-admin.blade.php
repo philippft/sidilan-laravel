@@ -10,8 +10,7 @@
 </head>
 
 <body>
-   <div class="flex font-poppins">
-
+   <div class="flex bg-background-sidilan font-poppins">
       <div
          class="w-[300px] h-screen font-poppins bg-dongker-sidilan flex flex-col justify-between py-16 pb-10 sticky top-0">
          <div class="w-full">
@@ -109,8 +108,10 @@
          </form>
       </div>
 
-      <div class="w-full mx-8 my-12">
-         @yield('content')
+      <div class="flex-1 flex flex-col min-w-0 h-full">
+         <main class="flex-1 overflow-y-auto px-8 py-12">
+            @yield('content')
+         </main>
       </div>
    </div>
 
