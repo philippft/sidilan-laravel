@@ -35,7 +35,7 @@ class AdminDashboardController extends Controller
             return view('admin.dashboard-admin', compact(
                 'persons', 
                 'genderStats',
-                'positionTypeStats',
+                'postionTypeStats',
                 'statusStats',
                 'educationStats',
                 'totalPersons',

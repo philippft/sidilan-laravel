@@ -32,6 +32,7 @@ class UserDashboardController extends Controller
             ->get();
             //total
             $totalPersons = Person::count();
+            dd($persons);
 
         return view('dashboard', compact(
             'persons', 
@@ -70,6 +71,25 @@ class UserDashboardController extends Controller
 
     public function plpTeknisiLab(Request $request) {
         //ini mirip kayak yang di atas
-        return view('tenagapendidik-detailed-info');
+        $perPage = request('per_page', 10);
+
+            $plpTeknisiLab = Person::with(['position'])
+                ->where('position_type_id', 1)
+                ->where('is_active', 1)
+                ->when($request->search, function ($q) use ($request) {
+                    $q->where('full_name', 'like', '%' . $request->search . '%')
+                    ->orWhereHas('position', function ($q2) use ($request) {
+                        $q2->where('name', 'like', '%' . $request->search . '%');
+                    });
+                })
+                ->paginate($perPage)
+                ->withQueryString();
+        return view('plp-teknisi-lab', compact('plpTeknisiLab'));
+    }
+
+    public function plpTeknisiDetail(String $id) {
+        $detailPerson = Person::with(['position', 'education'])->findOrFail($id);
+        
+        return view('plp-teknisi-lab-detailed', compact('detailPerson'));
     }
 }
