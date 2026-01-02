@@ -50,9 +50,19 @@
          </div>
       </x-card-box>
 
-      <div x-cloak x-show="state != 'none'" class="animate-blur-in w-[60%]">
-         <x-card-box class="mb-9">
-            <canvas></canvas>
+      <div x-cloak x-show="state != 'none'" class="animate-blur-in w-[60%] my-3">
+         <div class="text-white gap-2 flex mb-2">
+            <x-button class="rounded-full bg-dongker-sidilan px-6 py-3">
+               Laki-Laki
+            </x-button>
+            <x-button class="rounded-full bg-[#E0E0E0] px-6 py-3">
+               Perempuan
+            </x-button>
+         </div>
+
+         <x-card-box>
+            {{-- @dd($genderStats) --}}
+
          </x-card-box>
       </div>
 
