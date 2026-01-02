@@ -68,12 +68,16 @@
                         @change="fileChosen($event)">Pilih File</x-input>
                 </div>  -->
 
-                <x-input-file name="foto" label="Njay"/>
+                <!-- field foto -->
+                <div class="flex flex-col gap-2">
+                    <x-input-files name="image" label="Pilih Foto" id="image" :value="$person->image ?? null"/>
+                    <x-status :person/>
+                </div>
 
-    
-                <div class="block">
+                <!-- tombol-tombol -->
+                <div class="flex flex-col gap-2">
                     <x-button class="w-full h-16 bg-success rounded-xl text-white font-bold text-2xl" type="submit">Simpan Data</x-button>
-                    <x-button class="w-full h-16 mt-4 bg-danger rounded-xl text-white font-bold text-2xl">Batal</x-button>
+                    <a class="block w-full py-4 text-center font-bold text-2xl text-white rounded-xl cursor-pointer transition-all shadow-md bg-danger hover:bg-[#cf4c4c]" href="{{ url('admin/dashboard') }}">Batal</a>
                 </div>
             
     

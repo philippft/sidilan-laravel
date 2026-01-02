@@ -1,13 +1,15 @@
-<div class="mb-4" 
+<div class="mb-2" 
      x-data="{ 
         open: false, 
-        isUp: false, 
+        isUp: false, {{-- Variabel baru untuk menentukan arah --}}
         selected: '{{ old($name, $value) }}',
         options: {{ json_encode($options) }},
         toggle() {
             if (!this.open) {
+                {{-- Cek sisa ruang di bawah elemen sebelum membuka --}}
                 let rect = this.$refs.button.getBoundingClientRect();
                 let spaceBelow = window.innerHeight - rect.bottom;
+                {{-- Jika ruang di bawah kurang dari 250px, tampilkan di atas --}}
                 this.isUp = spaceBelow < 250;
             }
             this.open = !this.open;
@@ -22,6 +24,7 @@
     <div class="relative">
         <input type="hidden" name="{{ $name }}" :value="selected">
 
+        {{-- Tambahkan x-ref='button' --}}
         <div 
             x-ref="button"
             @click="toggle()"
@@ -35,12 +38,13 @@
             </svg>
         </div>
 
+        {{-- Bagian Dropdown dengan posisi dinamis --}}
         <div 
             x-show="open" 
             x-transition
             {{-- Jika isUp true, gunakan bottom-full (muncul di atas). Jika false, gunakan top-full (muncul di bawah) --}}
             :class="isUp ? 'bottom-full mb-2' : 'top-full mt-2'"
-            class="absolute z-[9999] w-full bg-white border border-gray-200 rounded-xl shadow-2xl overflow-y-auto max-h-60"
+            class="absolute z-9999 w-full bg-white border border-gray-200 rounded-xl shadow-2xl overflow-y-auto max-h-60"
             style="display: none;"
         >
             <template x-for="(display, val) in options" :key="val">
