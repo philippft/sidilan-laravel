@@ -58,7 +58,6 @@ class UserDashboardController extends Controller
                 })
                 ->paginate($perPage)
                 ->withQueryString();
-
         return view('tenaga-pendidik', compact('tenagaPendidik')); 
 
     }

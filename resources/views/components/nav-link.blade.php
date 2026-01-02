@@ -1,5 +1,5 @@
-@props(['active' => false])
+@props(['active' => false, 'activeClass' => 'bg-warning hover:bg-warning'])
 <a {{-- class="" --}}
-   {{ $attributes->class(['transition duration-150 ease-in-out item-center text-center block ', 'bg-warning hover:bg-warning' => $active]) }}>
+   {{ $attributes->class(['block transition duration-150 ease-in-out item-center text-center font-medium', "$activeClass" => $active]) }}>
    {{ $slot }}
 </a>
