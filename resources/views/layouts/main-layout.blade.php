@@ -20,20 +20,23 @@
          </div>
       </div>
       <div class="flex lg:gap-6 md:gap-3 gap-2 w-full">
-         <x-nav-link class="w-1/3 flex grow items-center md:grow-0" href="{{ route('user.dashboard') }}"
-            :active="request()->routeIs('user.dashboard')">
+         <x-nav-link
+            class="w-1/3 flex grow items-center md:grow-0 text-black font-medium hover:bg-abu-sidilan/90 bg-[#e0e0e0] rounded-full lg:px-6 md:py-3 md:px-4 md:text-xs lg:text-base px-3 py-2 text-[10px] "
+            href="{{ route('user.dashboard') }}" :active="request()->routeIs('user.dashboard')">
             <span class="grow">
                Beranda
             </span>
          </x-nav-link>
-         <x-nav-link class="grow w-1/3 flex items-center md:grow-0" href="{{ route('user.tenaga-pendidik') }}"
-            :active="request()->routeIs('user.tenaga-pendidik*')">
+         <x-nav-link
+            class="w-1/3 flex grow items-center md:grow-0 text-black font-medium hover:bg-abu-sidilan/90 bg-[#e0e0e0] rounded-full lg:px-6 md:py-3 md:px-4 md:text-xs lg:text-base px-3 py-2 text-[10px] "
+            href="{{ route('user.tenaga-pendidik') }}" :active="request()->routeIs('user.tenaga-pendidik*')">
             <span class="grow">
                Tenaga Pendidik
             </span>
          </x-nav-link>
-         <x-nav-link class="grow w-1/3 flex items-center md:grow-0" href="{{ route('user.plp-teknisi') }}"
-            :active="request()->routeIs('user.plp-teknisi*')">
+         <x-nav-link
+            class="w-1/3 flex grow items-center md:grow-0 text-black font-medium hover:bg-abu-sidilan/90 bg-[#e0e0e0] rounded-full lg:px-6 md:py-3 md:px-4 md:text-xs lg:text-base px-3 py-2 text-[10px] "
+            href="{{ route('user.plp-teknisi') }}" :active="request()->routeIs('user.plp-teknisi*')">
             <span class="grow">
                PLP dan Teknisi Lab
             </span>
