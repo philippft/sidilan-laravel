@@ -1,3 +1,4 @@
+
 <div
     x-data="{
         search: '{{ request('search') }}',
@@ -17,7 +18,7 @@
         x-model="search"
         @keydown.enter.prevent="submit"
         placeholder="Ketik di sini.."
-        class="w-130 h-13 px-4 py-2 rounded-xl border-2 border-abu-sidilan focus:border-0 focus:outline-none focus:ring-2 focus:ring-dongker-sidilan"
+        {{ $attributes->merge(['class' => "w-130 h-13 px-4 py-2 rounded-xl border-2 border-abu-sidilan focus:border-0 focus:ring-inset focus:outline-none focus:ring-2 focus:ring-dongker-sidilan"])}}
     >
 
     <x-button
