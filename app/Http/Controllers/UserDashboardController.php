@@ -29,7 +29,7 @@ class UserDashboardController extends Controller
             });
 
             $persons = $query->with(['education', 'position', 'position_type'])->get();
-            dd($persons);
+            // dd($persons);
 
             //jenis kelamin
             $genderStats = Person::select('gender', DB::raw('count(*) as total'))
