@@ -55,32 +55,36 @@
             </div>
 
             <!-- Tulisan Dashboard -->
-            <div
-               class="h-[72px] px-5 gap-2 text-right flex items-center justify-left hover:bg-hover-sidilan active:bg-sikuning-sidilan">
-               <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path
-                     d="M24.873 9.42841L23.3712 18.4391C22.9498 20.9679 20.9681 22.9496 18.4393 23.3711L9.42857 24.8729C8.07492 25.0985 6.90137 23.9249 7.12698 22.5713L8.62876 13.5606C9.05024 11.0317 11.0319 9.05008 13.5607 8.6286L22.5714 7.12682C23.9251 6.90121 25.0986 8.07476 24.873 9.42841Z"
-                     stroke="#FDFDFD" stroke-width="2" stroke-linecap="round" />
-                  <circle cx="16" cy="16" r="3" stroke="#FDFDFD" stroke-width="2"
-                     stroke-linecap="round" />
-               </svg>
-               <p class="font-poppins font-bold text-xl text-white">Dashboard</p>
-            </div>
+            <x-nav-link href="{{ route('admin.dashboard') }}"
+               :active="request()->routeIs('admin.dashboard')" activeClass="bg-hover-sidilan hover:bg-hover-sidilan">
+               <div
+                  class="h-[72px] px-5 gap-2 text-right flex items-center justify-left hover:bg-hover-sidilan active:bg-sikuning-sidilan">
+                  <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                     <path
+                        d="M24.873 9.42841L23.3712 18.4391C22.9498 20.9679 20.9681 22.9496 18.4393 23.3711L9.42857 24.8729C8.07492 25.0985 6.90137 23.9249 7.12698 22.5713L8.62876 13.5606C9.05024 11.0317 11.0319 9.05008 13.5607 8.6286L22.5714 7.12682C23.9251 6.90121 25.0986 8.07476 24.873 9.42841Z"
+                        stroke="#FDFDFD" stroke-width="2" stroke-linecap="round" />
+                     <circle cx="16" cy="16" r="3" stroke="#FDFDFD" stroke-width="2"
+                        stroke-linecap="round" />
+                  </svg>
+                  <p class="font-poppins font-bold text-xl text-white">Dashboard</p>
+               </div>
+            </x-nav-link>
 
             <!-- Tulisan Manajemen Data -->
-            <div class="h-[72px] px-5 gap-2 text-left flex items-center justify-left hover:bg-hover-sidilan">
-               <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M18.6668 20L13.3335 25.3333L18.6668 30.6667" stroke="#FDFDFD" stroke-width="2.66667" />
-                  <path
-                     d="M24.0831 11.3334C24.9022 12.7523 25.3335 14.3617 25.3335 16.0001C25.3335 17.6384 24.9022 19.2479 24.0831 20.6667C23.2639 22.0856 22.0857 23.2638 20.6668 24.083C19.248 24.9022 17.6385 25.3334 16.0002 25.3334"
-                     stroke="#FDFDFD" stroke-width="2.66667" stroke-linecap="round" />
-                  <path d="M13.3332 12L18.6665 6.66667L13.3332 1.33333" stroke="#FDFDFD" stroke-width="2.66667" />
-                  <path
-                     d="M7.91693 20.6666C7.09776 19.2477 6.6665 17.6383 6.6665 15.9999C6.6665 14.3616 7.09776 12.7521 7.91693 11.3333C8.73611 9.9144 9.91433 8.73618 11.3332 7.91701C12.752 7.09784 14.3615 6.66658 15.9998 6.66658"
-                     stroke="#FDFDFD" stroke-width="2.66667" stroke-linecap="round" />
-               </svg>
-               <p class="font-poppins font-bold text-xl text-white">Manajemen Data</p>
-            </div>
+            <x-nav-link href="{{ route('admin.management-data') }}"
+               :active="request()->routeIs('admin.management-data')" activeClass="bg-hover-sidilan hover:bg-hover-sidilan">
+               <div
+                  class="h-[72px] px-5 gap-2 text-right flex items-center justify-left hover:bg-hover-sidilan active:bg-sikuning-sidilan">
+                  <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                     <path
+                        d="M24.873 9.42841L23.3712 18.4391C22.9498 20.9679 20.9681 22.9496 18.4393 23.3711L9.42857 24.8729C8.07492 25.0985 6.90137 23.9249 7.12698 22.5713L8.62876 13.5606C9.05024 11.0317 11.0319 9.05008 13.5607 8.6286L22.5714 7.12682C23.9251 6.90121 25.0986 8.07476 24.873 9.42841Z"
+                        stroke="#FDFDFD" stroke-width="2" stroke-linecap="round" />
+                     <circle cx="16" cy="16" r="3" stroke="#FDFDFD" stroke-width="2"
+                        stroke-linecap="round" />
+                  </svg>
+                  <p class="font-poppins font-bold text-xl text-white">Management Data</p>
+               </div>
+            </x-nav-link>
 
          </div>
 

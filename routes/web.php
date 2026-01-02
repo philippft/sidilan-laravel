@@ -3,9 +3,7 @@
 use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PersonController;
-use App\Http\Controllers\UserDashboard;
 use App\Http\Controllers\UserDashboardController;
-use App\Models\Person;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -13,7 +11,8 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', [UserDashboardController::class, 'index'])->name('user.dashboard');
-Route::get('/tenaga-pendidik', [UserDashboardController::class, 'index'])->name('user.tenaga-pendidik');
+Route::get('/tenaga-pendidik', [UserDashboardController::class, 'tenagaPendidik'])->name('user.tenaga-pendidik');
+Route::get('/tenaga-pendidik/{id}', [UserDashboardController::class, 'tenagaPendidikDetail'])->name('user.tenaga-pendidik.detailed-info');
 Route::get('/plp-teknisi', [UserDashboardController::class, 'index'])->name('user.plp-teknisi');
 
 Route::get('/admin/login', function() { 
@@ -44,4 +43,6 @@ Route::middleware('is-admin')->group(function () {
 //     return view('dashboard');
 // });
 
-    
+Route::get('/tamanmain', function () {
+    return view('tamanmain');
+});

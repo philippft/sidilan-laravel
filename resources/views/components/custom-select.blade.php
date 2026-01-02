@@ -1,15 +1,13 @@
-<div class="mb-2" 
+<div class="mb-2"
      x-data="{ 
         open: false, 
-        isUp: false, {{-- Variabel baru untuk menentukan arah --}}
+        isUp: false,
         selected: '{{ old($name, $value) }}',
         options: {{ json_encode($options) }},
         toggle() {
             if (!this.open) {
-                {{-- Cek sisa ruang di bawah elemen sebelum membuka --}}
                 let rect = this.$refs.button.getBoundingClientRect();
                 let spaceBelow = window.innerHeight - rect.bottom;
-                {{-- Jika ruang di bawah kurang dari 250px, tampilkan di atas --}}
                 this.isUp = spaceBelow < 250;
             }
             this.open = !this.open;
@@ -29,7 +27,7 @@
             x-ref="button"
             @click="toggle()"
             @click.away="open = false"
-            class="w-full px-3 py-3 border bg-white border-gray-300 rounded-xl cursor-pointer flex justify-between items-center focus:ring-2 focus:ring-dongker-sidilan transition-all"
+            class="w-full px-3 py-3 border bg-white border-gray-300 rounded-md cursor-pointer flex justify-between items-center focus:ring-2 focus:ring-dongker-sidilan transition-all"
             :class="open ? 'ring-2 ring-dongker-sidilan border-transparent' : ''"
         >
             <span x-text="currentLabel" :class="selected === '' ? 'text-gray-400' : 'text-black'"></span>

@@ -2,11 +2,11 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>SIDILAN | Login-Admin</title>
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <meta http-equiv="X-UA-Compatible" content="ie=edge">
+   <title>SIDILAN | Login-Admin</title>
+   @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
 <body>
@@ -23,7 +23,7 @@
          <form action="{{ url('admin/login') }}" method="post" class="justify-center">
             @csrf
             <div class="relative">
-               <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+               <div class="absolute bottom-5 left-0 pl-3 flex items-center pointer-events-none">
                   <svg class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
@@ -33,7 +33,7 @@
                   class="border-abu-sidilan h-10 md:h-14 pl-10 rounded-md md:rounded-xl" />
             </div>
             <div class="relative">
-               <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+               <div class="absolute bottom-5 left-0 pl-3 flex items-center pointer-events-none">
                   <svg class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
