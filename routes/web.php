@@ -24,6 +24,7 @@ Route::post('/admin/logout', [AuthController::class, 'logout'])->name('admin.log
 
 Route::middleware('is-admin')->group(function () {
     Route::get('/admin/dashboard', [AdminDashboardController::class , 'index'])->name('admin.dashboard');
+    Route::get('/admin/management-data', [AdminDashboardController::class , 'managementData'])->name('admin.management-data');
     
     Route::controller(PersonController::class)->group(function () {
         Route::get('/admin/tambah-data', 'index')->name('admin.tambah');
@@ -34,8 +35,15 @@ Route::middleware('is-admin')->group(function () {
     });
 });
 
+// buat bikin tampilan aja
+// Route::get('/admin/manajemen-data', function () {
+
+//     return view('admin.managementData');
+// });
 // Route::get('/dashboard', function () {
 //     return view('dashboard');
 // });
 
-    
+Route::get('/tamanmain', function () {
+    return view('tamanmain');
+});

@@ -32,8 +32,7 @@ class AdminDashboardController extends Controller
             ->get();
             //total
             $totalPersons = Person::count();
-
-        return view('admin.dashboard-admin', compact(
+            return view('admin.dashboard-admin', compact(
                 'persons', 
                 'genderStats',
                 'postionTypeStats',
@@ -42,4 +41,25 @@ class AdminDashboardController extends Controller
                 'totalPersons',
         ));
     }
+    public function managementData () {
+        $perPage = request('per_page', 10);
+
+        // paginationnya
+        $persons = Person::with(['education', 'position', 'position_type'])
+            ->when(request('search'), function ($q) {
+                $q->where('full_name', 'like', '%' . request('search') . '%')
+                ->orWhereHas('position', function ($q2) {
+                    $q2->where('name', 'like', '%' . request('search') . '%');
+                })->orWhereHas('education', function ($q3) {
+                    $q3->where('name', 'like', '%' . request('search') . '%');
+                })->orWhereHas('position_type', function ($q4) {
+                    $q4->where('name', 'like', '%' . request('search') . '%');
+                });
+            })
+            ->paginate($perPage)
+            ->withQueryString();
+        return view('admin.management-data', compact('persons'));
+    }
+
+    // public function paginationManagementData
 }
