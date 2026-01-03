@@ -15,17 +15,17 @@ class UserDashboardController extends Controller
             $query->when($request->filled('gender'), function ($q) use ($request) {
                 $q->where('gender', $request->gender);
             });
-
+            
             $query->when($request->filled('status'), function ($q) use ($request) {
                 $q->where('is_active', $request->status);
             });
 
             $query->when($request->filled('pendidikan'), function ($q) use ($request) {
-                $q->where('education_id', $request->jenisPosisi);
+                $q->where('education_id', $request->pendidikan);
             });
 
             $query->when($request->filled('jenisPosisi'), function ($q) use ($request) {
-                $q->where('position_type_id', $request->pendidikan);
+                $q->where('position_type_id', $request->jenisPosisi);
             });
 
             $persons = $query->with(['education', 'position', 'position_type'])->get();

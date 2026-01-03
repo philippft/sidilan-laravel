@@ -24,7 +24,7 @@
     --color-warning: #f5bb3e;
     --color-hover-sidilan: #185187;
 
-    --animate-blur-in: blur-masuk 1.8s ease-out forwards;
+    --animate-blur-in: blur-masuk 0.5s ease-out forwards;
     --animate-blur-bounce: blur-masuk 1s ease-out forwards,
         bounce 1s infinite 1s;
 }
@@ -49,7 +49,6 @@
     }
 }
 
-/* Keyframes: Halaman Baru masuk dari Bawah */
 @keyframes slide-in-from-bottom {
     from {
         transform: translateY(100%);
@@ -57,25 +56,31 @@
     }
 }
 
-/* Mengatur Durasi Animasi */
 ::view-transition-old(root),
 ::view-transition-new(root) {
-    animation-duration: 0.8s; /* Sesuaikan kecepatan */
+    animation-duration: 0.8s;
     animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1); /* Efek smooth */
 }
 
 /* Menerapkan Animasi */
 ::view-transition-old(root) {
-    /* Halaman lama keluar ke atas */
     animation-name: slide-out-to-top;
 }
 
 ::view-transition-new(root) {
-    /* Halaman baru masuk dari bawah */
     animation-name: slide-in-from-bottom;
     mix-blend-mode: normal; /* Mencegah warna aneh saat transisi */
 }
 
 [x-cloak] {
     display: none !important;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+
+.no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
 }
