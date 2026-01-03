@@ -3,13 +3,35 @@
 namespace App\Http\Controllers;
 
 use App\Models\Person;
+use App\Models\Education;   
+use App\Models\Position;
+use App\Models\PositionType;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 
 class AdminDashboardController extends Controller
 {
-    public function index () {
-        $persons = Person::all();
+    public function index (Request $request) {
+        $query = Person::query();
+
+            $query->when($request->filled('gender'), function ($q) use ($request) {
+                $q->where('gender', $request->gender)->paginate(10);
+            });
+
+            $query->when($request->filled('status'), function ($q) use ($request) {
+                $q->where('is_active', $request->status)->paginate(10);
+            });
+            
+            $query->when($request->filled('jenisPosisi'), function ($q) use ($request) {
+                $q->where('position_type_id', $request->jenisPosisi)->paginate(10);
+            });
+            
+            $query->when($request->filled('pendidikan'), function ($q) use ($request) {
+                $q->where('education_id', $request->pendidikan)->paginate(10);
+            });
+
+            $persons = $query->with(['education', 'position', 'position_type'])->get();
+
             //jenis kelamin
             $genderStats = Person::select('gender', DB::raw('count(*) as total'))
             ->groupBy('gender')
@@ -32,6 +54,7 @@ class AdminDashboardController extends Controller
             ->get();
             //total
             $totalPersons = Person::count();
+
             return view('admin.dashboard-admin', compact(
                 'persons', 
                 'genderStats',
@@ -39,8 +62,9 @@ class AdminDashboardController extends Controller
                 'statusStats',
                 'educationStats',
                 'totalPersons',
-        ));
+            ));
     }
+
     public function managementData () {
         $perPage = request('per_page', 10);
 
@@ -60,6 +84,5 @@ class AdminDashboardController extends Controller
             ->withQueryString();
         return view('admin.management-data', compact('persons'));
     }
-
     // public function paginationManagementData
 }

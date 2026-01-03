@@ -3,66 +3,198 @@
 
 @section('content')
 
-   {{-- @dd($statusStats) --}}
-   <p class="text-4xl font-bold mb-4">Dashboard</p>
-   <div x-data="{ state: 'none' }" class="lg:flex w-full lg:gap-5 h-full">
-      <div
-         class="flex overflow-x-auto lg:overflow-visible lg:grid lg:grid-cols-2 lg:grid-rows-2 lg:gap-9 gap-4 lg:w-[40%] lg:p-0 p-4 snap-x">
-         <button @@click="state = 'jumlah'" class="cursor-pxointer lg:shrink shrink-0 lg:w-auto w-64">
-            <x-card-box class="w-full transition-all duration-300 hover:-translate-y-2 hover:shadow-xl">
-               <div class="w-fit text-center mx-auto">
-                  <h1 class="font-bold text-xl mb-2">JUMLAH</h1>
-                  <canvas id="chart-jumlah" class="w-full"></canvas>
-               </div>
-            </x-card-box>
-         </button>
-         <button @@click="state = 'pendidikan'" class="cursor-pointer lg:shrink shrink-0 lg:w-auto w-64">
-            <x-card-box class="w-full transition-all duration-300 hover:-translate-y-2 hover:shadow-xl">
-               <div class="w-fit text-center mx-auto">
-                  <h1 class="font-bold text-xl mb-2">PENDIDIKAN</h1>
-                  <canvas id="chart-pendidikan" class="w-full"></canvas>
-               </div>
-            </x-card-box>
-         </button>
-         <button @@click="state = 'gender'" class="cursor-pointer lg:shrink shrink-0 lg:w-auto w-64">
-            <x-card-box class="w-full transition-all duration-300 hover:-translate-y-2 hover:shadow-xl">
-               <div class="w-fit text-center mx-auto">
-                  <h1 class="font-bold text-xl mb-2">JENIS KELAMIN</h1>
-                  <canvas id="chart-gender" class="w-full"></canvas>
-               </div>
-            </x-card-box>
-         </button>
-         <button @@click="state = 'status'" class="cursor-pointer lg:shrink shrink-0 lg:w-auto w-64">
-            <x-card-box class="w-full transition-all duration-300 hover:-translate-y-2 hover:shadow-xl">
-               <div class="w-fit text-center mx-auto">
-                  <h1 class="font-bold text-xl mb-2">STATUS</h1>
-                  <canvas id="chart-status" class="w-full"></canvas>
-               </div>
-            </x-card-box>
-         </button>
-      </div>
+   @php
+      $tombolPosisi = [
+          [
+              'label' => 'PLP',
+              'value' => '1',
+          ],
+          [
+              'label' => 'Tendik',
+              'value' => '2',
+          ],
+      ];
 
-      <x-card-box x-cloak x-show="state == 'none'" class="w-[60%]">
-         <div class="w-full h-full items-center flex justify-center">
-            <div class="text-center">
-               <h1 class="font-bold">Tidak Ada Data</h1>
-               <p class="">Silahkan pilih filtrasi berdasarkan grafik disamping!</p>
+      $tombolPendidikan = [
+          [
+              'label' => 'Sarjana',
+              'value' => '6',
+          ],
+          [
+              'label' => 'Magister',
+              'value' => '7',
+          ],
+          [
+              'label' => 'Doktor',
+              'value' => '8',
+          ],
+          [
+              'label' => 'Diploma 1',
+              'value' => '2',
+          ],
+          [
+              'label' => 'Diploma 2',
+              'value' => '3',
+          ],
+          [
+              'label' => 'Diploma 3',
+              'value' => '4',
+          ],
+          [
+              'label' => 'Diploma 4',
+              'value' => '5',
+          ],
+          [
+              'label' => 'SMA/Sederajat',
+              'value' => '1',
+          ],
+      ];
+
+      $tombolGender = [
+          [
+              'label' => 'Laki-Laki',
+              'value' => 'laki-laki',
+          ],
+          [
+              'label' => 'Perempuan',
+              'value' => 'perempuan',
+          ],
+      ];
+
+      $tombolStatus = [
+          [
+              'label' => 'Aktif',
+              'value' => '1',
+          ],
+          [
+              'label' => 'Tidak Aktif',
+              'value' => '0',
+          ],
+      ];
+   @endphp
+
+   {{-- @dd($statusStats) --}}
+   <p  class="font-poppins text-4xl font-bold mb-4">Dashboard</p>
+
+   <div x-data="{ 
+     state: '{{ request()->has('status') ? 'status' : (request()->has('gender') ? 'gender' : (request()->has('pendidikan') ? 'pendidikan' : (request()->has('jenisPosisi') ? 'jumlah' : 'none'))) }}'
+   }" class="w-full lg:gap-5 h-full">
+       <div
+            class="flex overflow-x-auto gap-4 px-4 pb-8 lg:grid lg:grid-cols-4 lg:gap-6">
+            <a href="{{ route('admin.dashboard', ['jenisPosisi' => 'jumlah']) }}" class="cursor-pointer lg:shrink shrink-0 lg:w-auto w-64">
+               <x-card-box class="w-full transition-all duration-300 hover:-translate-y-2 hover:shadow-xl">
+                  <div class="w-fit text-center mx-auto">
+                     <h1 class="font-bold text-xl mb-2">JUMLAH</h1>
+                     <canvas id="chart-jumlah" class="w-full"></canvas>
+                  </div>
+               </x-card-box>
+            </a>
+            <a href="{{ route('admin.dashboard', ['pendidikan' => 'pendidikan']) }}" class="cursor-pointer lg:shrink shrink-0 lg:w-auto w-64">
+               <x-card-box class="w-full transition-all duration-300 hover:-translate-y-2 hover:shadow-xl">
+                  <div class="w-fit text-center mx-auto">
+                     <h1 class="font-bold text-xl mb-2">PENDIDIKAN</h1>
+                     <canvas id="chart-pendidikan" class="w-full"></canvas>
+                  </div>
+               </x-card-box>
+            </a>
+            <a href="{{ route('admin.dashboard', ['gender' => 'gender']) }}" class="cursor-pointer lg:shrink shrink-0 lg:w-auto w-64">
+               <x-card-box class="w-full transition-all duration-300 hover:-translate-y-2 hover:shadow-xl">
+                  <div class="w-fit text-center mx-auto">
+                     <h1 class="font-bold text-xl mb-2">JENIS KELAMIN</h1>
+                     <canvas id="chart-gender" class="w-full"></canvas>
+                  </div>
+               </x-card-box>
+            </a>
+            <a href="{{ route('admin.dashboard', ['status' => 'status']) }}" class="cursor-pointer lg:shrink shrink-0 lg:w-auto w-64">
+               <x-card-box class="w-full transition-all duration-300 hover:-translate-y-2 hover:shadow-xl">
+                  <div class="w-fit text-center mx-auto">
+                     <h1 class="font-bold text-xl mb-2">STATUS</h1>
+                     <canvas id="chart-status" class="w-full"></canvas>
+                  </div>
+               </x-card-box>
+            </a>
+         </div>
+
+         <x-card-box x-cloak x-show="state == 'none'" class="h-fit bg-yellow-500">
+            <div class="w-full h-full">
+               <div class="text-center">
+                  <h1 class="font-bold">Tidak Ada Data</h1>
+                  <p class="">Silahkan pilih filtrasi berdasarkan grafik disamping!</p>
+               </div>
+            </div>
+         </x-card-box>
+         
+         <div x-cloak x-show="state != 'none'" class="w-full mb-4">
+            {{-- 1. Filter JUMLAH --}}
+            <div x-cloak x-show="state == 'jumlah'" class="flex text-white gap-2 mb-2" >
+               @foreach($tombolPosisi as $option)
+                  <a href="{{ route('admin.dashboard', ['jenisPosisi' => $option['value']]) }}">
+                     <x-button
+                     class="w-full items-center justify-center font-bold text-lg rounded-tl-2xl rounded-tr-2xl {{ request('jenisPosisi') == $option['value'] ? 'bg-dongker-sidilan' : 'bg-[#E0E0E0]' }}">
+                        {{ $option['label'] }}
+                     </x-button>
+                  </a>
+               @endforeach
+            </div>
+        
+            {{-- 2. Filter PENDIDIKAN --}}
+            <div x-cloak x-show="state == 'pendidikan'" class="text-white gap-2 flex mb-2" >
+               @foreach($tombolPendidikan as $option)
+                  <a href="{{ route('admin.dashboard', ['pendidikan' => $option['value']]) }}">
+                     <x-button
+                     class="h-full items-center justify-center font-bold text-lg rounded-tl-2xl rounded-tr-2xl {{ request('pendidikan') == $option['value'] ? 'bg-dongker-sidilan' : 'bg-[#E0E0E0]' }}">
+                        {{ $option['label'] }}
+                     </x-button>
+                  </a>
+               @endforeach
+            </div>
+        
+            {{-- 3. Filter GENDER --}}
+            <div x-cloak x-show="state == 'gender'" class="text-white gap-2 flex mb-2" >
+               @foreach($tombolGender as $option)
+                  <a href="{{ route('admin.dashboard', ['gender' => $option['value']]) }}">
+                     <x-button
+                     class="h-full items-center justify-center font-bold text-lg rounded-tl-2xl rounded-tr-2xl {{ request('gender') == $option['value'] ? 'bg-dongker-sidilan' : 'bg-[#E0E0E0]' }}">
+                        {{ $option['label'] }}
+                     </x-button>
+                  </a>
+               @endforeach
+            </div>
+        
+            {{-- 4. Filter STATUS --}}
+            <div x-cloak x-show="state == 'status'" class="text-white gap-2 flex mb-2" >
+               @foreach($tombolStatus as $option)
+                  <a href="{{ route('admin.dashboard', ['status' => $option['value']]) }}">
+                     <x-button
+                     class="h-full items-center justify-center font-bold text-lg rounded-tl-2xl rounded-tr-2xl {{ request('status') == $option['value'] ? 'bg-dongker-sidilan' : 'bg-[#E0E0E0]' }}">
+                        {{ $option['label'] }}
+                     </x-button>
+                  </a>
+               @endforeach
             </div>
          </div>
-      </x-card-box>
+         
+         <div class=" h-auto">
+            @forelse ($persons as $person)
+               <x-person-card :person="$person"></x-person-card>
+            @empty
+               <x-card-box class="h-full ">
+                  <div class="w-full h-full items-center flex justify-center">
+                     <div class="text-center grow">
+                        <h1 class="font-bold">Tidak Ada Data</h1>
+                     </div>
+                  </div>
+               </x-card-box>
+            @endforelse
+         </div>
 
-      <div x-cloak x-show="state != 'none'" class="animate-blur-in w-[60%]">
-         <x-card-box class="mb-9">
-            <canvas></canvas>
-         </x-card-box>
+         <div>
+            <x-bottom-pagination :paginator="$persons" />
+         </div>
       </div>
-
-
 
 
    </div>
-
-   <!-- Jika data kosong -->
 @endsection
 
 @section('script')
@@ -270,7 +402,6 @@
          })
       }
 
-
       document.addEventListener("DOMContentLoaded", function() {
          initChartJumlah();
          initChartPendidikan();
@@ -279,4 +410,3 @@
       });
    </script>
 @endsection
-

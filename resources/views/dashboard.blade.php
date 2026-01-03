@@ -6,7 +6,7 @@
    {{-- @dd($statusStats) --}}
    <div x-data="{ state: 'none' }" class="lg:flex w-full lg:gap-5 h-full">
       <div
-         class="flex overflow-x-auto lg:overflow-visible lg:grid lg:grid-cols-2 lg:grid-rows-2 lg:gap-9 gap-4 lg:w-[40%] lg:p-0 p-4 snap-x">
+         class="flex overflow-x-auto lg:pb-8 lg:overflow-visible lg:grid lg:grid-cols-2 lg:grid-rows-2 lg:gap-9 gap-4 lg:w-[40%] lg:p-0 p-4 snap-x">
          <button @@click="state = 'jumlah'" class="cursor-pointer lg:shrink shrink-0 lg:w-auto w-64">
             <x-card-box class="w-full transition-all duration-300 hover:-translate-y-2 hover:shadow-xl">
                <div class="w-fit text-center mx-auto">
