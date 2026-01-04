@@ -2,18 +2,11 @@
     x-show="showModal"
     x-cloak
     x-transition.opacity
-    class="fixed inset-0 z-50 flex items-center justify-center"
+    class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm"
 >
-    <!-- BACKDROP -->
-    <div
-        class="absolute inset-0 bg-transparent backdrop-blur-sm"
-        @click="showModal = false"
-    ></div>
-
-    <!-- MODAL BOX -->
     <div
         {{ $attributes->merge([
-            'class' => 'relative bg-white rounded-xl shadow-xl max-w-[400px] w-full h-fit p-6 mx-4 z-10'
+            'class' => 'bg-white rounded-xl shadow-xl max-w-[400px] w-full h-fit p-6 z-10'
         ]) }}
         x-transition.scale
     >
@@ -46,11 +39,15 @@
                 Batal
             </x-button>
 
-            <form class="w-1/2" :action="deleteUrl" method="POST">
+            <form
+                class="w-1/2" :action="deleteUrl" method="POST">
                 @csrf
                 @method('DELETE')
 
                 <x-button
+                    @click="
+                        showModal = false;
+                        showConfirm = true"
                     type="submit"
                     class="w-full px-2 py-3 rounded-md bg-success text-white"
                 >
@@ -58,5 +55,6 @@
                 </x-button>
             </form>
         </div>
-    </div>
+    </div> 
+    {{-- <x-success-modal /> --}}
 </div>

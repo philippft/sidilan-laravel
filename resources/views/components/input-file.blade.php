@@ -1,70 +1,37 @@
-@props([
-    'name',           // Nama input (wajib, misal: 'foto', 'ktp')
-    'label',          // Label teks (wajib)
-    'preview' => null // URL foto lama (opsional, untuk edit)
-])
+@props(['id', 'name', 'label' => 'Pilih File', 'value' => null])
 
-<div x-data="{
-        imageUrl: @js($preview), // Mengambil data prop preview dengan aman
-
-        fileChosen(event) {
-            let file = event.target.files[0];
-            if (file) {
-                let reader = new FileReader();
-                reader.onload = (e) => {
-                    this.imageUrl = e.target.result;
-                };
-                reader.readAsDataURL(file);
-            }
-        },
-        removeImage() {
-            this.imageUrl = null;
-            this.$refs.input.value = ''; // Reset input file menggunakan $refs
-        }
-    }" 
-    class="w-full mb-6">
-
-    <label class="block text-sm font-bold text-gray-700 mb-2">
-        {{ $slot }}
-    </label>
-
-    <div class="relative w-full h-64">
+<div class="flex flex-col items-center justify-center gap-2" 
+     x-data="{ 
+        imageUrl: '{{ $value ? asset('storage/person_images/' . $value) : '' }}',
         
-        <div x-show="!imageUrl" 
-             @click="$refs.input.click()"
-             class="flex flex-col items-center justify-center w-full h-full border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100 transition duration-300">
-            
-            <div class="flex flex-col items-center justify-center pt-5 pb-6">
-                <svg class="w-10 h-10 mb-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
-                </svg>
-                <p class="mb-2 text-sm text-gray-500"><span class="font-semibold">Klik untuk upload</span></p>
-                <p class="text-xs text-gray-500">PNG, JPG (Max. 2MB)</p>
-            </div>
-        </div>
+        fileChosen(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = e => this.imageUrl = e.target.result;
+        }
+     }">
+    
+    <div class="w-40 h-40 bg-gray-200 rounded-3xl overflow-hidden flex items-center justify-center shadow-inner border-2 border-gray-300">
+        <template x-if="imageUrl">
+            <img :src="imageUrl" class="w-full h-full object-cover">
+        </template>
 
-        <div x-show="imageUrl" style="display: none;" class="relative w-full h-full rounded-lg overflow-hidden group">
-            <img :src="imageUrl" class="w-full h-full object-cover" alt="Preview">
-            
-            <div class="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition duration-300">
-                <button type="button" 
-                        @click="removeImage()" 
-                        class="bg-red-500 text-white px-4 py-2 rounded-lg text-sm hover:bg-red-600 shadow-lg transition transform hover:scale-105">
-                    Hapus / Ganti
-                </button>
+        <template x-if="!imageUrl">
+            <div class="text-center p-4">
+                <svg class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48">
+                    <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+                <p class="mt-1 text-xs text-gray-500">Belum ada foto</p>
             </div>
-        </div>
+        </template>
     </div>
 
-    <input x-ref="input"
-           id="{{ $name }}"
-           name="{{ $name }}" 
-           type="file" 
-           class="hidden" 
-           accept="image/*"
-           @change="fileChosen($event)">
+    <label for="{{ $id }}" class="cursor-pointer w-full bg-[#FBB03B] hover:bg-[#e5a035] text-center lg:text-2xl text-base text-white lg:font-bold font-semibold lg:py-4 py-2 lg:px-10 px-5 rounded-md shadow-md">
+        {{ $label }}
+    </label>
 
-    @error($name)
-        <p class="mt-2 text-sm text-red-600 font-medium">{{ $message }}</p>
-    @enderror
+
+    <input class="hidden" id="{{ $id }}" name="{{ $name }}" type="file" accept="image/*" @change="fileChosen">
 </div>

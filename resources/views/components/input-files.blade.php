@@ -2,7 +2,6 @@
 
 <div class="flex flex-col items-center justify-center gap-2" 
      x-data="{ 
-        {{-- Jika ada value (path foto), tampilkan. Jika tidak, kosongkan --}}
         imageUrl: '{{ $value ? asset('storage/person_images/' . $value) : '' }}',
         
         fileChosen(event) {
@@ -15,12 +14,10 @@
      }">
     
     <div class="w-40 h-40 bg-gray-200 rounded-3xl overflow-hidden flex items-center justify-center shadow-inner border-2 border-gray-300">
-        {{-- Tampilkan Gambar jika imageUrl ada --}}
         <template x-if="imageUrl">
             <img :src="imageUrl" class="w-full h-full object-cover">
         </template>
-        
-        {{-- Tampilkan Icon Placeholder jika imageUrl kosong --}}
+
         <template x-if="!imageUrl">
             <div class="text-center p-4">
                 <svg class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48">
@@ -31,18 +28,10 @@
         </template>
     </div>
 
-    <label for="{{ $id }}" class="cursor-pointer w-full bg-[#FBB03B] hover:bg-[#e5a035] text-center lg:text-2xl text-base text-white lg:font-bold font-semibold lg:py-4 py-2 lg:px-10 px-5 rounded-md transition-all shadow-md active:scale-95">
+    <label for="{{ $id }}" class="cursor-pointer w-full bg-[#FBB03B] hover:bg-[#e5a035] text-center lg:text-2xl text-base text-white lg:font-bold font-semibold lg:py-4 py-2 lg:px-10 px-5 rounded-md shadow-md">
         {{ $label }}
     </label>
 
-    {{-- <input 
-        type="file" 
-        id="{{ $id }}" 
-        name="{{ $name }}" 
-        class="hidden" 
-        accept="image/*"
-        @change="fileChosen"
-    > --}}
 
     <input class="hidden" id="{{ $id }}" name="{{ $name }}" type="file" accept="image/*" @change="fileChosen">
 </div>
