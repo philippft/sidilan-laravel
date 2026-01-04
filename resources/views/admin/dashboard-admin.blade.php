@@ -78,9 +78,9 @@
 
    <div x-data="{ 
      state: '{{ request()->has('status') ? 'status' : (request()->has('gender') ? 'gender' : (request()->has('pendidikan') ? 'pendidikan' : (request()->has('jenisPosisi') ? 'jumlah' : 'none'))) }}'
-   }" class="w-full lg:gap-5 h-full">
+   }" class="w-full flex flex-col lg:gap-5 h-screen">
        <div
-            class="flex overflow-x-auto gap-4 px-4 pb-8 lg:grid lg:grid-cols-4 lg:gap-6">
+            class="flex shrink-0 overflow-x-auto gap-4 px-4 pb-8 lg:grid lg:grid-cols-4 lg:gap-6">
             <a href="{{ route('admin.dashboard', ['jenisPosisi' => 'jumlah']) }}" class="cursor-pointer lg:shrink shrink-0 lg:w-auto w-64">
                <x-card-box class="w-full transition-all duration-300 hover:-translate-y-2 hover:shadow-xl">
                   <div class="w-fit text-center mx-auto">
@@ -115,22 +115,22 @@
             </a>
          </div>
 
-         <x-card-box x-cloak x-show="state == 'none'" class="h-fit bg-yellow-500">
-            <div class="w-full h-full">
-               <div class="text-center">
+         <x-card-box x-cloak x-show="state == 'none'" class="grow">
+            <div class="w-full h-full flex justify-center items-center">
+               <div class="text-center grow">
                   <h1 class="font-bold">Tidak Ada Data</h1>
-                  <p class="">Silahkan pilih filtrasi berdasarkan grafik disamping!</p>
+                  <p class="">Silahkan pilih filtrasi berdasarkan grafik diatas!</p>
                </div>
             </div>
          </x-card-box>
          
-         <div x-cloak x-show="state != 'none'" class="w-full mb-4">
+         <div x-cloak x-show="state != 'none'" class="w-full mb-4 flex flex-col">
             {{-- 1. Filter JUMLAH --}}
             <div x-cloak x-show="state == 'jumlah'" class="flex text-white gap-2 mb-2" >
                @foreach($tombolPosisi as $option)
                   <a href="{{ route('admin.dashboard', ['jenisPosisi' => $option['value']]) }}">
                      <x-button
-                     class="w-full items-center justify-center font-bold text-lg rounded-tl-2xl rounded-tr-2xl {{ request('jenisPosisi') == $option['value'] ? 'bg-dongker-sidilan' : 'bg-[#E0E0E0]' }}">
+                     class="w-full h-full px-4 py-4 items-center justify-center font-bold text-lg rounded-tl-2xl rounded-tr-2xl {{ request('jenisPosisi') == $option['value'] ? 'bg-dongker-sidilan' : 'bg-[#E0E0E0]' }}">
                         {{ $option['label'] }}
                      </x-button>
                   </a>
@@ -142,7 +142,7 @@
                @foreach($tombolPendidikan as $option)
                   <a href="{{ route('admin.dashboard', ['pendidikan' => $option['value']]) }}">
                      <x-button
-                     class="h-full items-center justify-center font-bold text-lg rounded-tl-2xl rounded-tr-2xl {{ request('pendidikan') == $option['value'] ? 'bg-dongker-sidilan' : 'bg-[#E0E0E0]' }}">
+                     class="w-full h-full px-4 py-4 items-center justify-center font-bold text-lg rounded-tl-2xl rounded-tr-2xl {{ request('pendidikan') == $option['value'] ? 'bg-dongker-sidilan' : 'bg-[#E0E0E0]' }}">
                         {{ $option['label'] }}
                      </x-button>
                   </a>
@@ -154,7 +154,7 @@
                @foreach($tombolGender as $option)
                   <a href="{{ route('admin.dashboard', ['gender' => $option['value']]) }}">
                      <x-button
-                     class="h-full items-center justify-center font-bold text-lg rounded-tl-2xl rounded-tr-2xl {{ request('gender') == $option['value'] ? 'bg-dongker-sidilan' : 'bg-[#E0E0E0]' }}">
+                     class="w-full h-full px-4 py-4 items-center justify-center font-bold text-lg rounded-tl-2xl rounded-tr-2xl {{ request('gender') == $option['value'] ? 'bg-dongker-sidilan' : 'bg-[#E0E0E0]' }}">
                         {{ $option['label'] }}
                      </x-button>
                   </a>
@@ -166,33 +166,33 @@
                @foreach($tombolStatus as $option)
                   <a href="{{ route('admin.dashboard', ['status' => $option['value']]) }}">
                      <x-button
-                     class="h-full items-center justify-center font-bold text-lg rounded-tl-2xl rounded-tr-2xl {{ request('status') == $option['value'] ? 'bg-dongker-sidilan' : 'bg-[#E0E0E0]' }}">
+                     class="w-full h-full px-4 py-4 items-center justify-center font-bold text-lg rounded-tl-2xl rounded-tr-2xl {{ request('status') == $option['value'] ? 'bg-dongker-sidilan' : 'bg-[#E0E0E0]' }}">
                         {{ $option['label'] }}
                      </x-button>
                   </a>
-               @endforeach
+                  @endforeach
+               </div>
+
+               <div class="grow">
+                  @forelse ($persons as $person)
+                     <x-person-card :person="$person"></x-person-card>
+                  @empty
+                     <x-card-box class="h-full">
+                        <div class="w-full h-full items-center flex justify-center">
+                           <div class="text-center">
+                              <h1 class="font-bold">Tidak Ada Data</h1>
+                              <p class="">Silahkan pilih filtrasi berdasarkan kategori!</p>
+                           </div>
+                        </div>
+                     </x-card-box>
+                  @endforelse
+               </div>
+               
+               {{-- PAGINATION --}}
+               <x-pagination :data="$persons"/>
+               
             </div>
-         </div>
-         
-         <div class=" h-auto">
-            @forelse ($persons as $person)
-               <x-person-card :person="$person"></x-person-card>
-            @empty
-               <x-card-box class="h-full ">
-                  <div class="w-full h-full items-center flex justify-center">
-                     <div class="text-center grow">
-                        <h1 class="font-bold">Tidak Ada Data</h1>
-                     </div>
-                  </div>
-               </x-card-box>
-            @endforelse
-         </div>
-
-         <div>
-            <x-bottom-pagination :paginator="$persons" />
-         </div>
       </div>
-
 
    </div>
 @endsection

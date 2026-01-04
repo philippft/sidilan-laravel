@@ -12,25 +12,24 @@ use Illuminate\Http\Request;
 class AdminDashboardController extends Controller
 {
     public function index (Request $request) {
-        $query = Person::query();
+
+            $query = Person::with(['education', 'position', 'position_type']);
 
             $query->when($request->filled('gender'), function ($q) use ($request) {
-                $q->where('gender', $request->gender)->paginate(10);
+                $q->where('gender', $request->gender);
             });
 
             $query->when($request->filled('status'), function ($q) use ($request) {
-                $q->where('is_active', $request->status)->paginate(10);
+                $q->where('is_active', $request->status);
             });
             
             $query->when($request->filled('jenisPosisi'), function ($q) use ($request) {
-                $q->where('position_type_id', $request->jenisPosisi)->paginate(10);
+                $q->where('position_type_id', $request->jenisPosisi);
             });
             
             $query->when($request->filled('pendidikan'), function ($q) use ($request) {
-                $q->where('education_id', $request->pendidikan)->paginate(10);
+                $q->where('education_id', $request->pendidikan);
             });
-
-            $persons = $query->with(['education', 'position', 'position_type'])->get();
 
             //jenis kelamin
             $genderStats = Person::select('gender', DB::raw('count(*) as total'))
@@ -53,6 +52,7 @@ class AdminDashboardController extends Controller
             ->groupBy('educations.id', 'educations.name')
             ->get();
             //total
+            $persons = $query->paginate(8)->withQueryString();
             $totalPersons = Person::count();
 
             return view('admin.dashboard-admin', compact(
