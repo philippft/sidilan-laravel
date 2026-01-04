@@ -1,12 +1,12 @@
 @extends('layouts.main-layout')
-@section('title', 'Tenaga Pendidik')
+@section('title', 'Dashboard')
 
 @section('content')
 
-   {{-- @dd($tenagaPendidik) --}}
+   {{-- @dd($plpTeknisiLab) --}}
    <div class="flex justify-between mb-6">
       <div>
-         <h1 class="text-2xl font-bold">Data Tenaga Pendidik</h1>
+         <h1 class="text-2xl font-bold">PLP dan Teknisi Laboratorium</h1>
          <form method="GET" class="mt-3 flex items-center gap-2 font-medium text-sm text-black">
             <label for="per_page">Tampilkan</label>
             <select name="per_page" id="per_page" onchange="this.form.submit()" class="border px-1 py-0.5 focus:outline-none">
@@ -23,8 +23,8 @@
    </div>
 
    {{-- LIST --}}
-   @if ($tenagaPendidik->count())
-      @foreach ($tenagaPendidik as $item)
+   @if ($plpTeknisiLab->count())
+      @foreach ($plpTeknisiLab as $item)
          <div
             class="bg-white w-full text-base text-black h-19 rounded-xl shadow-lg px-5 py-3 mt-4 flex justify-between items-center">
             <div class="flex items-center justify-between w-full">
@@ -40,13 +40,15 @@
                   </div>
                </div>
                {{-- eee ini aku ada tambahin a biar bisa href, ini buat test controller aja, bisa di ganti nnati -philip --}}
-               <a href="{{ route('user.tenaga-pendidik.detailed-info', $item) }}">
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                     stroke="currentColor" class="size-6">
-                     <path stroke-linecap="round" stroke-linejoin="round"
-                        d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
-                     <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-                  </svg>
+               <a href="{{ route('user.plp-teknisi.detailed-info', $item) }}">
+                  <x-button>
+                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                        stroke="currentColor" class="size-6">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                           d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                     </svg>
+                  </x-button>
                </a>
 
             </div>
@@ -59,6 +61,6 @@
    @endif
 
    {{-- PAGINATION --}}
-   <x-pagination :data="$tenagaPendidik" />
+   <x-pagination :data="$plpTeknisiLab" />
 
 @endsection
