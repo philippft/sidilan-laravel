@@ -28,7 +28,7 @@ class UserDashboardController extends Controller
                 $q->where('position_type_id', $request->jenisPosisi);
             });
 
-            $persons = $query->with(['education', 'position', 'position_type'])->get();
+            $persons = $query->with(['education', 'position', 'position_type'])->paginate(7)->withQueryString();
             // dd($persons);
 
             //jenis kelamin
