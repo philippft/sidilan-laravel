@@ -42,7 +42,7 @@
                         <p class="text-sm mt-1"> {{ $item->position->name ?? '-' }}</p>
                     </div>
                 </div>
-                {{-- eee ini aku ada tambahin a biar bisa href, ini buat test controller aja, bisa di ganti nnati -philip) --}}
+                {{-- eee ini aku ada tambahin a biar bisa href, ini buat test controller aja, bisa di ganti nnati -philip --}}
                 <a href="{{ route('user.plp-teknisi.detailed-info', $item) }}">
                     <x-button>
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">

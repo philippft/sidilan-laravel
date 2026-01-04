@@ -47,6 +47,8 @@
                     </svg>
                 </x-button>
             </a>
+        @else
+            <div class="h-9 w-9"></div>
         @endif
     </div>
 </div>
