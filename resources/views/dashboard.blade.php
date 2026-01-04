@@ -3,45 +3,118 @@
 
 @section('content')
 
+   @php
+      $tombolPosisi = [
+          [
+              'label' => 'PLP',
+              'value' => '1',
+          ],
+          [
+              'label' => 'Tendik',
+              'value' => '2',
+          ],
+      ];
+
+      $tombolPendidikan = [
+          [
+              'label' => 'Sarjana',
+              'value' => '6',
+          ],
+          [
+              'label' => 'Magister',
+              'value' => '7',
+          ],
+          [
+              'label' => 'Doktor',
+              'value' => '8',
+          ],
+          [
+              'label' => 'Diploma 1',
+              'value' => '2',
+          ],
+          [
+              'label' => 'Diploma 2',
+              'value' => '3',
+          ],
+          [
+              'label' => 'Diploma 3',
+              'value' => '4',
+          ],
+          [
+              'label' => 'Diploma 4',
+              'value' => '5',
+          ],
+          [
+              'label' => 'SMA/Sederajat',
+              'value' => '1',
+          ],
+      ];
+
+      $tombolGender = [
+          [
+              'label' => 'Laki-Laki',
+              'value' => 'laki-laki',
+          ],
+          [
+              'label' => 'Perempuan',
+              'value' => 'perempuan',
+          ],
+      ];
+
+      $tombolStatus = [
+          [
+              'label' => 'Aktif',
+              'value' => '1',
+          ],
+          [
+              'label' => 'Tidak Aktif',
+              'value' => '0',
+          ],
+      ];
+   @endphp
    {{-- @dd($statusStats) --}}
-   <div x-data="{ state: 'none' }" class="lg:flex w-full lg:gap-5 h-full">
+   <div x-data="{
+       state: '{{ request()->has('status') ? 'status' : (request()->has('gender') ? 'gender' : (request()->has('pendidikan') ? 'pendidikan' : (request()->has('jenisPosisi') ? 'jumlah' : 'none'))) }}'
+   }" class="lg:flex w-full lg:gap-5 h-full min-h-screen">
       <div
-         class="flex overflow-x-auto lg:overflow-visible lg:grid lg:grid-cols-2 lg:grid-rows-2 lg:gap-9 gap-4 lg:w-[40%] lg:p-0 p-4 snap-x">
-         <button @@click="state = 'jumlah'" class="cursor-pointer lg:shrink shrink-0 lg:w-auto w-64">
-            <x-card-box class="w-full transition-all duration-300 hover:-translate-y-2 hover:shadow-xl">
+         class="flex overflow-x-auto lg:overflow-visible lg:grid lg:grid-cols-2 lg:grid-rows-2 lg:gap-9 gap-4 lg:w-[40%] lg:p-0 p-4 snap-x items-center shrink-0">
+         <a href="{{ route('user.dashboard', ['jenisPosisi' => '1']) }}"
+            class="cursor-pointer lg:shrink shrink-0 lg:w-auto w-64 block">
+            <x-card-box class="w-full ">
                <div class="w-fit text-center mx-auto">
                   <h1 class="font-bold text-xl mb-2">JUMLAH</h1>
                   <canvas id="chart-jumlah" class="w-full"></canvas>
                </div>
             </x-card-box>
-         </button>
-         <button @@click="state = 'pendidikan'" class="cursor-pointer lg:shrink shrink-0 lg:w-auto w-64">
-            <x-card-box class="w-full transition-all duration-300 hover:-translate-y-2 hover:shadow-xl">
+         </a>
+         <a href="{{ route('user.dashboard', ['pendidikan' => '6']) }}"
+            class="cursor-pointer lg:shrink shrink-0 lg:w-auto w-64 block">
+            <x-card-box class="w-full ">
                <div class="w-fit text-center mx-auto">
                   <h1 class="font-bold text-xl mb-2">PENDIDIKAN</h1>
                   <canvas id="chart-pendidikan" class="w-full"></canvas>
                </div>
             </x-card-box>
-         </button>
-         <button @@click="state = 'gender'" class="cursor-pointer lg:shrink shrink-0 lg:w-auto w-64">
-            <x-card-box class="w-full transition-all duration-300 hover:-translate-y-2 hover:shadow-xl">
+         </a>
+         <a href="{{ route('user.dashboard', ['gender' => 'laki-laki']) }}">
+            <x-card-box class="w-full ">
                <div class="w-fit text-center mx-auto">
                   <h1 class="font-bold text-xl mb-2">JENIS KELAMIN</h1>
                   <canvas id="chart-gender" class="w-full"></canvas>
                </div>
             </x-card-box>
-         </button>
-         <button @@click="state = 'status'" class="cursor-pointer lg:shrink shrink-0 lg:w-auto w-64">
-            <x-card-box class="w-full transition-all duration-300 hover:-translate-y-2 hover:shadow-xl">
+         </a>
+         <a href="{{ route('user.dashboard', ['status' => '1']) }}">
+            <x-card-box class="w-full ">
                <div class="w-fit text-center mx-auto">
                   <h1 class="font-bold text-xl mb-2">STATUS</h1>
                   <canvas id="chart-status" class="w-full"></canvas>
                </div>
             </x-card-box>
-         </button>
+         </a>
       </div>
 
-      <x-card-box x-cloak x-show="state == 'none'" class="w-[60%]">
+      <x-card-box x-cloak x-show="state == 'none'" class="w-[60%] " animasi="animate-blur-in">
          <div class="w-full h-full items-center flex justify-center">
             <div class="text-center">
                <h1 class="font-bold">Tidak Ada Data</h1>
@@ -50,25 +123,76 @@
          </div>
       </x-card-box>
 
-      <div x-cloak x-show="state != 'none'" class="animate-blur-in w-[60%] my-3">
-         <div class="text-white gap-2 flex mb-2">
-            <x-button class="rounded-full bg-dongker-sidilan px-6 py-3">
-               Laki-Laki
-            </x-button>
-            <x-button class="rounded-full bg-[#E0E0E0] px-6 py-3">
-               Perempuan
-            </x-button>
+
+      <div x-cloak x-show="state != 'none'" class=" w-[60%] my-3 h-auto animate-blur-in">
+         {{-- Jumlah Button --}}
+         <div x-cloak x-show="state == 'jumlah'" class="text-white gap-2 flex mb-2">
+            @foreach ($tombolPosisi as $tombol)
+               <a href="{{ route('user.dashboard', ['jenisPosisi' => $tombol['value']]) }}">
+                  <x-button
+                     class="rounded-full px-6 py-3 {{ request('jenisPosisi') == $tombol['value'] ? 'bg-dongker-sidilan' : 'bg-[#E0E0E0]' }}">
+                     {{ $tombol['label'] }}
+                  </x-button>
+               </a>
+            @endforeach
          </div>
 
-         <x-card-box>
-            {{-- @dd($genderStats) --}}
+         {{-- Pendidikan Button --}}
+         <div x-cloak x-show="state == 'pendidikan'" class="text-white gap-2 flex mb-2 overflow-x-auto no-scrollbar">
+            @foreach ($tombolPendidikan as $tombol)
+               <a href="{{ route('user.dashboard', ['pendidikan' => $tombol['value']]) }}" class="block shrink-0">
+                  <x-button
+                     class="rounded-full px-6 py-3 {{ request('pendidikan') == $tombol['value'] ? 'bg-dongker-sidilan' : 'bg-[#E0E0E0]' }}">
+                     {{ $tombol['label'] }}
+                  </x-button>
+               </a>
+            @endforeach
+         </div>
 
-         </x-card-box>
+         {{-- Gender Button --}}
+         <div x-cloak x-show="state == 'gender'" class="text-white gap-2 flex mb-2">
+            @foreach ($tombolGender as $tombol)
+               <a href="{{ route('user.dashboard', ['gender' => $tombol['value']]) }}">
+                  <x-button
+                     class="rounded-full px-6 py-3 {{ request('gender') == $tombol['value'] ? 'bg-dongker-sidilan' : 'bg-[#E0E0E0]' }}">
+                     {{ $tombol['label'] }}
+                  </x-button>
+               </a>
+            @endforeach
+         </div>
+
+         {{-- Status Button --}}
+         <div x-cloak x-show="state == 'status'" class="text-white gap-2 flex mb-2">
+            @foreach ($tombolStatus as $tombol)
+               <a href="{{ route('user.dashboard', ['status' => $tombol['value']]) }}">
+                  <x-button
+                     class="rounded-full px-6 py-3 {{ request('status') == $tombol['value'] ? 'bg-dongker-sidilan' : 'bg-[#E0E0E0]' }}">
+                     {{ $tombol['label'] }}
+                  </x-button>
+               </a>
+            @endforeach
+         </div>
+
+         <div class="max-h-screen h-auto">
+            @forelse ($persons as $person)
+               <x-card-box class="h-full">
+                  <div>
+                     <h1 class="font-bold">{{ $person->full_name }}</h1>
+                     <p>{{ $person->position->name }}</p>
+                  </div>
+
+               </x-card-box>
+            @empty
+               <x-card-box class="h-full ">
+                  <div class="w-full h-full items-center flex justify-center">
+                     <div class="text-center grow">
+                        <h1 class="font-bold">Tidak Ada Data</h1>
+                     </div>
+                  </div>
+               </x-card-box>
+            @endforelse
+         </div>
       </div>
-
-
-
-
    </div>
 
    <!-- Jika data kosong -->

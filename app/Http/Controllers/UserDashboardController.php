@@ -8,8 +8,29 @@ use App\Models\Person;
 
 class UserDashboardController extends Controller
 {
-    public function index () {
-            $persons = Person::all();
+    public function index (Request $request) {
+            // $persons = Person::all();
+            $query = Person::query();
+
+            $query->when($request->filled('gender'), function ($q) use ($request) {
+                $q->where('gender', $request->gender);
+            });
+            
+            $query->when($request->filled('status'), function ($q) use ($request) {
+                $q->where('is_active', $request->status);
+            });
+
+            $query->when($request->filled('pendidikan'), function ($q) use ($request) {
+                $q->where('education_id', $request->pendidikan);
+            });
+
+            $query->when($request->filled('jenisPosisi'), function ($q) use ($request) {
+                $q->where('position_type_id', $request->jenisPosisi);
+            });
+
+            $persons = $query->with(['education', 'position', 'position_type'])->get();
+            // dd($persons);
+
             //jenis kelamin
             $genderStats = Person::select('gender', DB::raw('count(*) as total'))
             ->groupBy('gender')
@@ -32,7 +53,7 @@ class UserDashboardController extends Controller
             ->get();
             //total
             $totalPersons = Person::count();
-            dd($persons);
+            // dd($persons);
 
         return view('dashboard', compact(
             'persons', 
