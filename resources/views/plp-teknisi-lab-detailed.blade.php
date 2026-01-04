@@ -4,8 +4,6 @@
 @section('content')
 
 <div class="flex flex-col min-h-screen gap-4 px-2 md:px-0">
-
-    {{-- Tombol back ke daftar --}}
     <a href="{{ route('user.plp-teknisi') }}">
         <x-button class="bg-dongker-sidilan p-2 text-white rounded-full">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
@@ -14,10 +12,8 @@
         </x-button>
     </a>
 
-    {{-- Container utama card + tombol --}}
     <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 w-full">
-
-        {{-- Tombol prev desktop --}}
+        <!-- dekstop -->
         @if($prevPerson)
         <a href="{{ route('user.plp-teknisi.detailed-info', $prevPerson) }}" class="hidden md:flex md:self-center">
             <x-button class="bg-dongker-sidilan p-2 text-white rounded-full">
@@ -31,15 +27,11 @@
         <div class="hidden md:block h-9 w-9"></div>
         @endif
 
-        {{-- Card + tombol mobile --}}
         <div class="flex flex-col items-center w-full max-w-md">
-
             <x-profile-photo :value="$detailPerson->photo" size="200"/>
-
             <div class="bg-white w-fit rounded-3xl font-bold px-3 py-2 border-abu-sidilan border mb-4 mx-auto">
                 <h2 class="text-center text-base md:text-xl">{{ $detailPerson->full_name }}</h2>
             </div>
-
             <x-card-box class="space-y-2 bg-white w-full border border-abu-sidilan font-medium text-base md:text-xl">  
                 <div class="my-7 mx-9 space-y-4">
                     <p>NIP: {{ $detailPerson->nip }}</p>
@@ -50,7 +42,7 @@
                 </div>           
             </x-card-box>
 
-            {{-- Tombol prev & next mobile --}}
+            <!-- mobile -->
             <div class="flex justify-between w-full mt-4 md:hidden">
                 @if($prevPerson)
                 <a href="{{ route('user.plp-teknisi.detailed-info', $prevPerson) }}">
@@ -80,10 +72,9 @@
                 <div class="h-9 w-9"></div>
                 @endif
             </div>
-
         </div>
 
-        {{-- Tombol next desktop --}}
+        <!-- dekstop -->
         @if($nextPerson)
         <a href="{{ route('user.plp-teknisi.detailed-info', $nextPerson) }}" class="hidden md:flex md:self-center">
             <x-button class="bg-dongker-sidilan p-2 text-white rounded-full">
@@ -97,7 +88,6 @@
         @else
         <div class="hidden md:block h-9 w-9"></div>
         @endif
-
     </div>
 </div>
 
