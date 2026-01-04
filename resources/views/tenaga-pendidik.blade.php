@@ -3,11 +3,11 @@
 
 @section('content')
 
-   {{-- @dd($tenagaPendidik) --}}
-   <div class="flex justify-between mb-6">
-      <div>
-         <h1 class="text-2xl font-bold">Data Tenaga Pendidik</h1>
-         <form method="GET" class="mt-3 flex items-center gap-2 font-medium text-sm text-black">
+{{-- @dd($tenagaPendidik) --}}
+<div class="flex-col md:flex-row flex justify-between">
+    <div>
+        <h1 class="text-2xl font-bold">Data Tenaga Pendidik</h1>
+        <form method="GET" class="mt-3 flex items-center gap-2 font-medium text-sm text-black">
             <label for="per_page">Tampilkan</label>
             <select name="per_page" id="per_page" onchange="this.form.submit()" class="border px-1 py-0.5 focus:outline-none">
                @foreach ([2, 10, 25, 50] as $size)
@@ -17,10 +17,10 @@
                @endforeach
             </select>
             <span>entri</span>
-         </form>
-      </div>
-      <x-search-bar />
-   </div>
+        </form>
+    </div>
+    <x-search-bar/>
+</div>
 
    {{-- LIST --}}
    @if ($tenagaPendidik->count())

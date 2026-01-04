@@ -3,7 +3,7 @@
 
 @section('content')
 
-<div class="flex flex-col min-h-screen">
+<div class="flex flex-col min-h-screen gap-4 px-2 md:px-0">
     <a href="{{ route('user.plp-teknisi') }}">
         <x-button class="bg-dongker-sidilan p-2 text-white rounded-full">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
@@ -11,44 +11,82 @@
             </svg>
         </x-button>
     </a>
-    <div class="my-auto flex justify-between items-center">
+
+    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 w-full">
+        <!-- dekstop -->
         @if($prevPerson)
-        <!-- tombol kembali -->
-            <a href="{{ route('user.plp-teknisi.detailed-info', $prevPerson) }}">
-                <x-button class="bg-dongker-sidilan p-2 text-white rounded-full">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
-                    </svg>
-                </x-button>
-            </a>
+        <a href="{{ route('user.plp-teknisi.detailed-info', $prevPerson) }}" class="hidden md:flex md:self-center">
+            <x-button class="bg-dongker-sidilan p-2 text-white rounded-full">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                     stroke-width="1.5" stroke="currentColor" class="size-5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
+                </svg>
+            </x-button>
+        </a>
         @else
-            <div class="h-9 w-9"></div>
+        <div class="hidden md:block h-9 w-9"></div>
         @endif
-        <div>
-            <!-- detail data -->
+
+        <div class="flex flex-col items-center w-full max-w-md">
             <x-profile-photo :value="$detailPerson->photo" size="200"/>
             <div class="bg-white w-fit rounded-3xl font-bold px-3 py-2 border-abu-sidilan border mb-4 mx-auto">
-                <h2 class="text-center">{{ $detailPerson->full_name }}</h2>
+                <h2 class="text-center text-base md:text-xl">{{ $detailPerson->full_name }}</h2>
             </div>
-            <x-card-box class="py-6 px-7 space-y-2 bg-white w-120 border border-abu-sidilan font-medium">             
-                <p>NIP: {{ $detailPerson->nip }}</p>
-                <p>Jabatan: {{ $detailPerson->position->name }}</p>
-                <p>Status: {{ $detailPerson->is_active }}</p>
-                <p>Jenis Kelamin: {{ $detailPerson->gender }}</p>
-                <p>Pendidikan: {{ $detailPerson->education->name }}</p>
+            <x-card-box class="space-y-2 bg-white w-full border border-abu-sidilan font-medium text-base md:text-xl">  
+                <div class="my-7 mx-9 space-y-4">
+                    <p>NIP: {{ $detailPerson->nip }}</p>
+                    <p>Jabatan: {{ $detailPerson->position->name }}</p>
+                    <p>Status: {{ $detailPerson->is_active }}</p>
+                    <p>Jenis Kelamin: {{ $detailPerson->gender }}</p>
+                    <p>Pendidikan: {{ $detailPerson->education->name }}</p>
+                </div>           
             </x-card-box>
+
+            <!-- mobile -->
+            <div class="flex justify-between w-full mt-4 md:hidden">
+                @if($prevPerson)
+                <a href="{{ route('user.plp-teknisi.detailed-info', $prevPerson) }}">
+                    <x-button class="bg-dongker-sidilan p-2 text-white rounded-full">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                             stroke-width="1.5" stroke="currentColor" class="size-5">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                  d="M15.75 19.5 8.25 12l7.5-7.5" />
+                        </svg>
+                    </x-button>
+                </a>
+                @else
+                <div class="h-9 w-9"></div>
+                @endif
+
+                @if($nextPerson)
+                <a href="{{ route('user.plp-teknisi.detailed-info', $nextPerson) }}">
+                    <x-button class="bg-dongker-sidilan p-2 text-white rounded-full">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                             stroke-width="1.5" stroke="currentColor" class="size-5">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                  d="m8.25 4.5 7.5 7.5-7.5 7.5" />
+                        </svg>
+                    </x-button>
+                </a>
+                @else
+                <div class="h-9 w-9"></div>
+                @endif
+            </div>
         </div>
+
+        <!-- dekstop -->
         @if($nextPerson)
-            <!-- tombol berikutnya -->
-            <a href="{{ route('user.plp-teknisi.detailed-info', $nextPerson) }}">
-                <x-button class="bg-dongker-sidilan p-2 text-white rounded-full">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
-                    </svg>
-                </x-button>
-            </a>
+        <a href="{{ route('user.plp-teknisi.detailed-info', $nextPerson) }}" class="hidden md:flex md:self-center">
+            <x-button class="bg-dongker-sidilan p-2 text-white rounded-full">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                     stroke-width="1.5" stroke="currentColor" class="size-5">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                          d="m8.25 4.5 7.5 7.5-7.5 7.5" />
+                </svg>
+            </x-button>
+        </a>
         @else
-            <div class="h-9 w-9"></div>
+        <div class="hidden md:block h-9 w-9"></div>
         @endif
     </div>
 </div>
