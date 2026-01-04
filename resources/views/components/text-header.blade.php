@@ -1,10 +1,10 @@
-<h1 {{ $attributes->merge(['class' => "text-3xl font-bold mb-4"]) }}>
+<h1 {{ $attributes->merge(['class' => "block md:text-3xl font-bold md:text-left md:mb-4 mb-2"]) }}>
     @switch(Route::currentRouteName())
         @case('admin.dashboard')
             Dashboard
             @break
-        @case('admin.tambah.*')
-            Identitas Dosen
+        @case('admin.tambah')
+            Tambah Data
             @break
         @case('admin.edit')
             Edit Data
