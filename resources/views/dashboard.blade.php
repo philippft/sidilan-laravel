@@ -3,72 +3,211 @@
 
 @section('content')
 
-   {{-- @dd($statusStats) --}}
-   <div x-data="{ state: 'none' }" class="lg:flex w-full lg:gap-5 h-full">
+   @php
+      $tombolPosisi = [
+          [
+              'label' => 'PLP',
+              'value' => '1',
+          ],
+          [
+              'label' => 'Tendik',
+              'value' => '2',
+          ],
+      ];
+
+      $tombolPendidikan = [
+          [
+              'label' => 'Sarjana',
+              'value' => '6',
+          ],
+          [
+              'label' => 'Magister',
+              'value' => '7',
+          ],
+          [
+              'label' => 'Doktor',
+              'value' => '8',
+          ],
+          [
+              'label' => 'Diploma 1',
+              'value' => '2',
+          ],
+          [
+              'label' => 'Diploma 2',
+              'value' => '3',
+          ],
+          [
+              'label' => 'Diploma 3',
+              'value' => '4',
+          ],
+          [
+              'label' => 'Diploma 4',
+              'value' => '5',
+          ],
+          [
+              'label' => 'SMA/Sederajat',
+              'value' => '1',
+          ],
+      ];
+
+      $tombolGender = [
+          [
+              'label' => 'Laki-Laki',
+              'value' => 'laki-laki',
+          ],
+          [
+              'label' => 'Perempuan',
+              'value' => 'perempuan',
+          ],
+      ];
+
+      $tombolStatus = [
+          [
+              'label' => 'Aktif',
+              'value' => '1',
+          ],
+          [
+              'label' => 'Tidak Aktif',
+              'value' => '0',
+          ],
+      ];
+
+      $isFiltering = request()->hasAny(['jenisPosisi', 'pendidikan', 'gender', 'status']);
+   @endphp
+   {{-- @dd($persons) --}}
+   <div x-data="{
+       state: '{{ request()->has('status') ? 'status' : (request()->has('gender') ? 'gender' : (request()->has('pendidikan') ? 'pendidikan' : (request()->has('jenisPosisi') ? 'jumlah' : 'none'))) }}'
+   }" class="flex flex-col lg:flex-row w-full lg:gap-5 h-full min-h-screen">
       <div
-         class="flex overflow-x-auto lg:overflow-visible lg:grid lg:grid-cols-2 lg:grid-rows-2 lg:gap-9 gap-4 lg:w-[40%] lg:p-0 p-4 snap-x">
-         <button @@click="state = 'jumlah'" class="cursor-pointer lg:shrink shrink-0 lg:w-auto w-64">
-            <x-card-box class="w-full transition-all duration-300 hover:-translate-y-2 hover:shadow-xl">
+         class="flex overflow-x-auto lg:overflow-visible lg:grid lg:grid-cols-2 lg:grid-rows-2 lg:gap-9 gap-4 lg:w-[40%] lg:p-0 p-4 snap-x items-center shrink-0 no-scrollbar">
+         <a href="{{ route('user.dashboard', ['jenisPosisi' => '1']) }}"
+            class="cursor-pointer lg:shrink shrink-0 lg:w-auto snap-center w-64 block">
+            <x-card-box class="w-full ">
                <div class="w-fit text-center mx-auto">
-                  <h1 class="font-bold text-xl mb-2">JUMLAH</h1>
-                  <canvas id="chart-jumlah" class="w-full"></canvas>
+                  <h1 class="font-bold lg:text-xl">JUMLAH</h1>
+                  <div class="relative w-full h-60 md:h-64">
+                     <canvas id="chart-jumlah" class="w-full"></canvas>
+                  </div>
                </div>
             </x-card-box>
-         </button>
-         <button @@click="state = 'pendidikan'" class="cursor-pointer lg:shrink shrink-0 lg:w-auto w-64">
-            <x-card-box class="w-full transition-all duration-300 hover:-translate-y-2 hover:shadow-xl">
+         </a>
+         <a href="{{ route('user.dashboard', ['pendidikan' => '6']) }}"
+            class="cursor-pointer lg:shrink shrink-0 lg:w-auto snap-center w-64 block">
+            <x-card-box class="w-full ">
                <div class="w-fit text-center mx-auto">
-                  <h1 class="font-bold text-xl mb-2">PENDIDIKAN</h1>
-                  <canvas id="chart-pendidikan" class="w-full"></canvas>
+                  <h1 class="font-bold lg:text-xl">PENDIDIKAN</h1>
+                  <div class="relative w-full h-60 md:h-64">
+                     <canvas id="chart-pendidikan" class="w-full"></canvas>
+                  </div>
                </div>
             </x-card-box>
-         </button>
-         <button @@click="state = 'gender'" class="cursor-pointer lg:shrink shrink-0 lg:w-auto w-64">
-            <x-card-box class="w-full transition-all duration-300 hover:-translate-y-2 hover:shadow-xl">
+         </a>
+         <a href="{{ route('user.dashboard', ['gender' => 'laki-laki']) }}"
+            class="cursor-pointer lg:shrink shrink-0 lg:w-auto snap-center w-64 block">
+            <x-card-box class="w-full ">
                <div class="w-fit text-center mx-auto">
-                  <h1 class="font-bold text-xl mb-2">JENIS KELAMIN</h1>
-                  <canvas id="chart-gender" class="w-full"></canvas>
+                  <h1 class="font-bold lg:text-xl">JENIS KELAMIN</h1>
+                  <div class="relative w-full h-60 md:h-64">
+                     <canvas id="chart-gender" class="w-full"></canvas>
+                  </div>
                </div>
             </x-card-box>
-         </button>
-         <button @@click="state = 'status'" class="cursor-pointer lg:shrink shrink-0 lg:w-auto w-64">
-            <x-card-box class="w-full transition-all duration-300 hover:-translate-y-2 hover:shadow-xl">
+         </a>
+         <a href="{{ route('user.dashboard', ['status' => '1']) }}"
+            class="cursor-pointer lg:shrink shrink-0 lg:w-auto snap-center w-64 block">
+            <x-card-box class="w-full ">
                <div class="w-fit text-center mx-auto">
-                  <h1 class="font-bold text-xl mb-2">STATUS</h1>
-                  <canvas id="chart-status" class="w-full"></canvas>
+                  <h1 class="font-bold lg:text-xl">STATUS</h1>
+                  <div class="relative w-full h-60 md:h-64">
+                     <canvas id="chart-status" class="w-full"></canvas>
+                  </div>
                </div>
             </x-card-box>
-         </button>
+         </a>
       </div>
 
-      <x-card-box x-cloak x-show="state == 'none'" class="w-[60%]">
+      <x-card-box x-cloak x-show="state == 'none'" class="lg:w-[60%] w-full grow flex items-center"
+         animasi="animate-blur-in">
          <div class="w-full h-full items-center flex justify-center">
             <div class="text-center">
-               <h1 class="font-bold">Tidak Ada Data</h1>
-               <p class="">Silahkan pilih filtrasi berdasarkan grafik disamping!</p>
+               <h1 class="font-bold md:text-base text-sm">Tidak Ada Data</h1>
+               <p class="md:text-base text-xs">Silahkan pilih filtrasi berdasarkan kategori!</p>
             </div>
          </div>
       </x-card-box>
 
-      <div x-cloak x-show="state != 'none'" class="animate-blur-in w-[60%] my-3">
-         <div class="text-white gap-2 flex mb-2">
-            <x-button class="rounded-full bg-dongker-sidilan px-6 py-3">
-               Laki-Laki
-            </x-button>
-            <x-button class="rounded-full bg-[#E0E0E0] px-6 py-3">
-               Perempuan
-            </x-button>
+
+      <div x-cloak x-show="state != 'none'"
+         class="lg:w-[60%] w-full my-3 lg:h-auto grow h-full flex flex-col {{ $isFiltering ? '' : 'animate-blur-in' }}">
+         {{-- Jumlah Button --}}
+         <div x-cloak x-show="state == 'jumlah'" class="text-white gap-2 flex mb-2">
+            @foreach ($tombolPosisi as $tombol)
+               <a href="{{ route('user.dashboard', ['jenisPosisi' => $tombol['value']]) }}">
+                  <x-button
+                     class="rounded-full px-6 py-3 {{ request('jenisPosisi') == $tombol['value'] ? 'bg-dongker-sidilan' : 'bg-[#E0E0E0]' }}">
+                     {{ $tombol['label'] }}
+                  </x-button>
+               </a>
+            @endforeach
          </div>
 
-         <x-card-box>
-            {{-- @dd($genderStats) --}}
+         {{-- Pendidikan Button --}}
+         <div x-cloak x-show="state == 'pendidikan'" class="text-white gap-2 flex mb-2 overflow-x-auto no-scrollbar">
+            @foreach ($tombolPendidikan as $tombol)
+               <a href="{{ route('user.dashboard', ['pendidikan' => $tombol['value']]) }}" class="block shrink-0">
+                  <x-button
+                     class="rounded-full px-6 py-3 {{ request('pendidikan') == $tombol['value'] ? 'bg-dongker-sidilan' : 'bg-[#E0E0E0]' }}">
+                     {{ $tombol['label'] }}
+                  </x-button>
+               </a>
+            @endforeach
+         </div>
 
-         </x-card-box>
+         {{-- Gender Button --}}
+         <div x-cloak x-show="state == 'gender'" class="text-white gap-2 flex mb-2">
+            @foreach ($tombolGender as $tombol)
+               <a href="{{ route('user.dashboard', ['gender' => $tombol['value']]) }}">
+                  <x-button
+                     class="rounded-full px-6 py-3 {{ request('gender') == $tombol['value'] ? 'bg-dongker-sidilan' : 'bg-[#E0E0E0]' }}">
+                     {{ $tombol['label'] }}
+                  </x-button>
+               </a>
+            @endforeach
+         </div>
+
+         {{-- Status Button --}}
+         <div x-cloak x-show="state == 'status'" class="text-white gap-2 flex mb-2">
+            @foreach ($tombolStatus as $tombol)
+               <a href="{{ route('user.dashboard', ['status' => $tombol['value']]) }}">
+                  <x-button
+                     class="rounded-full px-6 py-3 {{ request('status') == $tombol['value'] ? 'bg-dongker-sidilan' : 'bg-[#E0E0E0]' }}">
+                     {{ $tombol['label'] }}
+                  </x-button>
+               </a>
+            @endforeach
+         </div>
+         {{-- @dd($persons) --}}
+
+         <div class="grow">
+            @forelse ($persons as $person)
+               <x-card-box class="flex justify-between items-center">
+                  <div>
+                     <h1 class="font-bold">{{ $person->full_name }}</h1>
+                     <p>{{ $person->position->name }}</p>
+                  </div>
+               </x-card-box>
+            @empty
+               <x-card-box class="h-full ">
+                  <div class="w-full h-full items-center flex justify-center">
+                     <div class="text-center grow">
+                        <h1 class="font-bold">Tidak Ada Data</h1>
+                     </div>
+                  </div>
+               </x-card-box>
+            @endforelse
+            <x-pagination :data="$persons" />
+         </div>
       </div>
-
-
-
-
    </div>
 
    <!-- Jika data kosong -->
@@ -78,6 +217,38 @@
    <script type="module">
       const totalJmlh = {{ $totalPersons }}
 
+      const getResponsiveOptions = () => {
+         const isMobile = window.innerWidth < 640;
+
+         return {
+            responsive: true,
+            maintainAspectRatio: false,
+            cutout: '65%',
+            layout: {
+               padding: isMobile ? 20 : 10
+            },
+            plugins: {
+               legend: {
+                  position: 'bottom',
+                  labels: {
+                     usePointStyle: true,
+                     padding: 8,
+                     boxWidth: 10,
+                     font: {
+                        size: isMobile ? 8 : 10
+                     }
+                  }
+               },
+               title: {
+                  display: false
+               },
+               tooltip: {
+                  enabled: true
+               }
+            }
+         };
+      };
+
       const initChartJumlah = () => {
          const data = @json($positionTypeStats);
          const labels = data.map(item => item.nama_jenis_posisi)
@@ -86,6 +257,7 @@
          if (!ctx) return;
          const centerTextPlugin = {
             id: 'centerText',
+            responsive: true,
             beforeDraw: function(chart) {
                var width = chart.width,
                   height = chart.height,
@@ -99,9 +271,13 @@
                ctx.textAlign = "center";
                ctx.fillStyle = "#333";
                var total = totalJmlh;
-               var meta = chart.getDatasetMeta(0);
-               var x = meta.data[0].x;
-               var y = meta.data[0].y;
+               var x = width / 2;
+               var y = height / 2;
+
+               if (chart.chartArea) {
+                  x = (chart.chartArea.left + chart.chartArea.right) / 2;
+                  y = (chart.chartArea.top + chart.chartArea.bottom) / 2;
+               }
 
                ctx.fillText(total, x, y);
                ctx.save();
@@ -123,25 +299,7 @@
                   hoverOffset: 4
                }]
             },
-            options: {
-               responsive: true,
-               cutout: '70%',
-               plugins: {
-                  legend: {
-                     position: 'bottom',
-                     labels: {
-                        usePointStyle: true,
-                        padding: 20
-                     }
-                  },
-                  title: {
-                     display: false,
-                  },
-                  tooltip: {
-                     enabled: true
-                  }
-               }
-            },
+            options: getResponsiveOptions(),
             plugins: [centerTextPlugin]
          })
       }
@@ -173,25 +331,7 @@
                   hoverOffset: 4
                }]
             },
-            options: {
-               responsive: true,
-               cutout: '70%',
-               plugins: {
-                  legend: {
-                     position: 'bottom',
-                     labels: {
-                        usePointStyle: true,
-                        padding: 10
-                     }
-                  },
-                  title: {
-                     display: false,
-                  },
-                  tooltip: {
-                     enabled: true
-                  }
-               }
-            },
+            options: getResponsiveOptions(),
          })
       }
 
@@ -216,25 +356,7 @@
                   hoverOffset: 4
                }]
             },
-            options: {
-               responsive: true,
-               cutout: '70%',
-               plugins: {
-                  legend: {
-                     position: 'bottom',
-                     labels: {
-                        usePointStyle: true,
-                        padding: 20
-                     }
-                  },
-                  title: {
-                     display: false,
-                  },
-                  tooltip: {
-                     enabled: true
-                  }
-               }
-            },
+            options: getResponsiveOptions(),
          })
       }
 
@@ -257,25 +379,7 @@
                   hoverOffset: 4
                }]
             },
-            options: {
-               responsive: true,
-               cutout: '70%',
-               plugins: {
-                  legend: {
-                     position: 'bottom',
-                     labels: {
-                        usePointStyle: true,
-                        padding: 20
-                     }
-                  },
-                  title: {
-                     display: false,
-                  },
-                  tooltip: {
-                     enabled: true
-                  }
-               }
-            },
+            options: getResponsiveOptions(),
          })
       }
 

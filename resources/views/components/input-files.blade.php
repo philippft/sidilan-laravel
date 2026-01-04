@@ -1,6 +1,6 @@
 @props(['id', 'name', 'label' => 'Pilih File', 'value' => null])
 
-<div class="flex flex-col items-center justify-center space-y-4" 
+<div class="flex flex-col items-center justify-center gap-2" 
      x-data="{ 
         {{-- Jika ada value (path foto), tampilkan. Jika tidak, kosongkan --}}
         imageUrl: '{{ $value ? asset('storage/person_images/' . $value) : '' }}',
@@ -14,7 +14,7 @@
         }
      }">
     
-    <div class="w-40 h-40 bg-gray-200 rounded-3xl overflow-hidden flex items-center justify-center shadow-inner border-2 border-dashed border-gray-300">
+    <div class="w-40 h-40 bg-gray-200 rounded-3xl overflow-hidden flex items-center justify-center shadow-inner border-2 border-gray-300">
         {{-- Tampilkan Gambar jika imageUrl ada --}}
         <template x-if="imageUrl">
             <img :src="imageUrl" class="w-full h-full object-cover">
@@ -31,7 +31,7 @@
         </template>
     </div>
 
-    <label for="{{ $id }}" class="cursor-pointer w-full bg-[#FBB03B] hover:bg-[#e5a035] text-center text-2xl text-white font-bold py-4 px-10 rounded-md transition-all shadow-md active:scale-95">
+    <label for="{{ $id }}" class="cursor-pointer w-full bg-[#FBB03B] hover:bg-[#e5a035] text-center lg:text-2xl text-base text-white lg:font-bold font-semibold lg:py-4 py-2 lg:px-10 px-5 rounded-md transition-all shadow-md active:scale-95">
         {{ $label }}
     </label>
 
