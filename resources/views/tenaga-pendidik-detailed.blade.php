@@ -4,22 +4,26 @@
 @section('content')
 
 <div class="flex flex-col min-h-screen">
-    <div>
+    <a href="{{ route('user.tenaga-pendidik') }}">
         <x-button class="bg-dongker-sidilan p-2 text-white rounded-full">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
             </svg>
         </x-button>
-    </div>
+    </a>
     <div class="my-auto flex justify-between items-center">
-        <div>
-            <!-- button ke data sebelumnya -->
-            <x-button class="bg-dongker-sidilan p-2 text-white rounded-full ">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
-            </svg>
-            </x-button>
-        </div>
+        @if($prevPerson)
+        <!-- tombol kembali -->
+            <a href="{{ route('user.tenaga-pendidik.detailed-info', $prevPerson) }}">
+                <x-button class="bg-dongker-sidilan p-2 text-white rounded-full">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
+                    </svg>
+                </x-button>
+            </a>
+        @else
+            <div class="h-9 w-9"></div>
+        @endif
         <div>
             <!-- detail data -->
             <x-profile-photo :value="$detailPerson->photo" size="200"/>
@@ -34,14 +38,16 @@
                 <p>Pendidikan: {{ $detailPerson->education->name }}</p>
             </x-card-box>
         </div>
-        <div>
-            <!-- button ke data selanjutnya -->
-            <x-button class="bg-dongker-sidilan p-2 text-white rounded-full">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
-                </svg>
-            </x-button>
-        </div>
+        @if($nextPerson)
+            <!-- tombol berikutnya -->
+            <a href="{{ route('user.tenaga-pendidik.detailed-info', $nextPerson) }}">
+                <x-button class="bg-dongker-sidilan p-2 text-white rounded-full">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
+                    </svg>
+                </x-button>
+            </a>
+        @endif
     </div>
 </div>
 
