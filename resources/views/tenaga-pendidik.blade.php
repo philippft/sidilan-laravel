@@ -4,7 +4,7 @@
 @section('content')
 
 {{-- @dd($tenagaPendidik) --}}
-<div class="flex justify-between mb-6">
+<div class="flex-col md:flex-row flex justify-between">
     <div>
         <h1 class="text-2xl font-bold">Data Tenaga Pendidik</h1>
         <form method="GET" class="mt-3 flex items-center gap-2 font-medium text-sm text-black">
@@ -25,7 +25,7 @@
             <span>entri</span>
         </form>
     </div>
-    <x-search-bar />
+    <x-search-bar/>
 </div>
 
 {{-- LIST --}}

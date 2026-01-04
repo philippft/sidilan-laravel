@@ -1,12 +1,12 @@
 @extends('layouts.main-layout')
-@section('title', 'Dashboard')
+@section('title', 'PLP dan Teknisi Lab')
 
 @section('content')
 
-{{-- @dd($tenagaPendidik) --}}
-<div class="flex justify-between mb-6">
+{{-- @dd($plpTeknisiLab) --}}
+<div class="flex flex-col md:flex-row justify-between">
     <div>
-        <h1 class="text-2xl font-bold">Data Tenaga Pendidik</h1>
+        <h1 class="text-2xl font-bold">Data PLP dan Teknisi Lab</h1>
         <form method="GET" class="mt-3 flex items-center gap-2 font-medium text-sm text-black">
             <label for="per_page">Tampilkan</label>
             <select
@@ -25,7 +25,7 @@
             <span>entri</span>
         </form>
     </div>
-    <x-search-bar />
+    <x-search-bar/>
 </div>
 
 {{-- LIST --}}
