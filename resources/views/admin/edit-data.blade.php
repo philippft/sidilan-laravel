@@ -12,7 +12,7 @@
          <div class="flex flex-col lg:flex-row gap-8 lg:gap-12">
             <div class="w-full lg:w-1/2 flex flex-col justify-between order-1 lg:order-2">
                <div class="flex flex-col gap-4">
-                  <x-input-files name="image" label="Pilih Foto" id="image" :value="$person->image ?? null" />
+                  <x-input-file name="image" label="Pilih Foto" id="image" :value="$person->image ?? null" />
                   <x-status :person="$person ?? null" />
                </div>
 
@@ -39,8 +39,10 @@
                      :options="$educations->pluck('name', 'id')->toArray()" />
                   <x-custom-select id="position_id" name="position_id" label="Jabatan" :value="$person->position_id ?? ''"
                      :options="$positions->pluck('name', 'id')->toArray()" />
-                  <x-custom-select id="position_type_id" name="position_type_id" label="Tipe Jabatan" :value="$person->position_type_id ?? ''"
-                     :options="$positionTypes->pluck('name', 'id')->toArray()" />
+                  <div class="-mb-3">
+                     <x-custom-select id="position_type_id" name="position_type_id" label="Tipe Jabatan" :value="$person->position_type_id ?? ''"
+                        :options="$positionTypes->pluck('name', 'id')->toArray()" />
+                  </div>
                </div>
 
                <div class="flex lg:hidden flex-col gap-4 lg:gap-2 mt-4 mb-0">

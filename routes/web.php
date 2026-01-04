@@ -47,3 +47,11 @@ Route::middleware('is-admin')->group(function () {
 Route::get('/tamanmain', function () {
     return view('tamanmain');
 });
+
+Route::get('/page-pop-up-confirm', function () {
+    return view('page-pop-up-confirm');
+});
+
+Route::get('/page-pop-up-success', function () {
+    return view('page-pop-up-success');
+});

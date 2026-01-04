@@ -13,7 +13,7 @@
             this.open = !this.open;
         },
         get currentLabel() {
-            return this.options[this.selected] || '-- Pilih {{ $label }} --';
+            return this.options[this.selected] || 'Pilih {{ $label }}';
         }
      }">
     
@@ -22,7 +22,6 @@
     <div class="relative">
         <input type="hidden" name="{{ $name }}" :value="selected">
 
-        {{-- Tambahkan x-ref='button' --}}
         <div 
             x-ref="button"
             @click="toggle()"
@@ -36,11 +35,9 @@
             </svg>
         </div>
 
-        {{-- Bagian Dropdown dengan posisi dinamis --}}
         <div 
             x-show="open" 
             x-transition
-            {{-- Jika isUp true, gunakan bottom-full (muncul di atas). Jika false, gunakan top-full (muncul di bawah) --}}
             :class="isUp ? 'bottom-full mb-2' : 'top-full mt-2'"
             class="absolute z-[9999] w-full bg-white border border-gray-200 rounded-xl shadow-2xl overflow-y-auto max-h-60"
             style="display: none;"
