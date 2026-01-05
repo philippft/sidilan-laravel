@@ -63,7 +63,6 @@ class UserDashboardController extends Controller
             $totalPersons = Person::count();
             // dd($persons);
 
-            dd($educationStats);
 
         return view('dashboard', compact(
             'persons', 
