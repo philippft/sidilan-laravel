@@ -12,7 +12,7 @@
         </x-button>
     </a>
 
-    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 w-full">
+    <div class="my-auto flex flex-col md:flex-row md:items-center md:justify-between gap-4 w-full">
         <!-- desktop -->
         @if($prevPerson)
         <a href="{{ route('user.tenaga-pendidik.detailed-info', $prevPerson) }}" class="hidden md:flex md:self-center">
@@ -28,15 +28,15 @@
         @endif
 
         <div class="flex flex-col items-center w-full max-w-md">
-            <x-profile-photo :value="$detailPerson->photo" size="200"/>
+            <x-profile-photo :value="$detailPerson->image" size="300"/>
             <div class="bg-white w-fit rounded-3xl font-bold px-3 py-2 border-abu-sidilan border mb-4 mx-auto">
                 <h2 class="text-center text-base md:text-xl">{{ $detailPerson->full_name }}</h2>
             </div>
-            <x-card-box class="space-y-2 bg-white w-full border border-abu-sidilan font-medium text-base md:text-xl">  
-                <div class="my-7 mx-9 space-y-4">
+            <x-card-box class="space-y-2 bg-white w-85 md:w-200 border border-abu-sidilan font-medium text-base md:text-xl">  
+                <div class="my-4 md:my-7 mx-6 md:mx-9 space-y-4">
                     <p>NIP: {{ $detailPerson->nip }}</p>
                     <p>Jabatan: {{ $detailPerson->position->name }}</p>
-                    <p>Status: {{ $detailPerson->is_active }}</p>
+                    <p>Status: {{ $detailPerson->is_active ? 'Aktif' : 'Tidak Aktif' }}</p>
                     <p>Jenis Kelamin: {{ $detailPerson->gender }}</p>
                     <p>Pendidikan: {{ $detailPerson->education->name }}</p>
                 </div>           
