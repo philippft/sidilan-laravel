@@ -73,9 +73,17 @@ $(document).ready(function () {
                      :options="['laki-laki' => 'Laki-laki', 'perempuan' => 'Perempuan']" />
                   <x-custom-select id="education_id" name="education_id" label="Pendidikan" :value="$person->education_id ?? ''"
                      :options="$educations->pluck('name', 'id')->toArray()" />
-                  <x-custom-select id="position_id" name="position_id" label="Jabatan" :value="$person->position_id ?? ''"
+                  {{-- <x-custom-select id="position_id" name="position_id" label="Jabatan" :value="$person->position_id ?? ''"
                      :options="$positions->pluck('name', 'id')->toArray()" />
                   <div class="-mb-3">
+                     <x-custom-select id="position_type_id" name="position_type_id" label="Tipe Jabatan" :value="$person->position_type_id ?? ''"
+                        :options="$positionTypes->pluck('name', 'id')->toArray()" />
+                  </div> --}}
+                  <div x-data @input="autoSetTipe($event.detail)">
+                     <x-custom-select id="position_id" name="position_id" label="Jabatan" :value="$person->position_id ?? ''"
+                        :options="$positions->pluck('name', 'id')->toArray()" />
+                  </div>
+                  <div class="-mb-3" x-data @input="filterJabatan($event.detail)">
                      <x-custom-select id="position_type_id" name="position_type_id" label="Tipe Jabatan" :value="$person->position_type_id ?? ''"
                         :options="$positionTypes->pluck('name', 'id')->toArray()" />
                   </div>
@@ -98,3 +106,59 @@ $(document).ready(function () {
       </form>
    </div>
 @endsection
+{{-- buat manipulasi select jabatan dan tipe jabatan --}}
+<script>
+   const masterPositions = @json($positions->pluck('name', 'id'));
+   // console.log('Master Positions:', masterPositions);
+
+   const ID_TIPE_PLP = '1';
+   const ID_TIPE_TENDIK = '2';
+
+   const typeToPositionMap = {
+      [ID_TIPE_PLP]: ['2', '3', '6', '7'],
+      [ID_TIPE_TENDIK]: ['1', '4', '5', '8']
+   };
+
+   // ini bikin kebalikan dari typeToPositionMap
+   const positionToTypeMap = {};
+   Object.keys(typeToPositionMap).forEach(typeId => {
+      typeToPositionMap[typeId].forEach(posId => {
+         positionToTypeMap[String(posId)] = String(typeId);
+      });
+   });
+
+   // ini buat filter opsi jabatan kalo misal user milih tipe jabatan dulu
+   function filterJabatan(selectedTypeId) {
+      console.log('Filter Jabatan Triggered:', selectedTypeId);
+
+      let newOptions = {};
+      let allowedIds = typeToPositionMap[selectedTypeId] || [];
+
+      if (!selectedTypeId) {
+         newOptions = masterPositions;
+      } else {
+         Object.keys(masterPositions).forEach(key => {
+            if (allowedIds.includes(String(key))) {
+               newOptions[key] = masterPositions[key];
+            }
+         });
+      }
+
+      window.dispatchEvent(new CustomEvent('update-options-position_id', {
+         detail: newOptions
+      }));
+   }
+
+   // ini buat auto nge set tipe jabatan kalo misal user milih jabatan dulu
+   function autoSetTipe(selectedPosId) {
+      console.log('Auto Set Tipe Triggered:', selectedPosId);
+
+      const targetTypeId = positionToTypeMap[String(selectedPosId)];
+
+      if (targetTypeId) {
+         window.dispatchEvent(new CustomEvent('set-value-position_type_id', {
+            detail: targetTypeId
+         }));
+      }
+   }
+</script>
