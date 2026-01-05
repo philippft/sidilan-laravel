@@ -103,13 +103,15 @@ class UserDashboardController extends Controller
     }
 
     public function tenagaPendidikDetail(String $id) {
-        $detailPerson = Person::with(['position', 'education'])->findOrFail($id);
-        $allIds = Person::whereHas('position.positionType', function($q) {
+        $detailPerson = Person::with(['position.positionType', 'education'])->findOrFail($id);
+        $allIds = Person::whereHas('position', function($q) {
                 $q->where('position_type_id', 1);
         })->where('is_active', 1)
-        ->pluck('id');
+        ->orderBy('id', 'asc')
+        ->pluck('id')
+        ->values();
 
-        $currentIndex = $allIds->search($id);
+        $currentIndex = $allIds->search((int)$id);
 
         $prevPerson = $currentIndex > 0 ? $allIds[$currentIndex - 1] : null;
         $nextPerson = $currentIndex < $allIds->count() - 1 ? $allIds[$currentIndex + 1] : null;
@@ -150,11 +152,13 @@ class UserDashboardController extends Controller
 
     public function plpTeknisiDetail($id)
     {
-        $detailPerson = Person::with(['position', 'education'])->findOrFail($id);
-        $allIds = Person::whereHas('position.positionType', function($q) {
+        $detailPerson = Person::with(['position.positionType', 'education'])->findOrFail($id);
+        $allIds = Person::whereHas('position', function($q) {
                 $q->where('position_type_id', 2);
         })->where('is_active', 1)
-        ->pluck('id');
+        ->orderBy('id', 'asc')
+        ->pluck('id')
+        ->values();
 
         $currentIndex = $allIds->search($id);
 
