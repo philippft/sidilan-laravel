@@ -41,7 +41,7 @@ class PeopleImport implements ToModel, WithHeadingRow
             'education_id' => $education?->id,
             'position_id'  => $position?->id,
             'is_active'    => 1,
-            'image'        => 'default.jpg',
+            'image'        => null,
         ]
     );
     }
