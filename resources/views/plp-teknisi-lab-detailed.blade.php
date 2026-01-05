@@ -1,10 +1,10 @@
 @extends('layouts.main-layout')
-@section('title', 'Tenaga Pendidik Detail Info')
+@section('title', 'PLP dan Laboran Detail Info')
 
 @section('content')
 
-<div class="flex flex-col h-screen gap-4 px-2 md:px-0">
-    <a href="{{ route('user.tenaga-pendidik') }}">
+<div class="flex flex-col min-h-screen gap-4 px-2 md:px-0">
+    <a href="{{ route('user.plp-teknisi') }}">
         <x-button class="bg-dongker-sidilan p-2 text-white rounded-full">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
@@ -13,9 +13,9 @@
     </a>
 
     <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 w-full">
-        <!-- desktop -->
+        <!-- dekstop -->
         @if($prevPerson)
-        <a href="{{ route('user.tenaga-pendidik.detailed-info', $prevPerson) }}" class="hidden md:flex md:self-center">
+        <a href="{{ route('user.plp-teknisi.detailed-info', $prevPerson) }}" class="hidden md:flex md:self-center">
             <x-button class="bg-dongker-sidilan p-2 text-white rounded-full">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                      stroke-width="1.5" stroke="currentColor" class="size-5">
@@ -45,7 +45,7 @@
             <!-- mobile -->
             <div class="flex justify-between w-full mt-4 md:hidden">
                 @if($prevPerson)
-                <a href="{{ route('user.tenaga-pendidik.detailed-info', $prevPerson) }}">
+                <a href="{{ route('user.plp-teknisi.detailed-info', $prevPerson) }}">
                     <x-button class="bg-dongker-sidilan p-2 text-white rounded-full">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                              stroke-width="1.5" stroke="currentColor" class="size-5">
@@ -59,7 +59,7 @@
                 @endif
 
                 @if($nextPerson)
-                <a href="{{ route('user.tenaga-pendidik.detailed-info', $nextPerson) }}">
+                <a href="{{ route('user.plp-teknisi.detailed-info', $nextPerson) }}">
                     <x-button class="bg-dongker-sidilan p-2 text-white rounded-full">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                              stroke-width="1.5" stroke="currentColor" class="size-5">
@@ -74,9 +74,9 @@
             </div>
         </div>
 
-        <!-- desktop -->
+        <!-- dekstop -->
         @if($nextPerson)
-        <a href="{{ route('user.tenaga-pendidik.detailed-info', $nextPerson) }}" class="hidden md:flex md:self-center">
+        <a href="{{ route('user.plp-teknisi.detailed-info', $nextPerson) }}" class="hidden md:flex md:self-center">
             <x-button class="bg-dongker-sidilan p-2 text-white rounded-full">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                      stroke-width="1.5" stroke="currentColor" class="size-5">

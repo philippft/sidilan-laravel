@@ -112,5 +112,37 @@
                @yield('content')
             </main>
          </div>
-    </div>
+
+         <!-- Button Logout -->
+         <!-- <form action="{{ route('admin.logout') }}" method="POST" class="w-full flex justify-center">
+            @csrf
+            <x-button type="submit"
+               class="
+                flex items-center justify-center gap-3 
+                w-[200px] h-16 rounded-xl 
+                bg-orange-sidilan shadow-xl 
+                font-bold text-xl text-white
+        ">
+
+               <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path
+                     d="M9.33333 9.50933V8.81613C9.33333 5.95494 9.33333 4.52434 10.2528 3.7269C11.1723 2.92945 12.5885 3.13177 15.4209 3.5364L21.1314 4.35218C24.4062 4.82002 26.0436 5.05393 27.0218 6.18179C28 7.30965 28 8.96369 28 12.2718V19.7284C28 23.0365 28 24.6905 27.0218 25.8184C26.0436 26.9462 24.4062 27.1801 21.1314 27.648L15.4209 28.4638C12.5885 28.8684 11.1723 29.0707 10.2528 28.2733C9.33333 27.4758 9.33333 26.0452 9.33333 23.184V22.7547"
+                     stroke="currentColor" stroke-width="2.66667" />
+                  <path
+                     d="M21.3333 15.9999L22.3745 15.167L23.0408 15.9999L22.3745 16.8328L21.3333 15.9999ZM5.33334 17.3333C4.59696 17.3333 4 16.7363 4 15.9999C4 15.2635 4.59696 14.6666 5.33334 14.6666V15.9999V17.3333ZM16 9.33325L17.0412 8.50033L22.3745 15.167L21.3333 15.9999L20.2922 16.8328L14.9588 10.1662L16 9.33325ZM21.3333 15.9999L22.3745 16.8328L17.0412 23.4995L16 22.6666L14.9588 21.8337L20.2922 15.167L21.3333 15.9999ZM21.3333 15.9999V17.3333H5.33334V15.9999V14.6666H21.3333V15.9999Z"
+                     fill="currentColor" />
+               </svg>
+               Logout
+            </x-button>
+         </form>
+      </div>
+
+      <div class="flex-1 flex flex-col min-w-0 h-full">
+         <main class="flex-1 overflow-y-auto px-8 py-12">
+            @yield('content')
+         </main>
+      </div>
+   </div> -->
+
+   @yield('script')
 </body>

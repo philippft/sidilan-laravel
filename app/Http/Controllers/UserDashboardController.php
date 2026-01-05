@@ -8,8 +8,29 @@ use App\Models\Person;
 
 class UserDashboardController extends Controller
 {
-    public function index () {
-            $persons = Person::all();
+    public function index (Request $request) {
+            // $persons = Person::all();
+            $query = Person::query();
+
+            $query->when($request->filled('gender'), function ($q) use ($request) {
+                $q->where('gender', $request->gender);
+            });
+            
+            $query->when($request->filled('status'), function ($q) use ($request) {
+                $q->where('is_active', $request->status);
+            });
+
+            $query->when($request->filled('pendidikan'), function ($q) use ($request) {
+                $q->where('education_id', $request->pendidikan);
+            });
+
+            $query->when($request->filled('jenisPosisi'), function ($q) use ($request) {
+                $q->where('position_type_id', $request->jenisPosisi);
+            });
+
+            $persons = $query->with(['education', 'position', 'position_type'])->paginate(7)->withQueryString();
+            // dd($persons);
+
             //jenis kelamin
             $genderStats = Person::select('gender', DB::raw('count(*) as total'))
             ->groupBy('gender')
@@ -32,6 +53,7 @@ class UserDashboardController extends Controller
             ->get();
             //total
             $totalPersons = Person::count();
+            // dd($persons);
 
         return view('dashboard', compact(
             'persons', 
@@ -50,6 +72,7 @@ class UserDashboardController extends Controller
             $tenagaPendidik = Person::with(['position'])
                 ->where('position_type_id', 2)
                 ->where('is_active', 1)
+                ->orderBy('full_name', 'desc')
                 ->when($request->search, function ($q) use ($request) {
                     $q->where('full_name', 'like', '%' . $request->search . '%')
                     ->orWhereHas('position', function ($q2) use ($request) {
@@ -64,12 +87,57 @@ class UserDashboardController extends Controller
 
     public function tenagaPendidikDetail(String $id) {
         $detailPerson = Person::with(['position', 'education'])->findOrFail($id);
-        
-        return view('tenaga-pendidik-detailed', compact('detailPerson'));
+        $allIds = Person::where('position_type_id', 2)
+            ->where('is_active', 1)
+            ->pluck('id');
+
+        $currentIndex = $allIds->search($id);
+
+        $prevPerson = $currentIndex > 0 ? $allIds[$currentIndex - 1] : null;
+        $nextPerson = $currentIndex < $allIds->count() - 1 ? $allIds[$currentIndex + 1] : null;
+
+        return view('tenaga-pendidik-detailed', compact(
+            'detailPerson',
+            'prevPerson',
+            'nextPerson'
+        ));
     }
 
     public function plpTeknisiLab(Request $request) {
         //ini mirip kayak yang di atas
-        return view('tenagapendidik-detailed-info');
+        $perPage = request('per_page', 10);
+
+            $plpTeknisiLab = Person::with(['position'])
+                ->where('position_type_id', 1)
+                ->where('is_active', 1)
+                ->when($request->search, function ($q) use ($request) {
+                    $q->where('full_name', 'like', '%' . $request->search . '%')
+                    ->orWhereHas('position', function ($q2) use ($request) {
+                        $q2->where('name', 'like', '%' . $request->search . '%');
+                    });
+                })
+                ->paginate($perPage)
+                ->withQueryString();
+        return view('plp-teknisi-lab', compact('plpTeknisiLab'));
+    }
+
+    public function plpTeknisiDetail($id)
+    {
+        $detailPerson = Person::with(['position', 'education'])->findOrFail($id);
+
+        $allIds = Person::where('position_type_id', 1)
+            ->where('is_active', 1)
+            ->pluck('id');
+
+        $currentIndex = $allIds->search($id);
+
+        $prevPerson = $currentIndex > 0 ? $allIds[$currentIndex - 1] : null;
+        $nextPerson = $currentIndex < $allIds->count() - 1 ? $allIds[$currentIndex + 1] : null;
+
+        return view('plp-teknisi-lab-detailed', compact(
+            'detailPerson',
+            'prevPerson',
+            'nextPerson'
+        ));
     }
 }
