@@ -5,50 +5,17 @@
 
    @php
       $tombolPosisi = [
-         [
-              'label' => 'Tendik',
-              'value' => '1',
-],
           [
-              'label' => 'PLP',
+              'label' => 'Tenaga Kependidikan',
+              'value' => '1',
+          ],
+          [
+              'label' => 'PLP dan Laboran',
               'value' => '2',
-          ]
+          ],
       ];
 
-      $tombolPendidikan = [
-          [
-              'label' => 'Sarjana',
-              'value' => '6',
-          ],
-          [
-              'label' => 'Magister',
-              'value' => '7',
-          ],
-          [
-              'label' => 'Doktor',
-              'value' => '8',
-          ],
-          [
-              'label' => 'Diploma 1',
-              'value' => '2',
-          ],
-          [
-              'label' => 'Diploma 2',
-              'value' => '3',
-          ],
-          [
-              'label' => 'Diploma 3',
-              'value' => '4',
-          ],
-          [
-              'label' => 'Diploma 4',
-              'value' => '5',
-          ],
-          [
-              'label' => 'SMA/Sederajat',
-              'value' => '1',
-          ],
-      ];
+      $tombolPendidikan = $educationStats->pluck('jenjang_pendidikan', 'edu')->toArray();
 
       $tombolGender = [
           [
@@ -91,7 +58,7 @@
                </div>
             </x-card-box>
          </a>
-         <a href="{{ route('user.dashboard', ['pendidikan' => '6']) }}"
+         <a href="{{ route('user.dashboard', ['pendidikan' => '1']) }}"
             class="cursor-pointer lg:shrink shrink-0 lg:w-auto snap-center w-64 block">
             <x-card-box class="w-full ">
                <div class="w-fit text-center mx-auto">
@@ -153,11 +120,11 @@
 
          {{-- Pendidikan Button --}}
          <div x-cloak x-show="state == 'pendidikan'" class="text-white gap-2 flex mb-2 overflow-x-auto no-scrollbar">
-            @foreach ($tombolPendidikan as $tombol)
-               <a href="{{ route('user.dashboard', ['pendidikan' => $tombol['value']]) }}" class="block shrink-0">
+            @foreach ($tombolPendidikan as $id => $name)
+               <a href="{{ route('user.dashboard', ['pendidikan' => $id]) }}">
                   <x-button
-                     class="rounded-full px-6 py-3 {{ request('pendidikan') == $tombol['value'] ? 'bg-dongker-sidilan' : 'bg-[#E0E0E0]' }}">
-                     {{ $tombol['label'] }}
+                     class="rounded-full px-6 py-3 {{ request('pendidikan') == $id ? 'bg-dongker-sidilan' : 'bg-[#E0E0E0]' }}">
+                     {{ $name }}
                   </x-button>
                </a>
             @endforeach

@@ -56,12 +56,13 @@ class UserDashboardController extends Controller
             //edukasi
             $educationStats = DB::table('educations')
             ->leftJoin('people', 'educations.id', '=', 'people.education_id')
-            ->select('educations.name as jenjang_pendidikan', DB::raw('COUNT(people.id) as total_pegawai'))
+            ->select('educations.id as edu', 'educations.name as jenjang_pendidikan', DB::raw('COUNT(people.id) as total_pegawai'))
             ->groupBy('educations.id', 'educations.name')
             ->get();
             //total
             $totalPersons = Person::count();
             // dd($persons);
+
 
         return view('dashboard', compact(
             'persons', 
@@ -103,9 +104,10 @@ class UserDashboardController extends Controller
 
     public function tenagaPendidikDetail(String $id) {
         $detailPerson = Person::with(['position', 'education'])->findOrFail($id);
-        $allIds = Person::where('position_type_id', 1)
-            ->where('is_active', 1)
-            ->pluck('id');
+        $allIds = Person::whereHas('position.positionType', function($q) {
+                $q->where('position_type_id', 1);
+        })->where('is_active', 1)
+        ->pluck('id');
 
         $currentIndex = $allIds->search($id);
 
@@ -149,10 +151,10 @@ class UserDashboardController extends Controller
     public function plpTeknisiDetail($id)
     {
         $detailPerson = Person::with(['position', 'education'])->findOrFail($id);
-
-        $allIds = Person::where('position_type_id', 2)
-            ->where('is_active', 1)
-            ->pluck('id');
+        $allIds = Person::whereHas('position.positionType', function($q) {
+                $q->where('position_type_id', 2);
+        })->where('is_active', 1)
+        ->pluck('id');
 
         $currentIndex = $allIds->search($id);
 

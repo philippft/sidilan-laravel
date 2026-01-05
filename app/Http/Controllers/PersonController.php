@@ -79,7 +79,7 @@ class PersonController extends Controller
         $educations = Education::all();
         $positions = Position::all();
         $positionTypes = PositionType::all();
-        $person = Person::findOrFail($id);
+        $person = Person::with('position.positionType')->findOrFail($id);
 
         return view('admin.edit-data', compact('educations', 'positions', 'positionTypes', 'person'));
     }
@@ -97,7 +97,6 @@ class PersonController extends Controller
         "gender" => "required|in:laki-laki,perempuan",
         "education_id" => "required|exists:educations,id",
         "position_id" => "required|exists:positions,id", 
-        "position_type_id" => "required|exists:position_types,id",
         "image" => "nullable|image|mimes:jpeg,png,jpg|max:2048", 
     ]);
 
