@@ -70,59 +70,60 @@
    </div>
 @endsection
 {{-- buat manipulasi select jabatan dan tipe jabatan --}}
-<script>
-   const masterPositions = @json($positions->pluck('name', 'id'));
-   // console.log('Master Positions:', masterPositions);
+@section('script')
+   <script>
+      const masterPositions = @json($positions->pluck('name', 'id'));
+      // console.log('Master Positions:', masterPositions);
 
-   const ID_TIPE_TENDIK = '1';
-   const ID_TIPE_PLP = '2';
+      const ID_TIPE_TENDIK = '1';
+      const ID_TIPE_PLP = '2';
 
-   const typeToPositionMap = @json(
-        $positions->groupBy('position_type_id')->map(function($group) {
-            return $group->pluck('id')->map(fn($id) => (string) $id);
-        })
-    );
+      const typeToPositionMap = @json(
+          $positions->groupBy('position_type_id')->map(function ($group) {
+              return $group->pluck('id')->map(fn($id) => (string) $id);
+          }));
 
-   // ini bikin kebalikan dari typeToPositionMap
-   const positionToTypeMap = {};
-   Object.keys(typeToPositionMap).forEach(typeId => {
-      typeToPositionMap[typeId].forEach(posId => {
-         positionToTypeMap[String(posId)] = String(typeId);
-      });
-   });
-
-   // ini buat filter opsi jabatan kalo misal user milih tipe jabatan dulu
-   function filterJabatan(selectedTypeId) {
-      console.log('Filter Jabatan Triggered:', selectedTypeId);
-
-      let newOptions = {};
-      let allowedIds = typeToPositionMap[selectedTypeId] || [];
-
-      if (!selectedTypeId) {
-         newOptions = masterPositions;
-      } else {
-         Object.keys(masterPositions).forEach(key => {
-            if (allowedIds.includes(String(key))) {
-               newOptions[key] = masterPositions[key];
-            }
+      // ini bikin kebalikan dari typeToPositionMap
+      const positionToTypeMap = {};
+      Object.keys(typeToPositionMap).forEach(typeId => {
+         typeToPositionMap[typeId].forEach(posId => {
+            positionToTypeMap[String(posId)] = String(typeId);
          });
-      }
+      });
 
-      window.dispatchEvent(new CustomEvent('update-options-position_id', {
-         detail: newOptions
-      }));
-   }
+      // ini buat filter opsi jabatan kalo misal user milih tipe jabatan dulu
+      function filterJabatan(selectedTypeId) {
+         console.log('Filter Jabatan Triggered:', selectedTypeId);
 
-   // ini buat auto nge set tipe jabatan kalo misal user milih jabatan dulu
-   function autoSetTipe(selectedPosId) {
-      console.log('Auto Set Tipe Triggered:', selectedPosId);
+         let newOptions = {};
+         let allowedIds = typeToPositionMap[selectedTypeId] || [];
 
-      const targetTypeId = positionToTypeMap[String(selectedPosId)];
+         if (!selectedTypeId) {
+            newOptions = masterPositions;
+         } else {
+            Object.keys(masterPositions).forEach(key => {
+               if (allowedIds.includes(String(key))) {
+                  newOptions[key] = masterPositions[key];
+               }
+            });
+         }
 
-      if (targetTypeId) {
-         window.dispatchEvent(new CustomEvent('set-value-position_type_id', {
-            detail: targetTypeId
+         window.dispatchEvent(new CustomEvent('update-options-position_id', {
+            detail: newOptions
          }));
       }
-   }
-</script>
+
+      // ini buat auto nge set tipe jabatan kalo misal user milih jabatan dulu
+      function autoSetTipe(selectedPosId) {
+         console.log('Auto Set Tipe Triggered:', selectedPosId);
+
+         const targetTypeId = positionToTypeMap[String(selectedPosId)];
+
+         if (targetTypeId) {
+            window.dispatchEvent(new CustomEvent('set-value-position_type_id', {
+               detail: targetTypeId
+            }));
+         }
+      }
+   </script>
+@endsection
