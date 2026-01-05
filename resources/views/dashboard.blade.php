@@ -5,14 +5,14 @@
 
    @php
       $tombolPosisi = [
+         [
+              'label' => 'Tendik',
+              'value' => '1',
+],
           [
               'label' => 'PLP',
-              'value' => '1',
-          ],
-          [
-              'label' => 'Tendik',
               'value' => '2',
-          ],
+          ]
       ];
 
       $tombolPendidikan = [

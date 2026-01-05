@@ -25,10 +25,13 @@ class UserDashboardController extends Controller
             });
 
             $query->when($request->filled('jenisPosisi'), function ($q) use ($request) {
-                $q->where('position_type_id', $request->jenisPosisi);
+            // Gunakan whereHas untuk masuk ke relasi 'position'
+            $q->whereHas('position', function ($queryPosition) use ($request) {
+                $queryPosition->where('position_type_id', $request->jenisPosisi);
+            });
             });
 
-            $persons = $query->with(['education', 'position', 'position_type'])->paginate(7)->withQueryString();
+            $persons = $query->with(['education', 'position.positionType'])->paginate(7)->withQueryString();
             // dd($persons);
 
             //jenis kelamin
@@ -37,10 +40,15 @@ class UserDashboardController extends Controller
             ->get();
             // plp dan tendik
             $positionTypeStats = DB::table('position_types')
-            ->leftJoin('people', 'position_types.id', '=', 'people.position_type_id')
-            ->select('position_types.name as nama_jenis_posisi', DB::raw('COUNT(people.id) as total_jenis_posisi'))
+            ->leftJoin('positions', 'position_types.id', '=', 'positions.position_type_id')
+            ->leftJoin('people', 'positions.id', '=', 'people.position_id')
+            ->select(
+                'position_types.name as nama_jenis_posisi', 
+                DB::raw('COUNT(people.id) as total_jenis_posisi')
+            )
             ->groupBy('position_types.id', 'position_types.name')
             ->get();
+            // dd($positionTypeStats);
             // status (aktif atau tidak aktif)
             $statusStats = Person::select('is_active', DB::raw('count(*) as total'))
             ->groupBy('is_active')
@@ -69,14 +77,22 @@ class UserDashboardController extends Controller
 
         $perPage = request('per_page', 10);
 
-            $tenagaPendidik = Person::with(['position'])
-                ->where('position_type_id', 2)
+            $tenagaPendidik = Person::with(['position.positionType'])
+                ->whereHas('position', function($q) {
+                    $q->where('position_type_id', 1);
+                })
                 ->where('is_active', 1)
                 ->orderBy('full_name', 'desc')
                 ->when($request->search, function ($q) use ($request) {
-                    $q->where('full_name', 'like', '%' . $request->search . '%')
-                    ->orWhereHas('position', function ($q2) use ($request) {
-                        $q2->where('name', 'like', '%' . $request->search . '%');
+                    $q->where(function ($sub) use ($request) {
+                        $search = '%' . $request->search . '%';
+                        $sub->where('full_name', 'like', $search)
+                            ->orWhereHas('position', function ($q2) use ($search) {
+                                $q2->where('name', 'like', $search)
+                                ->orWhereHas('positionType', function ($q3) use ($search) {
+                                    $q3->where('name', 'like', $search);
+                                });
+                            });
                     });
                 })
                 ->paginate($perPage)
@@ -87,7 +103,7 @@ class UserDashboardController extends Controller
 
     public function tenagaPendidikDetail(String $id) {
         $detailPerson = Person::with(['position', 'education'])->findOrFail($id);
-        $allIds = Person::where('position_type_id', 2)
+        $allIds = Person::where('position_type_id', 1)
             ->where('is_active', 1)
             ->pluck('id');
 
@@ -107,13 +123,22 @@ class UserDashboardController extends Controller
         //ini mirip kayak yang di atas
         $perPage = request('per_page', 10);
 
-            $plpTeknisiLab = Person::with(['position'])
-                ->where('position_type_id', 1)
+            $plpTeknisiLab =Person::with(['position.positionType'])
+                ->whereHas('position', function($q) {
+                    $q->where('position_type_id', 2);
+                })
                 ->where('is_active', 1)
+                ->orderBy('full_name', 'desc')
                 ->when($request->search, function ($q) use ($request) {
-                    $q->where('full_name', 'like', '%' . $request->search . '%')
-                    ->orWhereHas('position', function ($q2) use ($request) {
-                        $q2->where('name', 'like', '%' . $request->search . '%');
+                    $q->where(function ($sub) use ($request) {
+                        $search = '%' . $request->search . '%';
+                        $sub->where('full_name', 'like', $search)
+                            ->orWhereHas('position', function ($q2) use ($search) {
+                                $q2->where('name', 'like', $search)
+                                ->orWhereHas('positionType', function ($q3) use ($search) {
+                                    $q3->where('name', 'like', $search);
+                                });
+                            });
                     });
                 })
                 ->paginate($perPage)
@@ -125,7 +150,7 @@ class UserDashboardController extends Controller
     {
         $detailPerson = Person::with(['position', 'education'])->findOrFail($id);
 
-        $allIds = Person::where('position_type_id', 1)
+        $allIds = Person::where('position_type_id', 2)
             ->where('is_active', 1)
             ->pluck('id');
 

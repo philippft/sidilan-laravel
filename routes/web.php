@@ -32,7 +32,10 @@ Route::middleware('is-admin')->group(function () {
         Route::get('/admin/edit-data/{id}', 'edit')->name('admin.edit');
         Route::put('/admin/edit-data/{id}', 'update')->name('admin.edit.post');
         Route::delete('/admin/hapus-data/{id}', 'destroy')->name('admin.delete');
-    });
+
+        Route::get('/admin/get-positions-by-type/{typeId}', [PersonController::class, 'getPositionsByType']);
+        Route::get('/admin/get-position-type/{positionId}', [PersonController::class, 'getPositionType']);
+    });    
 });
 
 // buat bikin tampilan aja

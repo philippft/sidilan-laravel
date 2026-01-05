@@ -1,6 +1,44 @@
 @extends('layouts.sidebar-admin')
 @section('title', 'Tambah Data Dosen')
 @section('content')
+@push('scripts')
+<script>
+$(document).ready(function () {
+
+    let isAutoSettingType = false;
+
+    // Jabatan → isi otomatis Tipe Jabatan
+    $('#position_id').on('change', function () {
+        let positionId = $(this).val();
+        let $type = $('#position_type_id');
+
+        if (!positionId) return;
+
+        $.getJSON(`/admin/get-position-type/${positionId}`, function (data) {
+            if (data.type_id) {
+                isAutoSettingType = true;
+
+                $type.val(data.type_id).trigger('change');
+
+                isAutoSettingType = false;
+
+                // kunci dropdown
+                $type.css({
+                    pointerEvents: 'none',
+                    backgroundColor: '#f3f4f6',
+                    cursor: 'not-allowed'
+                }).attr('tabindex', '-1');
+            }
+        }).fail(function () {
+            console.error('Gagal mengambil tipe jabatan');
+        });
+    });
+
+});
+</script>
+@endpush
+
+
    <div>
       <x-text-header class="text-center" />
 
