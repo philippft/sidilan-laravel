@@ -139,4 +139,24 @@ class PersonController extends Controller
 
         return redirect()->back()->with("message", "{$person->full_name} berhasil di hapus");
     }
+
+    public function getPositionsByType($typeId)
+    {
+        return \App\Models\Position::where('position_type_id', $typeId)
+            ->orderBy('name')
+            ->get(['id', 'name']);
+    }
+
+    public function getPositionType($id)
+    {
+        $position = \App\Models\Position::find($id);
+
+        if (!$position) {
+            return response()->json(['type_id' => ''], 404);
+        }
+
+        return response()->json([
+            'type_id' => $position->position_type_id
+        ]);
+    }
 }

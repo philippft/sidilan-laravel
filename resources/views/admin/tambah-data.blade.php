@@ -1,6 +1,7 @@
 @extends('layouts.sidebar-admin')
 @section('title', 'Tambah Data Dosen')
 @section('content')
+
    <div>
       <x-text-header class="text-center" />
 
@@ -73,13 +74,14 @@
    const masterPositions = @json($positions->pluck('name', 'id'));
    // console.log('Master Positions:', masterPositions);
 
-   const ID_TIPE_PLP = '1';
-   const ID_TIPE_TENDIK = '2';
+   const ID_TIPE_TENDIK = '1';
+   const ID_TIPE_PLP = '2';
 
-   const typeToPositionMap = {
-      [ID_TIPE_PLP]: ['2', '3', '6', '7'],
-      [ID_TIPE_TENDIK]: ['1', '4', '5', '8']
-   };
+   const typeToPositionMap = @json(
+        $positions->groupBy('position_type_id')->map(function($group) {
+            return $group->pluck('id')->map(fn($id) => (string) $id);
+        })
+    );
 
    // ini bikin kebalikan dari typeToPositionMap
    const positionToTypeMap = {};

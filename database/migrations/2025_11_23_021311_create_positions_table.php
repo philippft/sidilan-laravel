@@ -14,6 +14,8 @@ return new class extends Migration
         Schema::create('positions', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->unsignedBigInteger('position_type_id');
+            $table->foreign('position_type_id')->references('id')->on('position_types')->cascadeOnDelete();
             $table->timestamps();
         });
     }

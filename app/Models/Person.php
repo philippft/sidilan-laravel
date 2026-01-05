@@ -15,7 +15,7 @@ class Person extends Model
     'is_active',
     'education_id',
     'position_id',
-    'position_type_id',
+    // 'position_type_id',
     'image'
     ];
 
@@ -29,8 +29,8 @@ class Person extends Model
         return $this->belongsTo(Position::class);
     }
 
-    public function position_type()
-    {
-        return $this->belongsTo(PositionType::class);
-    }
+    // public function position_type()
+    // {
+    //     return $this->belongsTo(PositionType::class);
+    // }
 }

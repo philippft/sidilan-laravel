@@ -17,10 +17,9 @@ return new class extends Migration
     $table->string('nip')->unique();
     $table->unsignedBigInteger('education_id');
     $table->unsignedBigInteger('position_id');
-    $table->unsignedBigInteger('position_type_id');
     $table->foreign('education_id')->references('id')->on('educations')->cascadeOnDelete();
     $table->foreign('position_id')->references('id')->on('positions')->cascadeOnDelete();
-    $table->foreign('position_type_id')->references('id')->on('position_types')->cascadeOnDelete();
+    // $table->foreign('position_type_id')->references('id')->on('position_types')->cascadeOnDelete();
     $table->enum('gender', ['laki-laki', 'perempuan']);
     $table->string('image');
     $table->boolean('is_active')->default(true);

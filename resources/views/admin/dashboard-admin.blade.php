@@ -7,11 +7,11 @@
       $tombolPosisi = [
           [
               'label' => 'PLP',
-              'value' => '1',
+              'value' => '2',
           ],
           [
               'label' => 'Tendik',
-              'value' => '2',
+              'value' => '1',
           ],
       ];
 
