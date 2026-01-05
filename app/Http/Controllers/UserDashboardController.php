@@ -83,7 +83,7 @@ class UserDashboardController extends Controller
                     $q->where('position_type_id', 1);
                 })
                 ->where('is_active', 1)
-                ->orderBy('full_name', 'desc')
+                ->orderBy('id', 'asc')
                 ->when($request->search, function ($q) use ($request) {
                     $q->where(function ($sub) use ($request) {
                         $search = '%' . $request->search . '%';
@@ -130,7 +130,7 @@ class UserDashboardController extends Controller
                     $q->where('position_type_id', 2);
                 })
                 ->where('is_active', 1)
-                ->orderBy('full_name', 'desc')
+                ->orderBy('id', 'asc')
                 ->when($request->search, function ($q) use ($request) {
                     $q->where(function ($sub) use ($request) {
                         $search = '%' . $request->search . '%';
