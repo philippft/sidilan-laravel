@@ -103,9 +103,10 @@ class UserDashboardController extends Controller
 
     public function tenagaPendidikDetail(String $id) {
         $detailPerson = Person::with(['position', 'education'])->findOrFail($id);
-        $allIds = Person::where('position_type_id', 1)
-            ->where('is_active', 1)
-            ->pluck('id');
+        $allIds = Person::whereHas('position.positionType', function($q) {
+                $q->where('position_type_id', 1);
+        })->where('is_active', 1)
+        ->pluck('id');
 
         $currentIndex = $allIds->search($id);
 
@@ -149,10 +150,10 @@ class UserDashboardController extends Controller
     public function plpTeknisiDetail($id)
     {
         $detailPerson = Person::with(['position', 'education'])->findOrFail($id);
-
-        $allIds = Person::where('position_type_id', 2)
-            ->where('is_active', 1)
-            ->pluck('id');
+        $allIds = Person::whereHas('position.positionType', function($q) {
+                $q->where('position_type_id', 2);
+        })->where('is_active', 1)
+        ->pluck('id');
 
         $currentIndex = $allIds->search($id);
 
