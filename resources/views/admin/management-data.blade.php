@@ -10,23 +10,23 @@
       <x-text-header />
       <x-search-bar class="mb-4 flex-1" />
 
-      <div class="overflow-x-auto rounded-xl bg-white shadow-md">
-         <table class="min-w-[800px] lg:w-full overflow-hidden whitespace-nowrap">
+      <div class="overflow-x-auto rounded-xl bg-white shadow-md no-scrollbar">
+         <table class="min-w-[800px] lg:w-full overflow-hidden whitespace-nowrap table-fixed">
             <thead class="bg-dongker-sidilan text-white">
                <tr>
-                  <x-th class="px-2 w-10">No</x-th>
-                  <x-th class="text-left">Nama Lengkap</x-th>
-                  <x-th class="text-left">Jabatan</x-th>
-                  <x-th>Status</x-th>
-                  <x-th class="text-center">Aksi</x-th>
+                  <x-th class="px-2 w-[5%]">No</x-th>
+                  <x-th class="text-left w-[20%]">Nama Lengkap</x-th>
+                  <x-th class="text-left w-[40%]">Jabatan</x-th>
+                  <x-th class="w-[10%] text-center">Status</x-th>
+                  <x-th class="text-center w-[10%]">Aksi</x-th>
                </tr>
             </thead>
             <tbody class="divide-y divide-gray-100">
                @forelse ($persons as $person)
                   <tr id="row-{{ $person->id }}" class="hover:bg-gray-50 transition-colors">
                      <x-td class="text-center">{{ $loop->iteration }}</x-td>
-                     <x-td class="font-medium text-gray-900">{{ $person->full_name }}</x-td>
-                     <x-td>{{ $person->position->name ?? '-' }}</x-td>
+                     <x-td class="font-medium text-gray-900 whitespace-normal leading-snug">{{ $person->full_name }}</x-td>
+                     <x-td class="whitespace-normal leading-snug">{{ $person->position->name ?? '-' }}</x-td>
                      <x-td class="text-center">
                         <span
                            class="px-3 py-1 rounded-full text-xs {{ $person->is_active ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700' }}">
