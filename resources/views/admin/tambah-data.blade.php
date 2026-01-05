@@ -1,43 +1,6 @@
 @extends('layouts.sidebar-admin')
 @section('title', 'Tambah Data Dosen')
 @section('content')
-@push('scripts')
-<script>
-$(document).ready(function () {
-
-    let isAutoSettingType = false;
-
-    // Jabatan → isi otomatis Tipe Jabatan
-    $('#position_id').on('change', function () {
-        let positionId = $(this).val();
-        let $type = $('#position_type_id');
-
-        if (!positionId) return;
-
-        $.getJSON(`/admin/get-position-type/${positionId}`, function (data) {
-            if (data.type_id) {
-                isAutoSettingType = true;
-
-                $type.val(data.type_id).trigger('change');
-
-                isAutoSettingType = false;
-
-                // kunci dropdown
-                $type.css({
-                    pointerEvents: 'none',
-                    backgroundColor: '#f3f4f6',
-                    cursor: 'not-allowed'
-                }).attr('tabindex', '-1');
-            }
-        }).fail(function () {
-            console.error('Gagal mengambil tipe jabatan');
-        });
-    });
-
-});
-</script>
-@endpush
-
 
    <div>
       <x-text-header class="text-center" />
@@ -111,13 +74,14 @@ $(document).ready(function () {
    const masterPositions = @json($positions->pluck('name', 'id'));
    // console.log('Master Positions:', masterPositions);
 
-   const ID_TIPE_PLP = '1';
-   const ID_TIPE_TENDIK = '2';
+   const ID_TIPE_TENDIK = '1';
+   const ID_TIPE_PLP = '2';
 
-   const typeToPositionMap = {
-      [ID_TIPE_PLP]: ['2', '3', '6', '7'],
-      [ID_TIPE_TENDIK]: ['1', '4', '5', '8']
-   };
+   const typeToPositionMap = @json(
+        $positions->groupBy('position_type_id')->map(function($group) {
+            return $group->pluck('id')->map(fn($id) => (string) $id);
+        })
+    );
 
    // ini bikin kebalikan dari typeToPositionMap
    const positionToTypeMap = {};
