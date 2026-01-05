@@ -56,12 +56,14 @@ class UserDashboardController extends Controller
             //edukasi
             $educationStats = DB::table('educations')
             ->leftJoin('people', 'educations.id', '=', 'people.education_id')
-            ->select('educations.name as jenjang_pendidikan', DB::raw('COUNT(people.id) as total_pegawai'))
+            ->select('educations.id as edu', 'educations.name as jenjang_pendidikan', DB::raw('COUNT(people.id) as total_pegawai'))
             ->groupBy('educations.id', 'educations.name')
             ->get();
             //total
             $totalPersons = Person::count();
             // dd($persons);
+
+            dd($educationStats);
 
         return view('dashboard', compact(
             'persons', 
