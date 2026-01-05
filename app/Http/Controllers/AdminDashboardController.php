@@ -3,17 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Person;
-use App\Models\Education;   
-use App\Models\Position;
-use App\Models\PositionType;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 
 class AdminDashboardController extends Controller
 {
     public function index (Request $request) {
-
-            $query = Person::with(['education', 'position', 'position_type']);
+        $query = Person::query();
 
             $query->when($request->filled('gender'), function ($q) use ($request) {
                 $q->where('gender', $request->gender);
@@ -22,14 +18,16 @@ class AdminDashboardController extends Controller
             $query->when($request->filled('status'), function ($q) use ($request) {
                 $q->where('is_active', $request->status);
             });
-            
-            $query->when($request->filled('jenisPosisi'), function ($q) use ($request) {
-                $q->where('position_type_id', $request->jenisPosisi);
-            });
-            
+
             $query->when($request->filled('pendidikan'), function ($q) use ($request) {
-                $q->where('education_id', $request->pendidikan);
+                $q->where('education_id', $request->jenisPosisi);
             });
+
+            $query->when($request->filled('jenisPosisi'), function ($q) use ($request) {
+                $q->where('position_type_id', $request->pendidikan);
+            });
+
+            $persons = $query->with(['education', 'position', 'position_type'])->paginate(7)->withQueryString();
 
             //jenis kelamin
             $genderStats = Person::select('gender', DB::raw('count(*) as total'))
