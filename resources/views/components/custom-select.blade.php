@@ -1,21 +1,26 @@
 <div class="mb-3"
-     x-data="{ 
-        open: false, 
-        isUp: false,
-        selected: '{{ old($name, $value) }}',
-        options: {{ json_encode($options) }},
-        toggle() {
-            if (!this.open) {
-                let rect = this.$refs.button.getBoundingClientRect();
-                let spaceBelow = window.innerHeight - rect.bottom;
-                this.isUp = spaceBelow < 300;
-            }
-            this.open = !this.open;
-        },
-        get currentLabel() {
-            return this.options[this.selected] || 'Pilih {{ $label }}';
+    {{-- Listener untuk set value manual (dari kode sebelumnya) --}}
+    x-on:set-value-{{ $name }}.window="selected = $event.detail"
+     
+     {{-- Listener untuk update options list secara dinamis --}}
+    x-on:update-options-{{ $name }}.window="options = $event.detail; selected = ''"
+    x-data="{ 
+    open: false, 
+    isUp: false,
+    selected: '{{ old($name, $value) }}',
+    options: {{ json_encode($options) }},
+    toggle() {
+        if (!this.open) {
+            let rect = this.$refs.button.getBoundingClientRect();
+            let spaceBelow = window.innerHeight - rect.bottom;
+            this.isUp = spaceBelow < 300;
         }
-     }">
+        this.open = !this.open;
+    },
+    get currentLabel() {
+        return this.options[this.selected] || 'Pilih {{ $label }}';
+    }
+    }">
     
     <label class="block font-medium md:text-xl text-base md:mb-2 mb-1">{{ $label }}</label>
     
@@ -44,7 +49,7 @@
         >
             <template x-for="(display, val) in options" :key="val">
                 <div 
-                    @click="selected = val; open = false"
+                    @click="selected = val; open = false; $dispatch('input', val)"
                     class="md:px-4 px-2 md:py-3 py-1.5 text-xs cursor-pointer hover:bg-hover-sidilan hover:text-white transition-colors"
                     :class="selected == val ? 'bg-blue-50 md:font-bold text-xs font-medium text-dongker-sidilan' : ''"
                     x-text="display"
