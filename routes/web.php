@@ -33,6 +33,8 @@ Route::middleware('is-admin')->group(function () {
         Route::put('/admin/edit-data/{id}', 'update')->name('admin.edit.post');
         Route::delete('/admin/hapus-data/{id}', 'destroy')->name('admin.delete');
 
+        Route::get('/admin/data-pdf', 'pdf')->name('admin.pdf');
+
         Route::get('/admin/get-positions-by-type/{typeId}', [PersonController::class, 'getPositionsByType']);
         Route::get('/admin/get-position-type/{positionId}', [PersonController::class, 'getPositionType']);
     });    

@@ -43,6 +43,16 @@
    {{-- @dd($tombolPendidikan) --}}
    <p class="font-poppins text-4xl font-bold mb-4">Dashboard</p>
 
+   <button type="button" onclick="mulaiCetak()" class="flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg transition-colors shadow-lg">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 00-2 2h2m2 4h10a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
+    </svg>
+    <span class="font-bold">Cetak PDF</span>
+</button>
+
+{{-- Iframe Tersembunyi --}}
+<iframe id="print_frame" name="print_frame" style="display:none;" src="{{ route('admin.pdf') }}"></iframe>
+
    <div x-data="{
        state: '{{ request()->has('status') ? 'status' : (request()->has('gender') ? 'gender' : (request()->has('pendidikan') ? 'pendidikan' : (request()->has('jenisPosisi') ? 'jumlah' : 'none'))) }}'
    }" class="w-full flex flex-col lg:gap-5 h-screen">
@@ -378,5 +388,16 @@
          initChartGender();
          initChartStatus();
       });
+
+      window.mulaiCetak = function() {
+        const frame = document.getElementById('print_frame');
+        frame.contentWindow.location.reload();
+        
+        frame.onload = function() {
+            frame.contentWindow.focus();
+            frame.contentWindow.print();
+        };
+      }
+
    </script>
 @endsection
