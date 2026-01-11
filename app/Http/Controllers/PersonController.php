@@ -158,4 +158,12 @@ class PersonController extends Controller
             'type_id' => $position->position_type_id
         ]);
     }
+
+    public function pdf()
+    {
+        // kode untuk menghasilkan PDF
+        $people = Person::with('position.positionType')->get();
+
+        return view('admin.data-pdf', compact('people'));
+    }
 }
