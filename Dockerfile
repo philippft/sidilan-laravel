@@ -9,12 +9,13 @@ RUN apt-get update && apt-get install -y \
     libpng-dev \
     libjpeg-dev \
     libfreetype6-dev \
+    libzip-dev \
     zip \
     unzip \
     git \
     curl \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install gd pdo pdo_mysql \
+    && docker-php-ext-install gd zip pdo pdo_mysql \
     && a2enmod rewrite
 
 # Set Apache Document Root to Laravel public folder
