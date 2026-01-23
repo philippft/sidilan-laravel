@@ -35,7 +35,6 @@ RUN chown -R www-data:www-data storage bootstrap/cache \
 EXPOSE 8080
 
 # Start Laravel + auto setup (NO Apache)
-CMD php artisan key:generate --force && \
-    php artisan migrate --force && \
+CMD php artisan migrate --force && \
     php artisan serve --host=0.0.0.0 --port=8080
 
