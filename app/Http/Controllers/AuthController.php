@@ -14,10 +14,12 @@ class AuthController extends Controller
             'username' => ['required'],
             'password' => ['required'],
         ]);
+
+        $remember = $request->has('remember');
  
-        if (Auth::guard('admin')->attempt($credentials)) {
+        if (Auth::guard('admin')->attempt($credentials, $remember)) {
             $request->session()->regenerate();
-            return redirect()->intended('/admin/dashboard-admin');
+            return redirect()->intended('/admin/dashboard');
         }
  
         return back()->withErrors([
@@ -27,7 +29,7 @@ class AuthController extends Controller
 
     public function logout (Request $request) {
 
-        Auth::logout();
+        Auth::guard('admin')->logout();
 
         $request->session()->invalidate();
         $request->session()->regenerateToken();

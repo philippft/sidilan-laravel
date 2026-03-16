@@ -1,92 +1,129 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tambah Data Person</title>
-</head>
-<body>
-    <h1>Tambah Data Person</h1>
+@extends('layouts.sidebar-admin')
+@section('title', 'Tambah Data Dosen')
+@section('content')
 
-    <form action="{{ url('/admin/tambah-data') }}" method="post" enctype="multipart/form-data">
-        @csrf
-        {{-- aku mau menerima message dari validation maupun message kalau datanya berhasil di tambahkan --}}
+   <div>
+      <x-text-header class="text-center" />
 
-            <!-- message berhasil -->
-        @if(session('message'))
-            <div class="alert alert-success">
-                {{ session('message') }}
+      <form class="mt-3" action="{{ url('/admin/tambah-data') }}" method="post" enctype="multipart/form-data">
+         @csrf
+
+         <div class="flex flex-col lg:flex-row gap-8 lg:gap-12">
+
+            <div class="w-full lg:w-1/2 flex flex-col justify-between order-1 lg:order-2">
+               <div class="flex flex-col gap-4">
+                  <x-input-file name="image" label="Pilih Foto" id="image" :value="$person->image ?? null" />
+                  <x-status :person="$person ?? null" />
+               </div>
+
+               <div class="hidden lg:flex flex-col gap-2 mt-0">
+                  <x-button class="w-full h-16 bg-success rounded-lg text-white font-bold text-2xl" type="submit">
+                     Simpan Data
+                  </x-button>
+                  <a class="block w-full py-4 text-center font-bold text-2xl text-white rounded-lg bg-danger hover:bg-[#cf4c4c]"
+                     href="{{ url('admin/dashboard') }}">
+                     Batal
+                  </a>
+               </div>
             </div>
-        @endif
 
-        <!-- erorr message -->
-        @if(session('error'))
-            <div class="alert alert-error">
-                {{ session('error') }}
+            <div class="w-full lg:w-1/2 order-2 lg:order-1">
+               <div class="flex flex-col justify-between">
+                  <x-textField label="Nama Lengkap" type="text" name="full_name" id="full_name"
+                     placeholder="Masukkan Nama Lengkap..." />
+                  <x-textField label="NIP" type="text" name="nip" id="nip" placeholder="Masukkan NIP..." />
+                  <x-custom-select id="gender" name="gender" label="Jenis Kelamin" :value="$person->gender ?? ''"
+                     :options="['laki-laki' => 'Laki-laki', 'perempuan' => 'Perempuan']" />
+                  <x-custom-select id="education_id" name="education_id" label="Pendidikan" :value="$person->education_id ?? ''"
+                     :options="$educations->pluck('name', 'id')->toArray()" />
+                  {{-- <x-custom-select id="position_id" name="position_id" label="Jabatan" :value="$person->position_id ?? ''"
+                     :options="$positions->pluck('name', 'id')->toArray()" />
+                  <div class="-mb-3">
+                     <x-custom-select id="position_type_id" name="position_type_id" label="Tipe Jabatan" :value="$person->position_type_id ?? ''"
+                        :options="$positionTypes->pluck('name', 'id')->toArray()" />
+                  </div> --}}
+                  <div x-data @input="autoSetTipe($event.detail)">
+                     <x-custom-select id="position_id" name="position_id" label="Jabatan" :value="$person->position_id ?? ''"
+                        :options="$positions->pluck('name', 'id')->toArray()" />
+                  </div>
+                  <div class="-mb-3" x-data @input="filterJabatan($event.detail)">
+                     <x-custom-select id="position_type_id" name="position_type_id" label="Tipe Jabatan" :value="$person->position_type_id ?? ''"
+                        :options="$positionTypes->pluck('name', 'id')->toArray()" />
+                  </div>
+               </div>
+
+               <div class="flex lg:hidden flex-col gap-4 lg:gap-2 mt-4 mb-0">
+                  <x-button
+                     class="w-full lg:py-4 py-2 bg-success rounded-md text-white lg:font-bold font-semibold text-base lg:text-2xl"
+                     type="submit">
+                     Simpan Data
+                  </x-button>
+                  <a class="block w-full lg:py-4 py-2 text-center lg:font-bold font-semibold lg:text-2xl text-base text-white rounded-md bg-danger"
+                     href="{{ url('admin/dashboard') }}">
+                     Batal
+                  </a>
+               </div>
             </div>
-        @endif
 
-        {{-- Full Name --}}
-        <label for="full_name">Nama Lengkap</label><br>
-        <input type="text" name="full_name" value="{{ old('full_name') }}" placeholder="Nama Lengkap..." required><br><br>
+         </div>
+      </form>
+   </div>
+@endsection
+{{-- buat manipulasi select jabatan dan tipe jabatan --}}
+@section('script')
+   <script>
+      const masterPositions = @json($positions->pluck('name', 'id'));
+      // console.log('Master Positions:', masterPositions);
 
-        {{-- NIP --}}
-        <label for="nip">NIP</label><br>
-        <input type="text" name="nip" value="{{ old('nip') }}" placeholder="Masukan NIP..." required><br><br>
+      const ID_TIPE_TENDIK = '1';
+      const ID_TIPE_PLP = '2';
 
-        {{-- Gender --}}
-        <label for="gender">Jenis Kelamin</label><br>
-        <select name="gender" required>
-            <option value="">-- Pilih Gender --</option>
-            <option value="laki-laki">Laki-laki</option>
-            <option value="perempuan">Perempuan</option>
-        </select><br><br>
+      const typeToPositionMap = @json(
+          $positions->groupBy('position_type_id')->map(function ($group) {
+              return $group->pluck('id')->map(fn($id) => (string) $id);
+          }));
 
-        {{-- Education --}}
-        <label for="education_id">Pendidikan</label><br>
-        <select name="education_id" required>
-            <option value="">-- Pilih Pendidikan --</option>
+      // ini bikin kebalikan dari typeToPositionMap
+      const positionToTypeMap = {};
+      Object.keys(typeToPositionMap).forEach(typeId => {
+         typeToPositionMap[typeId].forEach(posId => {
+            positionToTypeMap[String(posId)] = String(typeId);
+         });
+      });
 
-            {{-- Loop dari database --}}
-            @foreach($educations as $education)
-                <option value="{{ $education->id }}">{{ $education->name }}</option>
-            @endforeach
-        </select><br><br>
+      // ini buat filter opsi jabatan kalo misal user milih tipe jabatan dulu
+      function filterJabatan(selectedTypeId) {
+         console.log('Filter Jabatan Triggered:', selectedTypeId);
 
-        {{-- Position --}}
-        <label for="position_id">Jabatan</label><br>
-        <select name="position_id" required>
-            <option value="">-- Pilih Jabatan --</option>
-            @foreach($positions as $position)
-                <option value="{{ $position->id }}">{{ $position->name }}</option>
-            @endforeach
-        </select><br><br>
+         let newOptions = {};
+         let allowedIds = typeToPositionMap[selectedTypeId] || [];
 
-        {{-- Position Type --}}
-        <label for="position_type_id">Tipe Jabatan</label><br>
-        <select name="position_type_id" required>
-            <option value="">-- Pilih Tipe Jabatan --</option>
-            @foreach($positionTypes as $type)
-                <option value="{{ $type->id }}">{{ $type->name }}</option>
-            @endforeach
-        </select><br><br>
+         if (!selectedTypeId) {
+            newOptions = masterPositions;
+         } else {
+            Object.keys(masterPositions).forEach(key => {
+               if (allowedIds.includes(String(key))) {
+                  newOptions[key] = masterPositions[key];
+               }
+            });
+         }
 
-        {{-- Simpan Foto --}}
-        <div class="form-group my-2">
-            <label for="image">Foto</label><br>
-            <input type="file" name="image" id="image" class="form-controller @error('photo')
-            is-invalid
-            @enderror">
-        </div>
+         window.dispatchEvent(new CustomEvent('update-options-position_id', {
+            detail: newOptions
+         }));
+      }
 
-        {{-- Is Active --}}
-        <label>
-            <input type="checkbox" name="is_active" value="1" checked>
-            Aktif?, KALAU AKTIF DI CENTANG AJA
-        </label>
-        <br><br>
+      // ini buat auto nge set tipe jabatan kalo misal user milih jabatan dulu
+      function autoSetTipe(selectedPosId) {
+         console.log('Auto Set Tipe Triggered:', selectedPosId);
 
-        <button type="submit">Simpan Data</button>
-    </form>
-</body>
-</html>
+         const targetTypeId = positionToTypeMap[String(selectedPosId)];
+
+         if (targetTypeId) {
+            window.dispatchEvent(new CustomEvent('set-value-position_type_id', {
+               detail: targetTypeId
+            }));
+         }
+      }
+   </script>
+@endsection

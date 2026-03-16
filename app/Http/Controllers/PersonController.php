@@ -79,7 +79,7 @@ class PersonController extends Controller
         $educations = Education::all();
         $positions = Position::all();
         $positionTypes = PositionType::all();
-        $person = Person::findOrFail($id);
+        $person = Person::with('position.positionType')->findOrFail($id);
 
         return view('admin.edit-data', compact('educations', 'positions', 'positionTypes', 'person'));
     }
@@ -97,7 +97,6 @@ class PersonController extends Controller
         "gender" => "required|in:laki-laki,perempuan",
         "education_id" => "required|exists:educations,id",
         "position_id" => "required|exists:positions,id", 
-        "position_type_id" => "required|exists:position_types,id",
         "image" => "nullable|image|mimes:jpeg,png,jpg|max:2048", 
     ]);
 
@@ -138,5 +137,33 @@ class PersonController extends Controller
         $person->delete();
 
         return redirect()->back()->with("message", "{$person->full_name} berhasil di hapus");
+    }
+
+    public function getPositionsByType($typeId)
+    {
+        return \App\Models\Position::where('position_type_id', $typeId)
+            ->orderBy('name')
+            ->get(['id', 'name']);
+    }
+
+    public function getPositionType($id)
+    {
+        $position = \App\Models\Position::find($id);
+
+        if (!$position) {
+            return response()->json(['type_id' => ''], 404);
+        }
+
+        return response()->json([
+            'type_id' => $position->position_type_id
+        ]);
+    }
+
+    public function pdf()
+    {
+        // kode untuk menghasilkan PDF
+        $people = Person::with('position.positionType')->get();
+
+        return view('admin.data-pdf', compact('people'));
     }
 }

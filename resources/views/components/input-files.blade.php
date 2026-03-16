@@ -1,0 +1,37 @@
+@props(['id', 'name', 'label' => 'Pilih File', 'value' => null])
+
+<div class="flex flex-col items-center justify-center gap-2" 
+     x-data="{ 
+        imageUrl: '{{ $value ? asset('storage/person_images/' . $value) : '' }}',
+        
+        fileChosen(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = e => this.imageUrl = e.target.result;
+        }
+     }">
+    
+    <div class="w-40 h-40 bg-gray-200 rounded-3xl overflow-hidden flex items-center justify-center shadow-inner border-2 border-gray-300">
+        <template x-if="imageUrl">
+            <img :src="imageUrl" class="w-full h-full object-cover">
+        </template>
+
+        <template x-if="!imageUrl">
+            <div class="text-center p-4">
+                <svg class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48">
+                    <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+                <p class="mt-1 text-xs text-gray-500">Belum ada foto</p>
+            </div>
+        </template>
+    </div>
+
+    <label for="{{ $id }}" class="cursor-pointer w-full bg-[#FBB03B] hover:bg-[#e5a035] text-center lg:text-2xl text-base text-white lg:font-bold font-semibold lg:py-4 py-2 lg:px-10 px-5 rounded-md shadow-md">
+        {{ $label }}
+    </label>
+
+
+    <input class="hidden" id="{{ $id }}" name="{{ $name }}" type="file" accept="image/*" @change="fileChosen">
+</div>
